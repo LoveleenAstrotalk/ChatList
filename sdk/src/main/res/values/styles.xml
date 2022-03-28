@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="RatingBarNEW" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#cecece</item>
+        <item name="colorControlActivated">#727272</item>
+    </style>
+
+    <style name="Customedit" parent="Theme.AppCompat">
+
+        <item name="colorPrimary">@color/main_color</item>
+        <item name="colorPrimaryDark">@color/main_color</item>
+        <item name="colorControlNormal">@color/main_color</item>
+        <item name="colorControlActivated">@color/main_color</item>
+    </style>
+
+</resources>
