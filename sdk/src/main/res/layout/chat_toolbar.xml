@@ -1,0 +1,182 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@color/color_new"
+        android:padding="2dp"
+        app:cardElevation="10dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/chat_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_new"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            android:backgroundTint="@color/color_new"
+            app:theme="@style/ToolbarStyle">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_new">
+
+                <ImageView
+                    android:id="@+id/astrologer_pic"
+                    android:layout_width="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:src="@drawable/user_icon"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_toRightOf="@+id/astrologer_pic"
+                    android:gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/all_icon"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/toolbarTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/textColorBlackNew"
+                        android:textSize="14sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/toolbarTV"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/astrologer_pic"
+                        android:layout_toLeftOf="@+id/all_icon"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/timer_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/dark_red_new"
+                            android:textSize="10sp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginTop="1dp"
+                            android:visibility="gone" />
+                        <RelativeLayout
+                            android:layout_below="@+id/timer_tv"
+                            android:layout_width="wrap_content"
+                            android:id="@+id/rl_heading"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/headingTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/link"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/typing_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@+id/progressBar"
+                                android:layout_marginLeft="2dp"
+                                android:text="typing..."
+                                android:textColor="@color/link"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+                        </RelativeLayout>
+
+
+
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/all_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="4dp">
+
+                    <ImageView
+                        android:id="@+id/reply_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:layout_toLeftOf="@+id/delete_iv"
+                        android:padding="5dp"
+                        android:src="@drawable/reply"
+                        android:visibility="gone"
+                        app:tint="@color/textColorBlackNew" />
+
+                    <ImageView
+                        android:id="@+id/delete_iv"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:padding="5dp"
+                        android:src="@drawable/red_delete"
+                        android:visibility="gone"
+                        app:tint="@color/textColorBlackNew" />
+
+                    <ImageView
+                        android:id="@+id/copy_iv"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:padding="9dp"
+                        android:src="@drawable/new_copy_icon"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/refresh_iv"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:padding="7dp"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/ic_chat_refresh"
+                        android:visibility="visible"
+                        app:tint="@color/textColorBlackNew" />
+
+                    <ImageView
+                        android:id="@+id/enable_btn"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="8dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_end_icon"
+                        app:tint="@color/dark_red_new"
+
+                        />
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

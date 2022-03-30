@@ -66,7 +66,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             }
 
             holder.price2.setVisibility(View.VISIBLE);
-            holder.price.setTextColor(context.getResources().getColor(R.color.dark_red));
+            holder.price.setTextColor(context.getResources().getColor(R.color.white));
             holder.price2.setBackground(context.getResources().getDrawable(R.drawable.strike_line));
             holder.price2.setText(userChatListModel.getPrice() + context.getResources().getString(R.string.per_minute));
 
@@ -104,7 +104,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
                 holder.totalcount.setText(userChatListModel.getNoOfRating() + context.getResources().getString(R.string.ratings_list_adapter_total));
                 holder.totalcount.setTextSize(10);
                 holder.average_ratingbar.setVisibility(View.VISIBLE);
-                holder.totalcount.setTextColor(context.getResources().getColor(R.color.color_black_383838));
+                holder.totalcount.setTextColor(context.getResources().getColor(R.color.color_black_454545));
 
             }
 
@@ -271,6 +271,10 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
         holder.call_rl.setOnClickListener(view -> {
             Intent intent = new Intent(context, ChatIntakeFormActivity.class);
+            intent.putExtra("astrologer_details", astrologerListModelArrayList.get(position));
+            intent.putExtra("status", astrologerListModelArrayList.get(position).getStatus());
+            intent.putExtra("consultant", "astrologer");
+
             context.startActivity(intent);
         });
     }

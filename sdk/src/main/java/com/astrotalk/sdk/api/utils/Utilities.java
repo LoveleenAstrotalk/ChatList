@@ -1,13 +1,19 @@
 package com.astrotalk.sdk.api.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.Html;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Utilities {
+
+    private static SimpleDateFormat simpleDateFormatNew = new SimpleDateFormat("dd MMM yyyy");
 
     public static String getConvertedValueFromINR(double valueInINR, SharedPreferences sharedPreferences) {
         String currencySymbol = getCurrencySymbol2(sharedPreferences);
@@ -47,6 +53,15 @@ public class Utilities {
             symbol = "₹";
         }
         return String.valueOf(Html.fromHtml(symbol));
+    }
+
+    public static void showToast(Context context, String msg) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public static String longToDateWithoutHyphen(long timeInMillis) {
+        Date date = new Date(timeInMillis);
+        return simpleDateFormatNew.format(date);
     }
 
 }

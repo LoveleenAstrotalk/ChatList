@@ -9,13 +9,30 @@
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/background_call_btn_green.xml" value="0.124" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/background_call_gray.xml" value="0.1195" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/blue_btn.xml" value="0.1195" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/blue_btn_thin_border.xml" value="0.1195" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/border_circle.xml" value="0.1195" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/border_yellow_circle.xml" value="0.1195" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/chat_bubble_incoming1.xml" value="0.113" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/chat_bubble_outgoing1.xml" value="0.1515" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/custom_border.xml" value="0.1775" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/green_btn_yes.xml" value="0.1195" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/home_btn_button.xml" value="0.1195" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/ll_curve_1.xml" value="0.1195" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/ll_curve_2.xml" value="0.1195" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/paymentgateway_bg_corner.xml" value="0.1195" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/red_btn_no.xml" value="0.1195" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/rounded_bg_light_yellow.xml" value="0.1395" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/send_message_view_bg.xml" value="0.1195" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/drawable/strike_line.xml" value="0.1195" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/activity_astrologer_list.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/activity_chat_intake_form.xml" value="0.2" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/chat_astrologer_list_2.xml" value="0.12" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/chat_toolbar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/google_places_search_list_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/single_row_chat_astrologer_list.xml" value="0.264" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/single_row_user_astrologer_chat_window.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/text_inpu_password.xml" value="0.21574074074074073" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/user_astrologer_chat_window_activity.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

@@ -30,7 +30,7 @@
                 android:textSize="16sp" />
 
 
-            <TextView
+            <EditText
                 android:id="@+id/nameET"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:textColor="@color/black_light"
                 android:textSize="16sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/lastnameET"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
 <!--                    app:ccp_countryPreference="NZ"-->
 <!--                    app:ccp_defaultNameCode="IN" />-->
 
-                <TextView
+                <EditText
                     android:id="@+id/phoneET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                 android:textColor="@color/black_light"
                 android:textSize="16sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/dobET"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                 android:textColor="@color/black_light"
                 android:textSize="16sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/TimeBirthET"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -247,7 +247,7 @@
                 android:layout_marginTop="8dp"
                 android:visibility="gone">
 
-                <TextView
+                <EditText
                     android:id="@+id/city_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -271,7 +271,7 @@
                 android:layout_marginTop="8dp"
                 android:visibility="gone">
 
-                <TextView
+                <EditText
                     android:id="@+id/state_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -294,7 +294,7 @@
                 android:layout_marginTop="8dp"
                 android:visibility="gone">
 
-                <TextView
+                <EditText
                     android:id="@+id/country_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -348,7 +348,7 @@
                 android:visibility="visible" />
 
 
-            <TextView
+            <EditText
                 android:id="@+id/occupationET"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -390,7 +390,7 @@
                 android:background="@color/main_color"
                 android:visibility="visible" />
 
-            <TextView
+            <EditText
                 android:id="@+id/otherET"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -453,7 +453,7 @@
                     android:textColor="@color/editTextcolor"
                     android:textSize="16dp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/partneNnameET"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -475,7 +475,7 @@
                     android:textColor="@color/black_light"
                     android:textSize="16sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/pdobET"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -499,7 +499,7 @@
                     android:textColor="@color/black_light"
                     android:textSize="16sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/pTimeBirthET"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -560,7 +560,7 @@
                     android:layout_marginTop="8dp"
                     android:visibility="gone">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/pcity_name"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -583,7 +583,7 @@
                     android:layout_marginTop="8dp"
                     android:visibility="gone">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/pstate_name"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -605,7 +605,7 @@
                     android:layout_marginTop="8dp"
                     android:visibility="gone">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/pcountry_name"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -633,7 +633,7 @@
                 android:textSize="16sp"
                 android:visibility="gone" />
 
-            <TextView
+            <EditText
                 android:id="@+id/questionET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -672,7 +672,7 @@
         android:id="@+id/registrationBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/accceptChat"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:background="@drawable/home_btn_button"
@@ -682,6 +682,23 @@
         android:paddingRight="20dp"
         android:paddingBottom="16dp"
         android:text="@string/start_chat"
+        android:textColor="@color/textColorBlackNew"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/accceptChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/green_btn_yes"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingTop="16dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="16dp"
+        android:text="Accept Chat"
         android:textColor="@color/textColorBlackNew"
         android:textSize="16dp" />
 </RelativeLayout>
