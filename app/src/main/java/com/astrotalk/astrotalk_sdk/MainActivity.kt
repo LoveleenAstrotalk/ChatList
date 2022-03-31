@@ -3,8 +3,7 @@ package com.astrotalk.astrotalk_sdk
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.astrotalk.sdk.api.activities.AstrologerListActivity
-import com.astrotalk.sdk.api.activities.ChatAstrologerlistActivity
+import com.astrotalk.sdk.api.activities.ChatAstrologerListActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnClick.setOnClickListener {
-            val intent = Intent(context, ChatAstrologerlistActivity::class.java)
+            val intent = Intent(context, ChatAstrologerListActivity::class.java)
             startActivity(intent)
         }
     }

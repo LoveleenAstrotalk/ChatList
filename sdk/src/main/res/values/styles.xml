@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="RatingBarNEW" parent="Theme.AppCompat">
+    <style name="AtRatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">#cecece</item>
         <item name="colorControlActivated">#727272</item>
     </style>
 
-    <style name="Customedit" parent="Theme.AppCompat">
-
-        <item name="colorPrimary">@color/main_color</item>
-        <item name="colorPrimaryDark">@color/main_color</item>
-        <item name="colorControlNormal">@color/main_color</item>
-        <item name="colorControlActivated">@color/main_color</item>
+    <style name="AtCustomEditText" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/at_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/at_colorPrimary</item>
+        <item name="colorControlNormal">@color/at_colorPrimary</item>
+        <item name="colorControlActivated">@color/at_colorPrimary</item>
     </style>
 
-    <style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <!-- Customize color of navigation drawer icon and back arrow -->
-        <item name="colorControlNormal">@color/textColorBlackNew</item>
+    <style name="AtToolbarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/at_black</item>
     </style>
 
-    <style name="RatingBarNEW1" parent="Theme.AppCompat">
-        <item name="colorControlNormal">#cecece</item>
-        <item name="colorControlActivated">#727272</item>
-
-    </style>
-
-    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/main_color</item>
-        <item name="colorControlNormal">@color/main_color</item>
+    <style name="AtDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/at_colorPrimary</item>
+        <item name="colorControlNormal">@color/at_colorPrimary</item>
     </style>
 
 </resources>

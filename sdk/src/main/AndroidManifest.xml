@@ -11,7 +11,7 @@
             android:name=".api.activities.ChatIntakeFormActivity"
             android:exported="false" />
         <activity
-            android:name=".api.activities.ChatAstrologerlistActivity"
+            android:name=".api.activities.ChatAstrologerListActivity"
             android:exported="false" />
         <activity
             android:name=".api.activities.AstrologerListActivity"

@@ -13,7 +13,7 @@
         android:layout_marginTop="2dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="3dp"
-        android:background="@color/backGroundColor"
+        android:background="@color/at_white"
         android:padding="16dp"
         calendarNS:cardCornerRadius="5dp">
 
@@ -58,14 +58,16 @@
                                     android:id="@+id/background_user_pic"
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
+                                    android:contentDescription="@string/at_image"
                                     android:layout_centerInParent="true"
                                     android:layout_margin="3dp"
-                                    android:src="@drawable/background_profile_image" />
+                                    android:src="@drawable/at_ic_bg_profile_image" />
 
                                 <ImageView
                                     android:id="@+id/user_pic"
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
+                                    android:contentDescription="@string/at_image"
                                     android:layout_centerInParent="true"
                                     android:layout_margin="5dp" />
 
@@ -73,8 +75,9 @@
                                     android:id="@+id/background_user_pic_circle"
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
+                                    android:contentDescription="@string/at_image"
                                     android:layout_centerInParent="true"
-                                    android:background="@drawable/introvide_icon"
+                                    android:background="@drawable/at_ic_intro"
                                     android:visibility="visible" />
 
                                 <RelativeLayout
@@ -82,7 +85,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
-                                    android:background="@color/transparent_dark"
+                                    android:background="@color/at_black_transparent"
                                     android:visibility="gone">
 
                                     <TextView
@@ -91,7 +94,7 @@
                                         android:paddingLeft="3dp"
                                         android:paddingRight="3dp"
                                         android:text="AD"
-                                        android:textColor="@color/white"
+                                        android:textColor="@color/at_white"
                                         android:textSize="10dp">
 
                                     </TextView>
@@ -109,13 +112,12 @@
                                 android:layout_marginTop="6dp"
                                 android:isIndicator="true"
                                 android:numStars="5"
-                                android:theme="@style/RatingBarNEW"
+                                android:theme="@style/AtRatingBar"
                                 android:visibility="visible" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/avgRating"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="4dp"
                                 android:orientation="horizontal">
@@ -124,21 +126,21 @@
                                     android:id="@+id/user_rating_icon"
                                     android:layout_width="10dp"
                                     android:layout_height="12dp"
+                                    android:contentDescription="@string/at_image"
                                     android:layout_gravity="center_vertical"
-                                    android:src="@drawable/rating_user"
-                                    android:visibility="gone">
-
-                                </ImageView>
+                                    android:src="@drawable/at_ic_rating_user"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/totalcount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="2dp"
-                                    android:textColor="@color/color_616161"
+                                    android:layout_marginStart="2dp"
+                                    android:textColor="@color/at_color_616161"
                                     android:textSize="10dp"
                                     android:visibility="visible" />
+
                             </LinearLayout>
 
                         </LinearLayout>
@@ -148,7 +150,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginLeft="16dp"
                             android:orientation="vertical">
 
                             <RelativeLayout
@@ -162,17 +163,13 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
-                                    android:layout_alignParentLeft="true"
                                     android:layout_marginStart="0dp"
-                                    android:layout_marginLeft="0dp"
                                     android:layout_marginEnd="4dp"
-                                    android:layout_marginRight="4dp"
                                     android:layout_toStartOf="@+id/liveLayout"
-                                    android:layout_toLeftOf="@+id/liveLayout"
-                                    android:gravity="left"
+                                    android:gravity="start"
                                     android:includeFontPadding="false"
                                     android:text="Astrologer Name"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/at_black"
                                     android:textSize="18sp" />
 
                                 <LinearLayout
@@ -187,37 +184,35 @@
                                         android:id="@+id/like_unlike"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp"
+                                        android:contentDescription="@string/at_image"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginEnd="3dp"
-                                        android:layout_marginRight="3dp"
-                                        android:layout_toLeftOf="@+id/verified"
                                         android:padding="4dp"
-                                            android:src="@drawable/heart_unlike"
-                                        android:visibility="gone"></ImageView>
+                                        android:src="@drawable/at_ic_heart_unlike"
+                                        android:visibility="gone" />
 
                                     <ImageView
                                         android:id="@+id/info"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp"
+                                        android:contentDescription="@string/at_image"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginEnd="3dp"
-                                        android:layout_marginRight="3dp"
-                                        android:layout_toLeftOf="@id/like_unlike"
-                                        android:gravity="right"
+                                        android:gravity="end"
                                         android:padding="4dp"
-                                        android:src="@drawable/notice"
+                                        android:src="@drawable/at_ic_notice"
                                         android:visibility="visible" />
 
                                     <ImageView
                                         android:id="@+id/verified"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp"
-                                        android:layout_centerVertical="true"
+                                        android:contentDescription="@string/at_image"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginLeft="3dp"
                                         android:layout_marginRight="3dp"
                                         android:padding="4dp"
-                                        android:src="@drawable/verified" />
+                                        android:src="@drawable/at_ic_verified" />
 
                                 </LinearLayout>
 
@@ -228,11 +223,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
-                                android:gravity="left"
+                                android:gravity="start"
                                 android:includeFontPadding="false"
                                 android:singleLine="true"
                                 android:text="skill"
-                                android:textColor="@color/editTextcolor"
+                                android:textColor="@color/at_editTextColor"
                                 android:textSize="12dp"
                                 android:visibility="visible" />
 
@@ -241,10 +236,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:gravity="left"
+                                android:gravity="start"
                                 android:includeFontPadding="false"
                                 android:text="language"
-                                android:textColor="@color/editTextcolor"
+                                android:textColor="@color/at_editTextColor"
                                 android:textSize="12dp"
                                 android:visibility="gone" />
 
@@ -257,16 +252,13 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
-                                    android:layout_alignParentLeft="true"
                                     android:layout_marginTop="4dp"
                                     android:layout_marginEnd="4dp"
-                                    android:layout_marginRight="4dp"
                                     android:layout_toStartOf="@+id/ll_holder"
-                                    android:layout_toLeftOf="@+id/ll_holder"
-                                    android:gravity="left"
+                                    android:gravity="start"
                                     android:includeFontPadding="false"
                                     android:text="Exp"
-                                    android:textColor="@color/editTextcolor"
+                                    android:textColor="@color/at_editTextColor"
                                     android:textSize="12dp" />
 
                                 <LinearLayout
@@ -274,29 +266,28 @@
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/expET"
                                     android:layout_marginTop="4dp"
-                                    android:layout_marginRight="4dp"
+                                    android:layout_marginEnd="4dp"
                                     android:orientation="horizontal">
 
                                     <TextView
                                         android:id="@+id/price"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginRight="8dp"
+                                        android:layout_marginEnd="8dp"
                                         android:gravity="left"
                                         android:includeFontPadding="false"
                                         android:text="price"
-                                        android:textColor="@color/editTextcolor"
+                                        android:textColor="@color/at_editTextColor"
                                         android:textSize="11dp" />
 
                                     <TextView
                                         android:id="@+id/price2"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:gravity="left"
-
+                                        android:gravity="start"
                                         android:includeFontPadding="false"
                                         android:text="price"
-                                        android:textColor="@color/editTextcolor"
+                                        android:textColor="@color/at_editTextColor"
                                         android:textSize="11dp" />
 
                                 </LinearLayout>
@@ -306,7 +297,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
-                                    android:layout_alignParentRight="true"
                                     android:gravity="center"
                                     android:orientation="vertical">
 
@@ -314,9 +304,8 @@
                                         android:id="@+id/call_rl"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
                                         android:layout_gravity="center"
-                                        android:background="@drawable/background_call_btn_green"
+                                        android:background="@drawable/at_bg_call_green"
                                         android:gravity="center"
                                         android:paddingLeft="15dp"
                                         android:paddingTop="3dp"
@@ -330,8 +319,8 @@
                                             android:layout_height="35dp"
                                             android:gravity="center"
                                             android:includeFontPadding="false"
-                                            android:text="@string/call"
-                                            android:textColor="@color/green_color_selectore"
+                                            android:text="@string/at_call"
+                                            android:textColor="@color/at_green_color_selectore"
                                             android:textSize="11dp" />
 
                                     </RelativeLayout>
@@ -340,10 +329,9 @@
                                         android:id="@+id/waitlist_size_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_below="@+id/call_tv"
                                         android:layout_marginTop="1dp"
                                         android:text="Wait Time 8 mins"
-                                        android:textColor="@color/waitlistcolor"
+                                        android:textColor="@color/at_waitListColor"
                                         android:textSize="11dp"
                                         android:visibility="gone" />
 
@@ -351,12 +339,11 @@
                                         android:id="@+id/online_time"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_below="@+id/call_tv"
                                         android:layout_gravity="center_horizontal"
                                         android:layout_marginTop="1dp"
                                         android:gravity="center_horizontal"
                                         android:text="Available in 5h 30m"
-                                        android:textColor="@color/waitlistcolor"
+                                        android:textColor="@color/at_waitListColor"
                                         android:textSize="11dp"
                                         android:visibility="gone" />
 
@@ -377,7 +364,7 @@
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:text=""
-                        android:textColor="@color/green_dark"
+                        android:textColor="@color/at_green_dark"
                         android:textSize="14sp"
                         android:visibility="visible" />
 
@@ -392,7 +379,7 @@
                         android:includeFontPadding="false"
                         android:singleLine="true"
                         android:text="Flash Offer! Consult at Rs 17/min only"
-                        android:textColor="@color/gray_dark1"
+                        android:textColor="@color/at_gray_dark1"
                         android:textSize="12sp"
                         android:visibility="visible" />
 
@@ -406,19 +393,19 @@
                         android:includeFontPadding="false"
                         android:singleLine="true"
                         android:text="In this offer, you can chat for 5 mins only."
-                        android:textColor="@color/gray_dark"
+                        android:textColor="@color/at_gray_dark"
                         android:textSize="11sp"
                         android:visibility="gone" />
 
                     <TextView
-                        android:id="@+id/permotinal_offer"
+                        android:id="@+id/promotional_offer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|center"
                         android:layout_marginBottom="4dp"
                         android:gravity="center"
-                        android:text="permotional Offer"
-                        android:textColor="@color/C66748_color"
+                        android:text="Promotional Offer"
+                        android:textColor="@color/at_C66748_color"
                         android:textSize="12sp"
                         android:visibility="gone" />
 
@@ -434,19 +421,18 @@
                     android:maxLength="10"
                     android:text=""
                     android:visibility="gone"
-                    android:layout_marginLeft="-15dp"
+                    android:layout_marginStart="-15dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="20dp"
                     android:textSize="6dp"
                     android:includeFontPadding="false"
-                    android:textColor="@color/white"
-                    android:background="@color/color_6FCF97" />
+                    android:textColor="@color/at_white"
+                    android:background="@color/at_color_6FCF97" />
 
             </RelativeLayout>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
 
 </RelativeLayout>

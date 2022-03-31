@@ -13,14 +13,6 @@ public class WrapContentLinearLayoutManager extends LinearLayoutManager {
         super(context);
     }
 
-    public WrapContentLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
-        super(context, orientation, reverseLayout);
-    }
-
-    public WrapContentLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         try {
@@ -31,12 +23,8 @@ public class WrapContentLinearLayoutManager extends LinearLayoutManager {
         }
     }
 
-
-
-
     @Override
     public boolean supportsPredictiveItemAnimations() {
         return false;
     }
 }
-

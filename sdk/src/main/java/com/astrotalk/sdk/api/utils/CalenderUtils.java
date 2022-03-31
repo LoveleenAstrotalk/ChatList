@@ -8,8 +8,8 @@ public class CalenderUtils {
     public static String dateTimeFormat = "dd MMM yy, hh:mm a";
     public static String timeFormat = "hh:mm a";
 
-    private static SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(dateTimeFormat);
-    private static SimpleDateFormat simpleTimeFormat = new SimpleDateFormat(timeFormat);
+    private static final SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(dateTimeFormat);
+    private static final SimpleDateFormat simpleTimeFormat = new SimpleDateFormat(timeFormat);
 
     public static String getTimeFormat(long milliSeconds) {
         Calendar calendar = Calendar.getInstance();
@@ -22,5 +22,4 @@ public class CalenderUtils {
         calendar.setTimeInMillis(milliSeconds);
         return simpleDateTimeFormat.format(calendar.getTime());
     }
-
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardBackGroundColor2"
+    android:background="@color/at_white"
     android:orientation="vertical">
 
     <ScrollView
@@ -25,8 +25,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingLeft="8dp"
-                android:text="@string/first_name_address"
-                android:textColor="@color/black_light"
+                android:text="@string/at_first_name_address"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp" />
 
 
@@ -36,22 +36,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                android:hint="@string/first_enter_name_hint"
+                android:hint="@string/at_first_enter_name_hint"
                 android:inputType="textCapWords"
                 android:paddingLeft="8dp"
                 android:singleLine="true"
-                android:textColor="@color/editTextcolor"
-                android:textColorHint="@color/button_gray"
+                android:textColor="@color/at_editTextColor"
+                android:textColorHint="@color/at_button_gray"
                 android:textSize="14sp"
-                android:theme="@style/Customedit" />
+                android:theme="@style/AtCustomEditText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingLeft="8dp"
-                android:text="@string/last_name_address"
-                android:textColor="@color/black_light"
+                android:text="@string/at_last_name_address"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp" />
 
             <EditText
@@ -60,22 +60,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                android:hint="@string/last_enter_name_hint"
+                android:hint="@string/at_last_enter_name_hint"
                 android:inputType="textCapWords"
                 android:paddingLeft="8dp"
                 android:singleLine="true"
-                android:textColor="@color/editTextcolor"
-                android:textColorHint="@color/button_gray"
+                android:textColor="@color/at_editTextColor"
+                android:textColorHint="@color/at_button_gray"
                 android:textSize="14sp"
-                android:theme="@style/Customedit" />
+                android:theme="@style/AtCustomEditText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingLeft="8dp"
-                android:text="@string/phone_no_address"
-                android:textColor="@color/black_light"
+                android:text="@string/at_phone_no_address"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp" />
 
             <LinearLayout
@@ -99,14 +99,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:hint="@string/enter_phone_number_hint"
+                    android:hint="@string/at_enter_phone_number_hint"
                     android:inputType="number"
                     android:paddingLeft="8dp"
                     android:singleLine="true"
-                    android:textColor="@color/editTextcolor"
-                    android:textColorHint="@color/button_gray"
+                    android:textColor="@color/at_editTextColor"
+                    android:textColorHint="@color/at_button_gray"
                     android:textSize="14sp"
-                    android:theme="@style/Customedit" />
+                    android:theme="@style/AtCustomEditText" />
             </LinearLayout>
 
 
@@ -121,8 +121,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
-                    android:text="@string/gender_intake"
-                    android:textColor="@color/black_light"
+                    android:text="@string/at_gender_intake"
+                    android:textColor="@color/at_black_light"
                     android:textSize="16sp" />
 
                 <RadioGroup
@@ -136,16 +136,16 @@
                         android:id="@+id/radioMale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:buttonTint="@color/radio_btn_color"
-                        android:text="@string/male_intake" />
+                        android:buttonTint="@color/at_colorPrimary"
+                        android:text="@string/at_male_intake" />
 
                     <RadioButton
                         android:id="@+id/radioFemale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
-                        android:buttonTint="@color/radio_btn_color"
-                        android:text="@string/female_intake" />
+                        android:buttonTint="@color/at_colorPrimary"
+                        android:text="@string/at_female_intake" />
 
                 </RadioGroup>
 
@@ -156,8 +156,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:paddingLeft="8dp"
-                android:text="@string/date_of_birth_intake"
-                android:textColor="@color/black_light"
+                android:text="@string/at_date_of_birth_intake"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp" />
 
             <EditText
@@ -168,20 +168,20 @@
                 android:layout_marginTop="4dp"
                 android:editable="false"
                 android:focusable="false"
-                android:hint="@string/enter_dob_hint"
+                android:hint="@string/at_enter_dob_hint"
                 android:paddingLeft="8dp"
-                android:textColor="@color/editTextcolor"
-                android:textColorHint="@color/button_gray"
+                android:textColor="@color/at_editTextColor"
+                android:textColorHint="@color/at_button_gray"
                 android:textSize="14sp"
-                android:theme="@style/Customedit" />
+                android:theme="@style/AtCustomEditText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:paddingLeft="8dp"
-                android:text="@string/time_of_birth_intake"
-                android:textColor="@color/black_light"
+                android:text="@string/at_time_of_birth_intake"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp" />
 
             <EditText
@@ -191,12 +191,12 @@
                 android:layout_marginTop="4dp"
                 android:editable="false"
                 android:focusable="false"
-                android:hint="@string/enter_time_of_birth_hint"
+                android:hint="@string/at_enter_time_of_birth_hint"
                 android:paddingLeft="8dp"
-                android:textColor="@color/editTextcolor"
-                android:textColorHint="@color/button_gray"
+                android:textColor="@color/at_editTextColor"
+                android:textColorHint="@color/at_button_gray"
                 android:textSize="14sp"
-                android:theme="@style/Customedit" />
+                android:theme="@style/AtCustomEditText" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -204,8 +204,8 @@
                 android:layout_marginTop="16dp"
                 android:paddingStart="8dp"
                 android:paddingLeft="8dp"
-                android:text="@string/place_of_birth_intake"
-                android:textColor="@color/black_light"
+                android:text="@string/at_place_of_birth_intake"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp" />
 
 
@@ -214,13 +214,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:hint="@string/input_place_of_birth_hint"
+                android:hint="@string/at_input_place_of_birth_hint"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="8dp"
                 android:paddingLeft="8dp"
                 android:textSize="14sp"
-                android:theme="@style/Customedit" />
+                android:theme="@style/AtCustomEditText" />
 
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
@@ -229,13 +229,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:focusableInTouchMode="false"
-                android:hint="@string/input_place_of_birth_hint"
+                android:hint="@string/at_input_place_of_birth_hint"
                 android:inputType="text"
                 android:maxLines="2"
                 android:paddingStart="8dp"
                 android:paddingLeft="8dp"
                 android:textSize="14sp"
-                android:theme="@style/Customedit"
+                android:theme="@style/AtCustomEditText"
                 android:visibility="gone" />
 
 
@@ -252,13 +252,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:hint="@string/enter_city_hint"
+                    android:hint="@string/at_enter_city_hint"
                     android:paddingStart="8dp"
                     android:paddingLeft="8dp"
-                    android:textColor="@color/editTextcolor"
-                    android:textColorHint="@color/button_gray"
+                    android:textColor="@color/at_editTextColor"
+                    android:textColorHint="@color/at_button_gray"
                     android:textSize="14sp"
-                    android:theme="@style/Customedit" />
+                    android:theme="@style/AtCustomEditText" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -276,13 +276,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:hint="@string/enter_state_province_hint"
+                    android:hint="@string/at_enter_state_province_hint"
                     android:paddingStart="8dp"
                     android:paddingLeft="8dp"
-                    android:textColor="@color/editTextcolor"
-                    android:textColorHint="@color/button_gray"
+                    android:textColor="@color/at_editTextColor"
+                    android:textColorHint="@color/at_button_gray"
                     android:textSize="14sp"
-                    android:theme="@style/Customedit" />
+                    android:theme="@style/AtCustomEditText" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -299,13 +299,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:hint="@string/enter_country_hint"
+                    android:hint="@string/at_enter_country_hint"
                     android:paddingStart="8dp"
                     android:paddingLeft="8dp"
-                    android:textColor="@color/editTextcolor"
-                    android:textColorHint="@color/button_gray"
+                    android:textColor="@color/at_editTextColor"
+                    android:textColorHint="@color/at_button_gray"
                     android:textSize="14sp"
-                    android:theme="@style/Customedit" />
+                    android:theme="@style/AtCustomEditText" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -315,8 +315,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:paddingLeft="8dp"
-                android:text="@string/marital_status_intake"
-                android:textColor="@color/black_light"
+                android:text="@string/at_marital_status_intake"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp"
                 android:visibility="visible" />
 
@@ -334,7 +334,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="2dp"
-                android:background="@color/main_color"
+                android:background="@color/at_colorPrimary"
                 android:visibility="visible" />
 
             <TextView
@@ -342,8 +342,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:paddingLeft="8dp"
-                android:text="@string/occupation_intake"
-                android:textColor="@color/black_light"
+                android:text="@string/at_occupation_intake"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp"
                 android:visibility="visible" />
 
@@ -353,13 +353,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:hint="@string/enter_occupation_hint"
+                android:hint="@string/at_enter_occupation_hint"
                 android:paddingLeft="8dp"
                 android:singleLine="true"
-                android:textColor="@color/editTextcolor"
-                android:textColorHint="@color/button_gray"
+                android:textColor="@color/at_editTextColor"
+                android:textColorHint="@color/at_button_gray"
                 android:textSize="14dp"
-                android:theme="@style/Customedit"
+                android:theme="@style/AtCustomEditText"
                 android:visibility="visible" />
 
 
@@ -368,8 +368,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:paddingLeft="8dp"
-                android:text="@string/topic_of_concern_intake"
-                android:textColor="@color/black_light"
+                android:text="@string/at_topic_of_concern_intake"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp"
                 android:visibility="visible" />
 
@@ -387,7 +387,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="2dp"
-                android:background="@color/main_color"
+                android:background="@color/at_colorPrimary"
                 android:visibility="visible" />
 
             <EditText
@@ -395,15 +395,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/enter_topic_of_concern_hint"
+                android:hint="@string/at_enter_topic_of_concern_hint"
                 android:maxLength="250"
                 android:paddingStart="8dp"
                 android:paddingLeft="8dp"
                 android:singleLine="true"
-                android:textColor="@color/editTextcolor"
-                android:textColorHint="@color/button_gray"
+                android:textColor="@color/at_editTextColor"
+                android:textColorHint="@color/at_button_gray"
                 android:textSize="14dp"
-                android:theme="@style/Customedit"
+                android:theme="@style/AtCustomEditText"
                 android:visibility="gone" />
 
 
@@ -431,8 +431,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:text="@string/partner_details"
-                    android:textColor="@color/color_black_383838" />
+                    android:text="@string/at_partner_details"
+                    android:textColor="@color/at_black" />
             </LinearLayout>
 
 
@@ -449,8 +449,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:paddingLeft="8dp"
-                    android:text="@string/partner_s_name_intake"
-                    android:textColor="@color/editTextcolor"
+                    android:text="@string/at_partner_s_name_intake"
+                    android:textColor="@color/at_editTextColor"
                     android:textSize="16dp" />
 
                 <EditText
@@ -458,21 +458,21 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:hint="@string/enter_partner_s_name_hint"
+                    android:hint="@string/at_enter_partner_s_name_hint"
                     android:paddingLeft="8dp"
                     android:singleLine="true"
-                    android:textColor="@color/editTextcolor"
-                    android:textColorHint="@color/button_gray"
+                    android:textColor="@color/at_editTextColor"
+                    android:textColorHint="@color/at_button_gray"
                     android:textSize="14dp"
-                    android:theme="@style/Customedit" />
+                    android:theme="@style/AtCustomEditText" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:paddingLeft="8dp"
-                    android:text="@string/partner_s_date_of_birth_intake"
-                    android:textColor="@color/black_light"
+                    android:text="@string/at_partner_s_date_of_birth_intake"
+                    android:textColor="@color/at_black_light"
                     android:textSize="16sp" />
 
                 <EditText
@@ -483,20 +483,20 @@
                     android:layout_marginTop="4dp"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="@string/enter_partner_s_dob_hint"
+                    android:hint="@string/at_enter_partner_s_dob_hint"
                     android:paddingLeft="8dp"
-                    android:textColor="@color/editTextcolor"
-                    android:textColorHint="@color/button_gray"
+                    android:textColor="@color/at_editTextColor"
+                    android:textColorHint="@color/at_button_gray"
                     android:textSize="14sp"
-                    android:theme="@style/Customedit" />
+                    android:theme="@style/AtCustomEditText" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:paddingLeft="8dp"
-                    android:text="@string/partner_s_time_of_birth_intake"
-                    android:textColor="@color/black_light"
+                    android:text="@string/at_partner_s_time_of_birth_intake"
+                    android:textColor="@color/at_black_light"
                     android:textSize="16sp" />
 
                 <EditText
@@ -506,12 +506,12 @@
                     android:layout_marginTop="4dp"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="@string/enter_partner_s_time_of_birth_hint"
+                    android:hint="@string/at_enter_partner_s_time_of_birth_hint"
                     android:paddingLeft="8dp"
-                    android:textColor="@color/editTextcolor"
-                    android:textColorHint="@color/button_gray"
+                    android:textColor="@color/at_editTextColor"
+                    android:textColorHint="@color/at_button_gray"
                     android:textSize="14sp"
-                    android:theme="@style/Customedit" />
+                    android:theme="@style/AtCustomEditText" />
 
 
                 <TextView
@@ -519,8 +519,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:paddingLeft="8dp"
-                    android:text="@string/partner_s_place_of_birth_intake"
-                    android:textColor="@color/black_light"
+                    android:text="@string/at_partner_s_place_of_birth_intake"
+                    android:textColor="@color/at_black_light"
                     android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
@@ -528,13 +528,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:hint="@string/input_place_of_birth_hint"
+                    android:hint="@string/at_input_place_of_birth_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="8dp"
                     android:paddingLeft="8dp"
                     android:textSize="14sp"
-                    android:theme="@style/Customedit" />
+                    android:theme="@style/AtCustomEditText" />
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/auto_complete_edit_text_astrotalkapi_partner"
@@ -542,13 +542,13 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:focusableInTouchMode="false"
-                    android:hint="@string/input_place_of_birth_hint"
+                    android:hint="@string/at_input_place_of_birth_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingStart="8dp"
                     android:paddingLeft="8dp"
                     android:textSize="14sp"
-                    android:theme="@style/Customedit"
+                    android:theme="@style/AtCustomEditText"
                     android:visibility="gone" />
 
 
@@ -565,13 +565,13 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:hint="@string/enter_city_hint"
+                        android:hint="@string/at_enter_city_hint"
                         android:paddingStart="8dp"
                         android:paddingLeft="8dp"
-                        android:textColor="@color/editTextcolor"
-                        android:textColorHint="@color/button_gray"
+                        android:textColor="@color/at_editTextColor"
+                        android:textColorHint="@color/at_button_gray"
                         android:textSize="14sp"
-                        android:theme="@style/Customedit" />
+                        android:theme="@style/AtCustomEditText" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -588,13 +588,13 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:hint="@string/enter_state_province_hint"
+                        android:hint="@string/at_enter_state_province_hint"
                         android:paddingStart="8dp"
                         android:paddingLeft="8dp"
-                        android:textColor="@color/editTextcolor"
-                        android:textColorHint="@color/button_gray"
+                        android:textColor="@color/at_editTextColor"
+                        android:textColorHint="@color/at_button_gray"
                         android:textSize="14sp"
-                        android:theme="@style/Customedit" />
+                        android:theme="@style/AtCustomEditText" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -610,13 +610,13 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:hint="@string/enter_country_hint"
+                        android:hint="@string/at_enter_country_hint"
                         android:paddingStart="8dp"
                         android:paddingLeft="8dp"
-                        android:textColor="@color/editTextcolor"
-                        android:textColorHint="@color/button_gray"
+                        android:textColor="@color/at_editTextColor"
+                        android:textColorHint="@color/at_button_gray"
                         android:textSize="14sp"
-                        android:theme="@style/Customedit" />
+                        android:theme="@style/AtCustomEditText" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -628,8 +628,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:paddingLeft="8dp"
-                android:text="@string/question_intake"
-                android:textColor="@color/black_light"
+                android:text="@string/at_question_intake"
+                android:textColor="@color/at_black_light"
                 android:textSize="16sp"
                 android:visibility="gone" />
 
@@ -638,15 +638,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/custom_border"
+                android:background="@drawable/at_custom_border"
                 android:gravity="top"
-                android:hint="@string/enter_your_question_here_hint"
+                android:hint="@string/at_enter_your_question_here_hint"
                 android:lineSpacingExtra="5dp"
                 android:maxLength="140"
                 android:minHeight="120dp"
                 android:padding="4dp"
-                android:textColor="@color/editTextcolor"
-                android:textColorHint="@color/button_gray"
+                android:textColor="@color/at_editTextColor"
+                android:textColorHint="@color/at_button_gray"
                 android:textSize="15sp"
                 android:visibility="gone" />
 
@@ -658,7 +658,7 @@
                 android:layout_marginTop="2dp"
                 android:paddingLeft="8dp"
                 android:text="110/140"
-                android:textColor="@color/black_light"
+                android:textColor="@color/at_black_light"
                 android:textSize="12dp"
                 android:visibility="gone" />
 
@@ -675,14 +675,14 @@
         android:layout_above="@+id/accceptChat"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:background="@drawable/home_btn_button"
+        android:background="@drawable/at_home_btn_button"
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingTop="16dp"
         android:paddingRight="20dp"
         android:paddingBottom="16dp"
-        android:text="@string/start_chat"
-        android:textColor="@color/textColorBlackNew"
+        android:text="@string/at_start_chat"
+        android:textColor="@color/at_black"
         android:textSize="16dp" />
 
     <TextView
@@ -692,13 +692,13 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:background="@drawable/green_btn_yes"
+        android:background="@drawable/at_green_btn_yes"
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingTop="16dp"
         android:paddingRight="20dp"
         android:paddingBottom="16dp"
         android:text="Accept Chat"
-        android:textColor="@color/textColorBlackNew"
+        android:textColor="@color/at_black"
         android:textSize="16dp" />
 </RelativeLayout>

@@ -17,8 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.astrotalk.sdk.R;
 import com.astrotalk.sdk.api.activities.ChatIntakeFormActivity;
 import com.astrotalk.sdk.api.model.UniversalAstrologerListModel;
-import com.astrotalk.sdk.api.utils.Constants;
-import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 /**
@@ -40,7 +39,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
     @Override
     public ChatAstrologerListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_row_chat_astrologer_list, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_chat_astrologer_list, parent, false);
         ChatAstrologerListAdapter.ViewHolder myViewHolder = new ChatAstrologerListAdapter.ViewHolder(view);
         return myViewHolder;
     }
@@ -51,7 +50,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
         holder.language.setVisibility(View.VISIBLE);
         holder.nameET.setText(userChatListModel.getFirstname());
-        holder.expET.setText(context.getResources().getString(R.string.experience_adapter).replaceAll("@EXP", userChatListModel.getExperience() + ""));
+        holder.expET.setText(context.getResources().getString(R.string.at_experience_adapter).replaceAll("@EXP", userChatListModel.getExperience() + ""));
         holder.skillET.setText(userChatListModel.getSkill().replace(",", ", "));
         holder.language.setText(userChatListModel.getLanguage());
         holder.average_ratingbar.setRating((float) userChatListModel.getAvgRating());
@@ -66,9 +65,9 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             }
 
             holder.price2.setVisibility(View.VISIBLE);
-            holder.price.setTextColor(context.getResources().getColor(R.color.white));
-            holder.price2.setBackground(context.getResources().getDrawable(R.drawable.strike_line));
-            holder.price2.setText(userChatListModel.getPrice() + context.getResources().getString(R.string.per_minute));
+            holder.price.setTextColor(context.getResources().getColor(R.color.at_white));
+            holder.price2.setBackground(context.getResources().getDrawable(R.drawable.at_strike_line));
+            holder.price2.setText(userChatListModel.getPrice() + context.getResources().getString(R.string.at_per_minute));
 
             if (userChatListModel.isPo()) {
                 holder.price.setText("FREE");
@@ -80,31 +79,31 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             }
 
         } else {
-            holder.price.setTextColor(context.getResources().getColor(R.color.editTextcolor));
+            holder.price.setTextColor(context.getResources().getColor(R.color.at_editTextColor));
             holder.cashback_tv.setVisibility(View.GONE);
             holder.price2.setVisibility(View.GONE);
-            holder.price.setText(userChatListModel.getPrice() + context.getResources().getString(R.string.per_minute));
+            holder.price.setText(userChatListModel.getPrice() + context.getResources().getString(R.string.at_per_minute));
         }
 
         if (userChatListModel.getNoOfRating() == 0) {
             holder.user_rating_icon.setVisibility(View.GONE);
-            holder.totalcount.setText(context.getResources().getString(R.string.new_));
+            holder.totalcount.setText(context.getResources().getString(R.string.at_new_));
             holder.totalcount.setTextSize(12);
             holder.average_ratingbar.setVisibility(View.VISIBLE);
-            holder.totalcount.setTextColor(context.getResources().getColor(R.color.dark_red));
+            holder.totalcount.setTextColor(context.getResources().getColor(R.color.at_dark_red));
         } else {
             if (userChatListModel.isNew()) {
                 holder.user_rating_icon.setVisibility(View.GONE);
-                holder.totalcount.setText(context.getResources().getString(R.string.new_));
+                holder.totalcount.setText(context.getResources().getString(R.string.at_new_));
                 holder.totalcount.setTextSize(12);
                 holder.average_ratingbar.setVisibility(View.VISIBLE);
-                holder.totalcount.setTextColor(context.getResources().getColor(R.color.dark_red));
+                holder.totalcount.setTextColor(context.getResources().getColor(R.color.at_dark_red));
             } else {
                 holder.user_rating_icon.setVisibility(View.VISIBLE);
-                holder.totalcount.setText(userChatListModel.getNoOfRating() + context.getResources().getString(R.string.ratings_list_adapter_total));
+                holder.totalcount.setText(userChatListModel.getNoOfRating() + context.getResources().getString(R.string.at_ratings_list_adapter_total));
                 holder.totalcount.setTextSize(10);
                 holder.average_ratingbar.setVisibility(View.VISIBLE);
-                holder.totalcount.setTextColor(context.getResources().getColor(R.color.color_black_454545));
+                holder.totalcount.setTextColor(context.getResources().getColor(R.color.at_color_black_454545));
 
             }
 
@@ -145,7 +144,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
         }
 
         if (userChatListModel.getProfilePic().trim().isEmpty()) {
-            holder.userPicIV.setImageResource(R.drawable.astrologer_bg_new);
+            holder.userPicIV.setImageResource(R.drawable.at_ic_bg_astrologer);
         } else {
 
 //            Glide.with(context).load("https://astrotalk.s3.amazonaws.com/consultant_pic/" + userChatListModel.getProfilePic().trim()).into(holder.userPicIV);
@@ -153,13 +152,13 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
         if (userChatListModel.getStatus().equalsIgnoreCase("BUSY")) {
             holder.call_rl.setClickable(true);
-            holder.call_rl.setBackgroundResource(R.drawable.backgronud_call_red);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.waitlistcolor));
-            holder.call_tv.setText(context.getResources().getString(R.string.chat));
+            holder.call_rl.setBackgroundResource(R.drawable.at_bg_call_red);
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_waitListColor));
+            holder.call_tv.setText(context.getResources().getString(R.string.at_chat));
             holder.info.setVisibility(View.VISIBLE);
             if (userChatListModel.getWaitListWaitTime() > 0) {
                 holder.online_time.setVisibility(View.VISIBLE);
-                holder.online_time.setTextColor(context.getResources().getColor(R.color.waitlistcolor));
+                holder.online_time.setTextColor(context.getResources().getColor(R.color.at_waitListColor));
                 String waitTimeText = "";
                 long timeSec = userChatListModel.getWaitListWaitTime();
                 long min = timeSec / 60;
@@ -179,61 +178,61 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
                     hours = hours % 24;
                     waitTimeText = days + "d " + hours + "h ";
                 }
-                holder.online_time.setText(context.getResources().getString(R.string.waittime_in_txt).replaceAll("/@TIME", waitTimeText));
+                holder.online_time.setText(context.getResources().getString(R.string.at_wait_time_in_txt).replaceAll("/@TIME", waitTimeText));
             } else {
                 holder.online_time.setVisibility(View.GONE);
             }
 
         } else if (userChatListModel.getStatus().equalsIgnoreCase("OFFLINE")) {
             holder.call_rl.setClickable(true);
-            holder.call_rl.setBackgroundResource(R.drawable.background_call_gray);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.button_gray));
+            holder.call_rl.setBackgroundResource(R.drawable.at_bg_call_gray);
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_button_gray));
 
-            holder.call_tv.setText(context.getResources().getString(R.string.chat));
+            holder.call_tv.setText(context.getResources().getString(R.string.at_chat));
 
             holder.info.setVisibility(View.VISIBLE);
 
             if (userChatListModel.getNextOnlineTimeChat().equalsIgnoreCase("")) {
                 holder.online_time.setVisibility(View.VISIBLE);
-                holder.online_time.setTextColor(context.getResources().getColor(R.color.waitlistcolor));
-                holder.online_time.setText(context.getResources().getString(R.string.profile_currently_offline));
+                holder.online_time.setTextColor(context.getResources().getColor(R.color.at_waitListColor));
+                holder.online_time.setText(context.getResources().getString(R.string.at_profile_currently_offline));
             } else {
                 holder.online_time.setVisibility(View.VISIBLE);
-                holder.online_time.setTextColor(context.getResources().getColor(R.color.green_dark));
-                holder.online_time.setText(context.getResources().getString(R.string.online_in).replaceAll("/@TIME", userChatListModel.getNextOnlineTimeChat()));
+                holder.online_time.setTextColor(context.getResources().getColor(R.color.at_green_dark));
+                holder.online_time.setText(context.getResources().getString(R.string.at_online_in).replaceAll("/@TIME", userChatListModel.getNextOnlineTimeChat()));
 
             }
         } else if (userChatListModel.getStatus().equalsIgnoreCase("INPROGRESS")) {
             holder.call_rl.setClickable(true);
-            holder.call_rl.setBackgroundResource(R.drawable.blue_btn);
+            holder.call_rl.setBackgroundResource(R.drawable.at_btn_blue);
 
-            holder.call_tv.setText(context.getResources().getString(R.string.chat));
+            holder.call_tv.setText(context.getResources().getString(R.string.at_chat));
 
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.link));
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_link));
             holder.info.setVisibility(View.GONE);
             holder.waitlist_size_tv.setVisibility(View.GONE);
             holder.online_time.setVisibility(View.GONE);
         } else if (userChatListModel.getStatus().equalsIgnoreCase("ASK")) {
             holder.call_rl.setClickable(true);
-            holder.call_rl.setBackgroundResource(R.drawable.blue_btn);
-            holder.call_tv.setText(context.getResources().getString(R.string.waiting_list));
+            holder.call_rl.setBackgroundResource(R.drawable.at_btn_blue);
+            holder.call_tv.setText(context.getResources().getString(R.string.at_waiting_list));
             holder.online_time.setVisibility(View.GONE);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.link));
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_link));
             holder.info.setVisibility(View.GONE);
             holder.waitlist_size_tv.setVisibility(View.GONE);
 
         } else if (userChatListModel.getStatus().equalsIgnoreCase("NOTAVILABLE")) {
             holder.call_rl.setClickable(false);
-            holder.call_rl.setBackgroundResource(R.drawable.background_call_gray);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.button_gray));
-            holder.call_tv.setText(context.getResources().getString(R.string.offline));
+            holder.call_rl.setBackgroundResource(R.drawable.at_bg_call_gray);
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_button_gray));
+            holder.call_tv.setText(context.getResources().getString(R.string.at_offline));
             holder.info.setVisibility(View.VISIBLE);
 
         } else {
             holder.call_rl.setClickable(true);
-            holder.call_rl.setBackgroundResource(R.drawable.background_call_btn_green);
+            holder.call_rl.setBackgroundResource(R.drawable.at_bg_call_green);
 
-            holder.call_tv.setText(context.getResources().getString(R.string.chat));
+            holder.call_tv.setText(context.getResources().getString(R.string.at_chat));
 
             holder.online_time.setVisibility(View.GONE);
             holder.call_tv.setTextColor(context.getResources().getColor(R.color.color_1aa260));
@@ -242,9 +241,9 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
         }
 
         if (userChatListModel.getWaitListJoined()) {
-            holder.call_rl.setBackgroundResource(R.drawable.blue_btn);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.link));
-            holder.call_tv.setText(context.getResources().getString(R.string.waiting_list));
+            holder.call_rl.setBackgroundResource(R.drawable.at_btn_blue);
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_link));
+            holder.call_tv.setText(context.getResources().getString(R.string.at_waiting_list));
             holder.online_time.setVisibility(View.GONE);
             holder.waitlist_size_tv.setVisibility(View.GONE);
             holder.info.setVisibility(View.GONE);
@@ -253,18 +252,18 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             } else {
 
                 holder.online_time.setVisibility(View.VISIBLE);
-                holder.online_time.setTextColor(context.getResources().getColor(R.color.green_dark));
-                holder.online_time.setText(context.getResources().getString(R.string.online_in).replaceAll("/@TIME", userChatListModel.getNextOnlineTimeChat()));
+                holder.online_time.setTextColor(context.getResources().getColor(R.color.at_green_dark));
+                holder.online_time.setText(context.getResources().getString(R.string.at_online_in).replaceAll("/@TIME", userChatListModel.getNextOnlineTimeChat()));
             }
         }
 
         if (userChatListModel.getStatus().equalsIgnoreCase("INPROGRESS")) {
-            holder.call_rl.setBackgroundResource(R.drawable.blue_btn);
+            holder.call_rl.setBackgroundResource(R.drawable.at_btn_blue);
 
-            holder.call_tv.setText(context.getResources().getString(R.string.chat));
+            holder.call_tv.setText(context.getResources().getString(R.string.at_chat));
 
             holder.online_time.setVisibility(View.GONE);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.link));
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_link));
             holder.info.setVisibility(View.GONE);
             holder.waitlist_size_tv.setVisibility(View.GONE);
         }

@@ -3,7 +3,9 @@ package com.astrotalk.sdk.api.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +16,8 @@ import com.astrotalk.sdk.api.model.UniversalAstrologerListModel;
 import com.astrotalk.sdk.api.network.ApiEndPointInterface;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -27,40 +27,45 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-public class ChatAstrologerlistActivity extends AppCompatActivity {
+public class ChatAstrologerListActivity extends AppCompatActivity {
 
-    private Call<ResponseBody> responseBodyCall;
+    private RecyclerView recyclerView;
     private ApiEndPointInterface apiEndPointInterface;
-    private int totalpageNumber = 1;
+
+    private final ArrayList<UniversalAstrologerListModel> astrologerListModelArrayList = new ArrayList<>();
+    private Call<ResponseBody> responseBodyCall;
+    private int totalPageNumber = 1;
     private int pageNumber = 0;
     private boolean loading = true;
-    private boolean isOffer = false;
-    private final ArrayList<UniversalAstrologerListModel> astrologerListModelArrayList = new ArrayList<>();
+    private final boolean isOffer = false;
     private ChatAstrologerListAdapter chatAstrologerListAdapter;
-    private RecyclerView recyclerView;
-    private int selectedType = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chat_astrologer_list_2);
+        setContentView(R.layout.activity_chat_astrologer_list);
+
+        initViews();
 
         apiEndPointInterface = ApiEndPointInterface.retrofit.create(ApiEndPointInterface.class);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        chatAstrologerListAdapter = new ChatAstrologerListAdapter(ChatAstrologerlistActivity.this, astrologerListModelArrayList);
-        recyclerView.setAdapter(chatAstrologerListAdapter);
 
         getAstrologerList();
 
     }
 
+    public void initViews() {
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        chatAstrologerListAdapter = new ChatAstrologerListAdapter(ChatAstrologerListActivity.this, astrologerListModelArrayList);
+        recyclerView.setAdapter(chatAstrologerListAdapter);
+    }
+
     public void getAstrologerList() {
 
         responseBodyCall = apiEndPointInterface.getAstrologerListSorting(
-                1, 1,1, "Asia/Calcutta", -1, 0,
+                1, 1, 1, "Asia/Calcutta", -1, 0,
                 1000, "1.1.197", 4, false, false, false,
                 1, false, "0614aa461b06c7ac", "+91", false, false,
                 true, 0
@@ -68,28 +73,31 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
 
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         try {
-                            String status = "2";
-                            int fo = 0;
+                            String status;
+                            int fo;
                             JSONObject jsonObject = new JSONObject(response.body().string());
-                            totalpageNumber = jsonObject.getInt("totalPages");
+                            totalPageNumber = jsonObject.getInt("totalPages");
 
-                            if (totalpageNumber > pageNumber) {
+                            if (totalPageNumber > pageNumber) {
                                 loading = true;
                                 pageNumber++;
                             } else {
                                 loading = false;
                             }
+
                             JSONArray dataArray = jsonObject.getJSONArray("content");
-                            ArrayList<UniversalAstrologerListModel> childchatarray = new ArrayList<>();
+                            ArrayList<UniversalAstrologerListModel> childChatArray = new ArrayList<>();
                             for (int i = 0; i < dataArray.length(); i++) {
+
                                 UniversalAstrologerListModel userChatListModel = new UniversalAstrologerListModel();
                                 JSONObject jsonObject1 = dataArray.getJSONObject(i);
 
                                 userChatListModel.setId(jsonObject1.getLong("id"));
+
                                 if (jsonObject1.has("name") && !jsonObject1.isNull("name")) {
                                     userChatListModel.setFirstname(jsonObject1.getString("name"));
                                 } else {
@@ -108,7 +116,6 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                     userChatListModel.setPo(false);
                                 }
 
-
                                 if (jsonObject1.has("isPoSo") && !jsonObject1.isNull("isPoSo")) {
                                     userChatListModel.setPoSo(jsonObject1.getBoolean("isPoSo"));
                                 } else {
@@ -117,20 +124,17 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
 
                                 userChatListModel.setOffer(isOffer);
 
-
                                 if (jsonObject1.has("fo") && !jsonObject1.isNull("fo")) {
                                     fo = jsonObject1.getInt("fo");
                                 } else {
                                     fo = 0;
                                 }
 
-
                                 if (jsonObject1.has("isBoostOn") && !jsonObject1.isNull("isBoostOn")) {
                                     userChatListModel.setBoostOn(jsonObject1.getBoolean("isBoostOn"));
                                 } else {
                                     userChatListModel.setBoostOn(false);
                                 }
-
 
                                 if (fo > 0) {
                                     userChatListModel.setHasOffer(true);
@@ -140,19 +144,18 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                     userChatListModel.setCashbackOfferValue(0);
                                 }
 
-
                                 if (jsonObject1.has("skill") && !jsonObject1.isNull("skill")) {
                                     userChatListModel.setSkill(jsonObject1.getString("skill"));
                                 } else {
                                     userChatListModel.setSkill("No skill");
                                 }
 
-
                                 if (jsonObject1.has("isFavourite") && !jsonObject1.isNull("isFavourite")) {
                                     userChatListModel.setFavourite(jsonObject1.getBoolean("isFavourite"));
                                 } else {
                                     userChatListModel.setFavourite(false);
                                 }
+
                                 if (jsonObject1.has("offerDisplayName") && !jsonObject1.isNull("offerDisplayName")) {
                                     userChatListModel.setOfferDisplayName(jsonObject1.getString("offerDisplayName"));
                                 } else {
@@ -164,12 +167,6 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                 } else {
                                     userChatListModel.setLabel("");
                                 }
-
-//                                if (jsonObject1.has("isLiveEventOnline") && !jsonObject1.isNull("isLiveEventOnline")) {
-//                                    userChatListModel.setLiveEventOnline(jsonObject1.getBoolean("isLiveEventOnline"));
-//                                } else {
-//                                    userChatListModel.setLiveEventOnline(false);
-//                                }
 
                                 if (jsonObject1.has("languages") && !jsonObject1.isNull("languages")) {
                                     List<String> list = new ArrayList<>();
@@ -195,12 +192,12 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                     userChatListModel.setPrice(1100);
                                 }
 
-
                                 if (jsonObject1.has("notify") && !jsonObject1.isNull("notify")) {
                                     userChatListModel.setNotify(jsonObject1.getBoolean("notify"));
                                 } else {
                                     userChatListModel.setNotify(false);
                                 }
+
                                 if (jsonObject1.has("rating") && !jsonObject1.isNull("rating")) {
                                     userChatListModel.setAvgRating(jsonObject1.getDouble("rating"));
                                 } else {
@@ -216,7 +213,7 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                     userChatListModel.setNew(true);
                                 }
 
-                                /*MAIN STATUS*/
+                                /* MAIN STATUS */
 
                                 if (jsonObject1.has("status") && !jsonObject1.isNull("status")) {
                                     status = jsonObject1.getString("status");
@@ -225,7 +222,6 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                 }
                                 if (status.equalsIgnoreCase("1")) {
                                     userChatListModel.setStatus("BUSY");
-
                                 } else if (status.equalsIgnoreCase("2")) {
                                     userChatListModel.setStatus("CHAT");
                                 } else if (status.equalsIgnoreCase("3")) {
@@ -233,7 +229,6 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                 } else if (status.equalsIgnoreCase("4")) {
                                     userChatListModel.setWaitListJoined(true);
                                     userChatListModel.setStatus("BUSY");
-
                                 } else if (status.equalsIgnoreCase("5")) {
                                     userChatListModel.setStatus("ASK");
                                 } else if (status.equalsIgnoreCase("6")) {
@@ -244,8 +239,8 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                     userChatListModel.setStatus("CHAT");
                                 }
 
-                                /*STATUS CALL*/
-                                String callStatus = "";
+                                /* STATUS CALL */
+                                String callStatus;
                                 if (jsonObject1.has("statusCall") && !jsonObject1.isNull("statusCall")) {
                                     callStatus = jsonObject1.getString("statusCall");
                                 } else {
@@ -278,8 +273,8 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                     userChatListModel.setNextCall("");
                                 }
 
-                                /* STATUS VIDEOCALL */
-                                String videoCall = "";
+                                /* STATUS VIDEO CALL */
+                                String videoCall;
                                 if (jsonObject1.has("statusVideoCall") && !jsonObject1.isNull("statusVideoCall")) {
                                     videoCall = jsonObject1.getString("statusVideoCall");
                                 } else {
@@ -312,9 +307,8 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                 }
                                 userChatListModel.setStatusVideoCallNew(videoCall);
 
-
-                                /*STATUS CHAT*/
-                                String statusChat = "";
+                                /* STATUS CHAT */
+                                String statusChat;
                                 if (jsonObject1.has("statusChat") && !jsonObject1.isNull("statusChat")) {
                                     statusChat = jsonObject1.getString("statusChat");
                                 } else {
@@ -323,7 +317,6 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                 userChatListModel.setStatusChatNew(statusChat);
                                 if (statusChat.equalsIgnoreCase("1")) {
                                     userChatListModel.setStatusChat("BUSY");
-
                                 } else if (statusChat.equalsIgnoreCase("2")) {
                                     userChatListModel.setStatusChat("CHAT");
                                 } else if (statusChat.equalsIgnoreCase("3")) {
@@ -331,7 +324,6 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                 } else if (statusChat.equalsIgnoreCase("4")) {
                                     userChatListModel.setWaitListJoinedChat(true);
                                     userChatListModel.setStatusChat("BUSY");
-
                                 } else if (statusChat.equalsIgnoreCase("5")) {
                                     userChatListModel.setStatusChat("ASK");
                                 } else if (statusChat.equalsIgnoreCase("6")) {
@@ -341,7 +333,6 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                 } else {
                                     userChatListModel.setStatusChat("CHAT");
                                 }
-
 
                                 if (jsonObject1.has("nextChat") && !jsonObject1.isNull("nextChat")) {
                                     userChatListModel.setNextChat(jsonObject1.getString("nextChat"));
@@ -354,7 +345,6 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                 } else {
                                     userChatListModel.setVisibleForChatLocal(false);
                                 }
-
 
                                 if (jsonObject1.has("tick") && !jsonObject1.isNull("tick")) {
                                     userChatListModel.setVerified(jsonObject1.getBoolean("tick"));
@@ -398,30 +388,26 @@ public class ChatAstrologerlistActivity extends AppCompatActivity {
                                     userChatListModel.setIntroVideo("");
                                 }
 
-                                childchatarray.add(userChatListModel);
+                                childChatArray.add(userChatListModel);
                             }
 
-                            // demoArrayList= name of arrayList from which u want to remove duplicates
-                            LinkedHashSet hs = new LinkedHashSet(childchatarray);
+                            LinkedHashSet hs = new LinkedHashSet(childChatArray);
                             // demoArrayList= name of arrayList from which u want to remove duplicates
                             astrologerListModelArrayList.addAll(hs);
 
                             chatAstrologerListAdapter.notifyDataSetChanged();
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.e("Failure", t.getMessage());
             }
         });
     }
-
 }

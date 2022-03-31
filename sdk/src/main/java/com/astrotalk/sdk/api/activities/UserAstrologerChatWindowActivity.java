@@ -1,30 +1,13 @@
 package com.astrotalk.sdk.api.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
-
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -45,6 +28,18 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -69,8 +64,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -88,61 +81,14 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class UserAstrologerChatWindowActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
-    private static String PAYTM_MID;
-    private static String PAYTM_CALL_BACK_URL;
-
-    private ProgressBar progressBar;
-    private SharedPreferences preferences;
-    private ImageView chatsendIV;
-    private EditText sendMesage;
-    private ArrayList<UserAstrogerChatWindowModel> chatArrayList = new ArrayList<>();
-    private UserAstrologerChatWindowAdapter chatAdapter;
-    private RecyclerView recyclerView;
-    private int pageNumber = 0;
-    private Bitmap bitmap = null;
-    private ImageView attachment_iv, refresh_iv, delete_iv, copy_iv;
-    private int pastVisiblesItems, visibleItemCount, totalItemCount;
-    private WrapContentLinearLayoutManager linearLayoutManager;
-    private int totalpageNumber = 1;
-    private boolean loading = true;
-    private String imageUrl = "";
-    private long chatOrderId = -1;
-    private long astrologerId = -1;
-    private String astologerName = "";
-    private boolean isStatusget = false;
-    private RelativeLayout chat_disable_view;
-    private TextView headingTV, timer_tv;
-    ImageView enable_btn;
-    private String currentStatus = "";
-    private String imageFilePath = "";
-    private long chatStartTime;
-    private LinearLayout below_ll;
-    private String from = "", tz = "";
+    private static final int REQUEST_CODE_PAYMENT = 12;
     public static boolean IS_CHAT_WINDOW_OPEN_USER_ASTROLOGER = false;
-    private TextView btn_200, btn_500, btn_1000;
-    private double amount, discount = 0.0;
-    private double mrp = 0;
-    private double gstAmount = 0;
-    private long razorPayIdCodeyeti = 0;
-    private long paypalPayId = 0;
-    private long paytmPaymentgetwayId = 0;
-    private long payuPaymentGatewayId = 0;
-    private String transactionID = "", transactionHash = "", payUSuccessUrl = "", payUFailUrl = "", payURedirectionUrl = "";
-    private long paymentId = 0;
-    private double amountIndiaOne = 200;
-    private double amountIndiaTwo = 500;
-    private double amountIndiaThree = 1000;
-    private double amountForeignOne = 700;
-    private double amountForeignTwo = 1400;
-    private double amountForeignThree = 3500;
-    private boolean isQuickRechargeVisible = false;
-    private boolean isPaymentTypesShow = false;
-    private boolean isDialogShowInCaseOfPO = false;
-    private boolean isChatIntiateDialogShow = false;
+    private static final int WALLET_RECHARGE_REQUEST_CODE = 24;
     private final String STATUS_PENDING = "Pending";
     private final String STATUS_SUCCESS = "Success";
     private final String STATUS_CREATED = "Created";
-    private String CONTINUE_CHAT_STATUS = "";
+    public long previousOrderId = 0;
+    ImageView enable_btn;
     long remainingTimeInsec = 0;
     long remainingTimeInsecForOffer = 0;
     int messageTypes = 1;
@@ -153,73 +99,117 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
     boolean isOfferV3 = false;
     boolean isFixSession = false;
     boolean isEmeregencySession = false;
-    private long fisSessionId = -1;
-    private long emergencySessionId = -1;
     ImageView astrologer_pic;
-    private String parentMessageId = "";
-    private static final String CONFIG_CLIENT_ID = Constants.PAPAL_CLIENTID;
-    private static final int REQUEST_CODE_PAYMENT = 12;
-    private boolean isAstrologerMessageType = false;
-    private boolean isUserMessageType = false;
-    private CountDownTimer timer;
-    private CountDownTimer timer2;
     RecyclerView recyclerView_payment;
     String gatewayTpe = "";
-    private ArrayList<NewPaymentGatewayModel> newPaymentGatewayModelArrayList = new ArrayList<>();
-    private int position = 0;
     TextView pay_amount, payment_gst, total_amount_pay;
     LinearLayout paymnet_ll;
     long paymentTypeId = 0;
     boolean isAutodebitOn = false;
     ArrayList<ChatFlagModel> chatFlagModelArrayList = new ArrayList<>();
     ArrayList<ChatFlagModel> chatFlagModelArrayList2 = new ArrayList<>();
-    private boolean checkforFlag = false;
-    private long flagId;
-    private boolean isFroud = false;
     CardView po_suggestion;
-    private long currnettime = 0;
     Handler handler = new Handler();
     Runnable runnable;
     int delay = 1 * 1000;
     TextView typing_tv;
-    private boolean isMessageSent = true;
     boolean isPersecondApiCall = true;
-    private boolean isLatestApiResponsePending = false;
     String orderStatus = "";
     boolean isChatCompleted = false;
     boolean ishaveastrologerMessage = false;
     long messageId = 0;
-
-    private boolean isForeignPaypal = false;
     String mobileNUmber = "";
     String countryCode = "+1";
-    private RelativeLayout rl_down;
     int currentScrollPosition = 0;
-    private ImageView reply_iv;
-    private String parentMessgae = "";
-
-    private String parentMessageType = "";
-    private int replyPosition;
-    private Boolean isConsultant = false;
-    private String parentId = "";
-
     long smallMessageCount = 0;
     long fromIdCount = 0;
     long fromIdOldCount = 0;
     int z = 0;
     RelativeLayout rl_count_view;
     TextView tv_small_message_count;
-
-    private LinearLayout ll_edt_curve;
-
     TextView sender_name, message_;
+    RecyclerView rv_add_money;
+    private ProgressBar progressBar;
+    private SharedPreferences preferences;
+    private ImageView chatsendIV;
+    private EditText sendMesage;
+    private final ArrayList<UserAstrogerChatWindowModel> chatArrayList = new ArrayList<>();
+    private UserAstrologerChatWindowAdapter chatAdapter;
+    private RecyclerView recyclerView;
+    private int pageNumber = 0;
+    private final Bitmap bitmap = null;
+    private ImageView attachment_iv, refresh_iv, delete_iv, copy_iv;
+    private int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private WrapContentLinearLayoutManager linearLayoutManager;
+    private int totalpageNumber = 1;
+    private boolean loading = true;
+    private final String imageUrl = "";
+    private long chatOrderId = -1;
+    private long astrologerId = -1;
+    private String astologerName = "";
+    private boolean isStatusget = false;
+    private RelativeLayout chat_disable_view;
+    private TextView headingTV, timer_tv;
+    private final String currentStatus = "";
+    private String imageFilePath = "";
+    private long chatStartTime;
+    private LinearLayout below_ll;
+    private String from = "", tz = "";
+    private TextView btn_200, btn_500, btn_1000;
+    private double amount;
+    private final double discount = 0.0;
+    private final double mrp = 0;
+    private final double gstAmount = 0;
+    private final long razorPayIdCodeyeti = 0;
+    private final long paypalPayId = 0;
+    private final long paytmPaymentgetwayId = 0;
+    private final long payuPaymentGatewayId = 0;
+    private final String transactionID = "";
+    private final String transactionHash = "";
+    private final String payUSuccessUrl = "";
+    private final String payUFailUrl = "";
+    private final String payURedirectionUrl = "";
+    private final long paymentId = 0;
+    private final double amountIndiaOne = 200;
+    private final double amountIndiaTwo = 500;
+    private final double amountIndiaThree = 1000;
+    private final double amountForeignOne = 700;
+    private final double amountForeignTwo = 1400;
+    private final double amountForeignThree = 3500;
+    private boolean isQuickRechargeVisible = false;
+    private boolean isPaymentTypesShow = false;
+    private boolean isDialogShowInCaseOfPO = false;
+    private boolean isChatIntiateDialogShow = false;
+    private final String CONTINUE_CHAT_STATUS = "";
+    private long fisSessionId = -1;
+    private final long emergencySessionId = -1;
+    private String parentMessageId = "";
+    private final boolean isAstrologerMessageType = false;
+    private final boolean isUserMessageType = false;
+    private CountDownTimer timer;
+    private CountDownTimer timer2;
+    private final ArrayList<NewPaymentGatewayModel> newPaymentGatewayModelArrayList = new ArrayList<>();
+    private final int position = 0;
+    private boolean checkforFlag = false;
+    private long flagId;
+    private boolean isFroud = false;
+    private long currnettime = 0;
+    private boolean isMessageSent = true;
+    private boolean isLatestApiResponsePending = false;
+    private final boolean isForeignPaypal = false;
+    private RelativeLayout rl_down;
+    private ImageView reply_iv;
+    private String parentMessgae = "";
+    private String parentMessageType = "";
+    private int replyPosition;
+    private Boolean isConsultant = false;
+    private String parentId = "";
+    private LinearLayout ll_edt_curve;
     private ImageView imv_reply;
     private LinearLayout ll_show_message;
     private ImageView reply_box_close;
-
     private String finalPaytmOrderid;
-    public long previousOrderId = 0;
-    private String paypalTransactionId = "";
+    private final String paypalTransactionId = "";
     private CardView cvContinueChat;
     private TextView tvContinueChat, tvContinueYes, tvContinueNo;
     private LinearLayout ll_yes_button;
@@ -230,22 +220,21 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
     private String astrologerOrignalprice = "0";
     private boolean isChatContinueEnable = false;
     private boolean isAstrologerVersionCompatiable = false;
-
-    private boolean isRechargePopupOpen = false;
-    private int addmoney_amount = 0, addmoney_discount = 0, addmoney_id = 0;
+    private final boolean isRechargePopupOpen = false;
+    private final int addmoney_amount = 0;
+    private final int addmoney_discount = 0;
+    private final int addmoney_id = 0;
     private PopupWindow mPopupWindow;
-    RecyclerView rv_add_money;
     private LinearLayout ll_bottom_sheet;
     private ApiEndPointInterface apiEndPointInterface;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private static int WALLET_RECHARGE_REQUEST_CODE = 24;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private RequestQueue requestQueue;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_astrologer_chat_window_activity);
+        setContentView(R.layout.activity_user_astrologer_chat_window);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -271,8 +260,8 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         btn_200 = findViewById(R.id.btn_200);
         btn_500 = findViewById(R.id.btn_500);
         btn_1000 = findViewById(R.id.btn_1000);
-        below_ll = (LinearLayout) findViewById(R.id.below_ll);
-        po_suggestion = (CardView) findViewById(R.id.po_suggestion);
+        below_ll = findViewById(R.id.below_ll);
+        po_suggestion = findViewById(R.id.po_suggestion);
         rl_count_view = findViewById(R.id.rl_count_view);
         tv_small_message_count = findViewById(R.id.tv_small_message_count);
         chatOrderId = getIntent().getLongExtra("chatorder_id", -1);
@@ -290,11 +279,11 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         ll_show_message = findViewById(R.id.ll_show_message);
         ll_bottom_sheet = findViewById(R.id.ll_bottom_sheet);
 
-        refresh_iv = (ImageView) findViewById(R.id.refresh_iv);
-        delete_iv = (ImageView) findViewById(R.id.delete_iv);
-        copy_iv = (ImageView) findViewById(R.id.copy_iv);
-        attachment_iv = (ImageView) findViewById(R.id.attachment_iv);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        refresh_iv = findViewById(R.id.refresh_iv);
+        delete_iv = findViewById(R.id.delete_iv);
+        copy_iv = findViewById(R.id.copy_iv);
+        attachment_iv = findViewById(R.id.attachment_iv);
+        progressBar = findViewById(R.id.progressBar);
         IS_CHAT_WINDOW_OPEN_USER_ASTROLOGER = true;
         preferences = getSharedPreferences(Constants.USER_DETAIL, MODE_PRIVATE);
 
@@ -312,15 +301,15 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
             // btn_1000.setText(Utilities.getConvertedValueFromINR(amountForeignThree, preferences));
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.chat_button);
+        Toolbar toolbar = findViewById(R.id.chat_button);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        TextView toolbarTV = (TextView) findViewById(R.id.toolbarTV);
-        chatsendIV = (ImageView) findViewById(R.id.chatsendIV);
-        sendMesage = (EditText) findViewById(R.id.send_message);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        TextView toolbarTV = findViewById(R.id.toolbarTV);
+        chatsendIV = findViewById(R.id.chatsendIV);
+        sendMesage = findViewById(R.id.send_message);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         chat_disable_view = findViewById(R.id.chat_disable_view);
         enable_btn = findViewById(R.id.enable_btn);
         headingTV = findViewById(R.id.headingTV);
@@ -329,17 +318,17 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UserAstrologerChatWindowActivity.this, R.style.DialogTheme);
-                alertDialogBuilder.setTitle(getString(R.string.chat_alert_heading));
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UserAstrologerChatWindowActivity.this, R.style.AtDialogTheme);
+                alertDialogBuilder.setTitle(getString(R.string.at_chat_alert_heading));
                 alertDialogBuilder
-                        .setMessage(getString(R.string.chat_end_aletr))
+                        .setMessage(getString(R.string.at_chat_end_alert))
                         .setCancelable(false)
-                        .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getResources().getString(R.string.at_ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 orderComplete();
                             }
                         })
-                        .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getResources().getString(R.string.at_no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
@@ -369,7 +358,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         reply_box_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ll_edt_curve.setBackground(ContextCompat.getDrawable(UserAstrologerChatWindowActivity.this, R.drawable.send_message_view_bg));
+                ll_edt_curve.setBackground(ContextCompat.getDrawable(UserAstrologerChatWindowActivity.this, R.drawable.at_send_message_view_bg));
                 ll_show_message.setVisibility(View.GONE);
                 refresh_iv.setVisibility(View.VISIBLE);
                 enable_btn.setVisibility(View.VISIBLE);
@@ -440,7 +429,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         reply_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ll_edt_curve.setBackground(ContextCompat.getDrawable(UserAstrologerChatWindowActivity.this, R.drawable.ll_curve_2));
+                ll_edt_curve.setBackground(ContextCompat.getDrawable(UserAstrologerChatWindowActivity.this, R.drawable.at_ll_curve_2));
                 showQuotedMessage(chatArrayList.get(replyPosition).getMessage(),
                         chatArrayList.get(replyPosition).isConsultant(),
                         chatArrayList.get(replyPosition).getType(),
@@ -491,19 +480,11 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                         if (parentMessageType.equalsIgnoreCase("IMAGE")) {
                             userChatWindowModel.setParentMessageType("IMAGE");
                             userChatWindowModel.setParentMessage(parentMessgae);
-                            if (isConsultant) {
-                                userChatWindowModel.setParentMessageSentByUser(false);
-                            } else {
-                                userChatWindowModel.setParentMessageSentByUser(true);
-                            }
+                            userChatWindowModel.setParentMessageSentByUser(!isConsultant);
                         } else {
                             userChatWindowModel.setParentMessageType("TEXT");
                             userChatWindowModel.setParentMessage(parentMessgae);
-                            if (isConsultant) {
-                                userChatWindowModel.setParentMessageSentByUser(false);
-                            } else {
-                                userChatWindowModel.setParentMessageSentByUser(true);
-                            }
+                            userChatWindowModel.setParentMessageSentByUser(!isConsultant);
 
 
                         }
@@ -530,14 +511,14 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                     isFroud = false;
 
                     ll_show_message.setVisibility(View.GONE);
-                    ll_edt_curve.setBackground(ContextCompat.getDrawable(UserAstrologerChatWindowActivity.this, R.drawable.send_message_view_bg));
+                    ll_edt_curve.setBackground(ContextCompat.getDrawable(UserAstrologerChatWindowActivity.this, R.drawable.at_send_message_view_bg));
                     parentId = "";
                     parentMessgae = "";
                     parentMessageType = "";
 
                 } else {
 
-                    Utilities.showToast(getApplicationContext(), getResources().getString(R.string.please_enter_some_message));
+                    Utilities.showToast(getApplicationContext(), getResources().getString(R.string.at_please_enter_some_message));
                 }
 
             }
@@ -570,14 +551,14 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         if (isConsultant) {
             // Astrologer Name
             if (astologerName.equalsIgnoreCase("")) {
-                sender_name.setText(getResources().getString(R.string.astrologer));
+                sender_name.setText(getResources().getString(R.string.at_astrologer));
             } else {
                 sender_name.setText(astologerName);
             }
 
 
         } else {
-            sender_name.setText(getResources().getString(R.string.you));
+            sender_name.setText(getResources().getString(R.string.at_you));
         }
 
         if (type.equalsIgnoreCase("IMAGE")) {
@@ -598,10 +579,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
 
 
     private boolean isIndian() {
-        if (tz.equalsIgnoreCase("Asia/Kolkata") || tz.equalsIgnoreCase("Asia/Calcutta"))
-            return true;
-        else
-            return false;
+        return tz.equalsIgnoreCase("Asia/Kolkata") || tz.equalsIgnoreCase("Asia/Calcutta");
     }
 
     @Override
@@ -665,7 +643,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
             chatsendIV.setEnabled(true);
             attachment_iv.setVisibility(View.GONE);
 
-            chatsendIV.setBackgroundDrawable(getResources().getDrawable(R.drawable.send_new_icon));
+            chatsendIV.setBackgroundDrawable(getResources().getDrawable(R.drawable.at_ic_send));
         } else {
             chatsendIV.setEnabled(false);
             chatsendIV.setClickable(false);
@@ -674,7 +652,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
             } else {
                 attachment_iv.setVisibility(View.VISIBLE);
             }
-            chatsendIV.setBackgroundDrawable(getResources().getDrawable(R.drawable.send_new_icon_deselect));
+            chatsendIV.setBackgroundDrawable(getResources().getDrawable(R.drawable.at_ic_send_deselect));
         }
     }
 
@@ -696,10 +674,10 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                 }
 
             } else {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(UserAstrologerChatWindowActivity.this, R.style.DialogTheme);
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(UserAstrologerChatWindowActivity.this, R.style.AtDialogTheme);
                 alertBuilder.setCancelable(true);
-                alertBuilder.setTitle(getResources().getString(R.string.permission_necessary));
-                alertBuilder.setMessage(getResources().getString(R.string.external_storage_permission));
+                alertBuilder.setTitle(getResources().getString(R.string.at_permission_necessary));
+                alertBuilder.setMessage(getResources().getString(R.string.at_external_storage_permission));
                 alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:")));
@@ -711,13 +689,13 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
 
         } else if (requestCode == 200) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Utilities.showToast(this, getResources().getString(R.string.permission_granted));
+                Utilities.showToast(this, getResources().getString(R.string.at_permission_granted));
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select File"), 2);
             }
         } else {
-            Utilities.showToast(this, getString(R.string.please_allow_permision));
+            Utilities.showToast(this, getString(R.string.at_please_allow_permission));
 
         }
 
@@ -859,7 +837,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         }
         String url = null;
         try {
-            url = Constants.USER_ASTROLOGER_SEND_TEXT_MESSAGE +
+            url = Constants.SEND_CHAT_MESSAGE +
                     "?fromId=" + URLEncoder.encode(Constants.ID + "", "UTF-8") +
                     "&userId=" + URLEncoder.encode(Constants.ID + "", "UTF-8") +
                     "&toId=" + URLEncoder.encode(astrologerId + "", "UTF-8") +
@@ -885,7 +863,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
 
                 try {
                     JSONObject object = new JSONObject(response);
-                    Log.e("send ", response.toString());
+                    Log.e("send ", response);
 
                     if (object.getString("status").equalsIgnoreCase("success")) {
 
@@ -979,7 +957,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
     private void getHistory() {
         progressBar.setVisibility(View.VISIBLE);
         String url;
-        url = Constants.USER_ASTROLOGER_CHAT_START_HISTORY +
+        url = Constants.CHAT_HISTORY +
                 "?userId=" + Constants.ID +
                 "&chatOrderId=" + chatOrderId +
                 "&pageno=" + pageNumber +
@@ -992,7 +970,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (!Constants.LIVE_MODE)
-                                Log.e("order history", response.toString());
+                                Log.e("order history", response);
 
                             if (isStatusget == false) {
 
@@ -1022,11 +1000,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                                     fisSessionId = -1;
                                 }
 
-                                if (fisSessionId == -1) {
-                                    isFixSession = false;
-                                } else {
-                                    isFixSession = true;
-                                }
+                                isFixSession = fisSessionId != -1;
 
                                 if (jsonObject.has("isEmergency") && !jsonObject.isNull("isEmergency")) {
                                     isEmeregencySession = jsonObject.getBoolean("isEmergency");
@@ -1041,7 +1015,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
 
                                 if (jsonObject.has("consultantPic") && !jsonObject.isNull("consultantPic")) {
                                     if (jsonObject.getString("consultantPic").trim().isEmpty()) {
-                                        astrologer_pic.setImageResource(R.drawable.user_icon);
+                                        astrologer_pic.setImageResource(R.drawable.at_ic_user);
                                     } else {
 //                                        Picasso.get()
 //                                                .load(jsonObject.getString("consultantPic"))
@@ -1051,7 +1025,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
 
                                     }
                                 } else {
-                                    astrologer_pic.setImageResource(R.drawable.user_icon);
+                                    astrologer_pic.setImageResource(R.drawable.at_ic_user);
                                 }
 
 
@@ -1062,7 +1036,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                                 }
 
                                 Log.e("isAutodebitOn", isAutodebitOn + "");
-                                timer_tv.setTextColor(getResources().getColor(R.color.dark_red_new));
+                                timer_tv.setTextColor(getResources().getColor(R.color.at_dark_red));
                                 if (jsonObject.has("remainingTimeInSec") && !jsonObject.isNull("remainingTimeInSec")) {
                                     remainingTimeInsec = jsonObject.getLong("remainingTimeInSec");
                                 } else {
@@ -1086,7 +1060,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                                             if (isIndian()) {
                                                 tvContinueChat.setText(String.format("We'll continue the chat after %s at normal price i.e. ₹ " + astrologerOrignalprice + "/min.", timeString));
                                             } else {
-                                                tvContinueChat.setText(String.format("We'll continue the chat after %s at normal price i.e. "+astrologerOrignalprice+"/min.", timeString));
+                                                tvContinueChat.setText(String.format("We'll continue the chat after %s at normal price i.e. " + astrologerOrignalprice + "/min.", timeString));
                                             }
                                             cvContinueChat.setVisibility(View.VISIBLE);
                                             ll_yes_button.setVisibility(View.GONE);
@@ -1107,7 +1081,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
 
                                 } else if (jsonObject.getString("orderStatus").equalsIgnoreCase("INPROGRESS")) {
                                     below_ll.setVisibility(View.VISIBLE);
-                                    headingTV.setText(getString(R.string.chat_status));
+                                    headingTV.setText(getString(R.string.at_chat_status));
                                 } else {
                                     chat_disable_view.setVisibility(View.GONE);
                                     enable_btn.setVisibility(View.INVISIBLE);
@@ -1184,11 +1158,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
 
                                 if (jsonObject1.has("isDelivered") && !jsonObject1.isNull("isDelivered")) {
 
-                                    if (jsonObject1.getBoolean("isDelivered")) {
-                                        userChatWindowModel.setDelivered(true);
-                                    } else {
-                                        userChatWindowModel.setDelivered(false);
-                                    }
+                                    userChatWindowModel.setDelivered(jsonObject1.getBoolean("isDelivered"));
                                 } else {
                                     userChatWindowModel.setDelivered(false);
                                 }
@@ -1288,13 +1258,13 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         String url;
         if (currnettime == 0) {
             if (messageId == 0) {
-                url = Constants.ASTROLOGER_USER_LATESTCHATMESSAGE +
+                url = Constants.LATEST_CHAT_MESSAGE +
                         "?chatId=" + chatOrderId +
                         "&isSentByAstrologer=" + true +
                         "&userId=" + Constants.ID;
 
             } else {
-                url = Constants.ASTROLOGER_USER_LATESTCHATMESSAGE +
+                url = Constants.LATEST_CHAT_MESSAGE +
                         "?chatId=" + chatOrderId +
                         "&isSentByAstrologer=" + true +
                         "&messageId=" + messageId +
@@ -1303,14 +1273,14 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         } else {
 
             if (messageId == 0) {
-                url = Constants.ASTROLOGER_USER_LATESTCHATMESSAGE +
+                url = Constants.LATEST_CHAT_MESSAGE +
                         "?chatId=" + chatOrderId +
                         "&isSentByAstrologer=" + true +
                         "&typeTime=" + currnettime +
                         "&userId=" + Constants.ID;
 
             } else {
-                url = Constants.ASTROLOGER_USER_LATESTCHATMESSAGE +
+                url = Constants.LATEST_CHAT_MESSAGE +
                         "?chatId=" + chatOrderId +
                         "&isSentByAstrologer=" + true +
                         "&messageId=" + messageId +
@@ -1583,7 +1553,6 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                                 }
 
 
-
                                 Log.e("isChatCompleted", isChatCompleted + "");
                                 if (orderStatus.equalsIgnoreCase("COMPLETED") && isChatCompleted == false) {
                                     isChatCompleted = true;
@@ -1703,14 +1672,14 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                         if (jsonObject.has("reason") && !jsonObject.isNull("reason")) {
                             Utilities.showToast(UserAstrologerChatWindowActivity.this, jsonObject.getString("reason"));
                         } else {
-                            Utilities.showToast(UserAstrologerChatWindowActivity.this, getResources().getString(R.string.something_went_wrong));
+                            Utilities.showToast(UserAstrologerChatWindowActivity.this, getResources().getString(R.string.at_something_went_wrong));
                         }
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Utilities.showToast(UserAstrologerChatWindowActivity.this, getResources().getString(R.string.something_went_wrong));
+                    Utilities.showToast(UserAstrologerChatWindowActivity.this, getResources().getString(R.string.at_something_went_wrong));
                 }
 
 
@@ -1718,7 +1687,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Utilities.showToast(UserAstrologerChatWindowActivity.this, getResources().getString(R.string.something_went_wrong));
+                Utilities.showToast(UserAstrologerChatWindowActivity.this, getResources().getString(R.string.at_something_went_wrong));
             }
         }) {
             @Override
@@ -1733,20 +1702,20 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
         requestQueue.add(stringRequest);
     }
 
-    private void getAstrologerAppVersion(){
+    private void getAstrologerAppVersion() {
         String url = null;
         try {
             url = Constants.CHECK_ASTROLOGER_IS_VALID_FOR_CHAT_CONTINUE +
                     "?userId=" + URLEncoder.encode(Constants.ID + "", "UTF-8") +
                     "&appId=" + URLEncoder.encode(Constants.APP_ID + "", "UTF-8") +
-                    "&businessId=" + URLEncoder.encode(Constants.BUSINESS_ID + "", "UTF-8")+
-                    "&consultantId=" + URLEncoder.encode(astrologerId+ "", "UTF-8");
+                    "&businessId=" + URLEncoder.encode(Constants.BUSINESS_ID + "", "UTF-8") +
+                    "&consultantId=" + URLEncoder.encode(astrologerId + "", "UTF-8");
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        Log.e("dlskd",url);
+        Log.e("dlskd", url);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -1756,17 +1725,17 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
                     if (jsonObject.getString("status").equalsIgnoreCase("success")) {
                         if (jsonObject.has("data") && !jsonObject.isNull("data")) {
                             isAstrologerVersionCompatiable = jsonObject.getBoolean("data");
-                            Log.d("getAstrologerAppVersion", "onResponse: => "+isAstrologerVersionCompatiable);
+                            Log.d("getAstrologerAppVersion", "onResponse: => " + isAstrologerVersionCompatiable);
                         } else {
                             isAstrologerVersionCompatiable = false;
                         }
                     } else {
                         isAstrologerVersionCompatiable = false;
-                        Utilities.showToast(UserAstrologerChatWindowActivity.this,"Some thing went wrong");
+                        Utilities.showToast(UserAstrologerChatWindowActivity.this, "Some thing went wrong");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Utilities.showToast(UserAstrologerChatWindowActivity.this,"Some thing went wrong");
+                    Utilities.showToast(UserAstrologerChatWindowActivity.this, "Some thing went wrong");
                 }
 
 
@@ -1775,7 +1744,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
             @Override
             public void onErrorResponse(VolleyError error) {
                 isAstrologerVersionCompatiable = false;
-                Utilities.showToast(UserAstrologerChatWindowActivity.this,"Some thing went wrong");
+                Utilities.showToast(UserAstrologerChatWindowActivity.this, "Some thing went wrong");
             }
         }) {
             @Override
@@ -1796,7 +1765,7 @@ public class UserAstrologerChatWindowActivity extends AppCompatActivity implemen
 
         String url = null;
         try {
-            url = Constants.COMPLETE_CAHT_ORDER +
+            url = Constants.COMPLETE_CHAT_ORDER +
                     "?chatOrderId=" + URLEncoder.encode(chatOrderId + "", "UTF-8")
                     + "&userId=" + URLEncoder.encode(Constants.ID + "", "UTF-8")
                     + "&isUserEnded=true";

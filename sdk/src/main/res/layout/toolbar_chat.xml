@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -7,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
-        android:background="@color/color_new"
+        android:background="@color/at_colorPrimary"
         android:padding="2dp"
         app:cardElevation="10dp">
 
@@ -15,59 +16,59 @@
             android:id="@+id/chat_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_new"
+            android:background="@color/at_colorPrimary"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
-            android:backgroundTint="@color/color_new"
-            app:theme="@style/ToolbarStyle">
+            android:backgroundTint="@color/at_colorPrimary"
+            app:theme="@style/AtToolbarStyle">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_new">
+                android:background="@color/at_colorPrimary">
 
                 <ImageView
                     android:id="@+id/astrologer_pic"
                     android:layout_width="40dp"
-                    android:layout_centerVertical="true"
                     android:layout_height="40dp"
+                    android:contentDescription="@string/at_image"
+                    android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:src="@drawable/user_icon"
-                    />
+                    android:src="@drawable/at_ic_user" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="4dp"
-                    android:layout_toRightOf="@+id/astrologer_pic"
+                    android:layout_toEndOf="@+id/astrologer_pic"
                     android:gravity="center_vertical"
-                    android:layout_toLeftOf="@+id/all_icon"
+                    android:layout_toStartOf="@+id/all_icon"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/toolbarTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/textColorBlackNew"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/at_black"
                         android:textSize="14sp" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_below="@+id/toolbarTV"
-                        android:layout_marginLeft="8dp"
-                        android:layout_toRightOf="@+id/astrologer_pic"
-                        android:layout_toLeftOf="@+id/all_icon"
+                        android:layout_marginStart="8dp"
                         android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/timer_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/dark_red_new"
+                            android:textColor="@color/at_dark_red"
                             android:textSize="10sp"
-                            android:layout_marginLeft="0dp"
+                            android:layout_marginStart="0dp"
                             android:layout_marginTop="1dp"
                             android:visibility="gone" />
+
                         <RelativeLayout
                             android:layout_below="@+id/timer_tv"
                             android:layout_width="wrap_content"
@@ -79,9 +80,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:textColor="@color/link"
+                                android:textColor="@color/at_link"
                                 android:textSize="10sp"
-                                android:layout_marginLeft="2dp"
+                                android:layout_marginStart="2dp"
                                 android:visibility="visible" />
 
                             <TextView
@@ -89,94 +90,93 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_above="@+id/progressBar"
-                                android:layout_marginLeft="2dp"
-                                android:text="typing..."
-                                android:textColor="@color/link"
+                                android:layout_marginStart="2dp"
+                                android:text="@string/at_typing"
+                                android:textColor="@color/at_link"
                                 android:textSize="10sp"
-                                android:visibility="gone" />
+                                android:visibility="gone"
+                                tools:ignore="UnknownIdInLayout" />
 
                         </RelativeLayout>
 
-
-
-
                     </RelativeLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/all_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="4dp">
+                    android:layout_marginEnd="4dp">
 
                     <ImageView
                         android:id="@+id/reply_iv"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/at_image"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="4dp"
-                        android:layout_toLeftOf="@+id/delete_iv"
+                        android:layout_marginEnd="4dp"
                         android:padding="5dp"
-                        android:src="@drawable/reply"
+                        android:src="@drawable/at_ic_reply"
                         android:visibility="gone"
-                        app:tint="@color/textColorBlackNew" />
+                        app:tint="@color/at_black" />
 
                     <ImageView
                         android:id="@+id/delete_iv"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
+                        android:contentDescription="@string/at_image"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginEnd="4dp"
                         android:padding="5dp"
-                        android:src="@drawable/red_delete"
+                        android:src="@drawable/at_ic_delete"
                         android:visibility="gone"
-                        app:tint="@color/textColorBlackNew" />
+                        app:tint="@color/at_black" />
 
                     <ImageView
                         android:id="@+id/copy_iv"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
+                        android:contentDescription="@string/at_image"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginEnd="4dp"
                         android:padding="9dp"
-                        android:src="@drawable/new_copy_icon"
+                        android:src="@drawable/at_ic_copy"
                         android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/refresh_iv"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
+                        android:contentDescription="@string/at_image"
                         android:layout_gravity="center_vertical"
                         android:background="?android:attr/selectableItemBackground"
                         android:padding="7dp"
-                        android:layout_marginRight="4dp"
-                        android:src="@drawable/ic_chat_refresh"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/at_ic_chat_refresh"
                         android:visibility="visible"
-                        app:tint="@color/textColorBlackNew" />
+                        app:tint="@color/at_black" />
 
                     <ImageView
                         android:id="@+id/enable_btn"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/at_image"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginEnd="8dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:padding="5dp"
-                        android:src="@drawable/ic_end_icon"
-                        app:tint="@color/dark_red_new"
+                        android:src="@drawable/at_ic_end_icon"
+                        app:tint="@color/at_dark_red" />
 
-                        />
                 </LinearLayout>
-
-
 
             </RelativeLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
     </androidx.cardview.widget.CardView>
+
 </FrameLayout>

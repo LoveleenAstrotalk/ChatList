@@ -1,34 +1,26 @@
 package com.astrotalk.sdk.api.activities;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -52,20 +44,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.android.volley.Request;
 import com.android.volley.Response;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 
@@ -343,24 +330,24 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
 
 
         otherET = (EditText) findViewById(R.id.otherET);
-        categories.add(getResources().getString(R.string.select_topic_of_concern_drop_down));
-        categories.add(getResources().getString(R.string.carrer_and_business_drop_down));
-        categories.add(getResources().getString(R.string.marriage_drop_down));
-        categories.add(getResources().getString(R.string.love_and_relationship_drop_down));
-        categories.add(getResources().getString(R.string.wealth_and_property_drop_down));
-        categories.add(getResources().getString(R.string.education_drop_down));
-        categories.add(getResources().getString(R.string.legal_matters_drop_down));
-        categories.add(getResources().getString(R.string.child_name_consultation_drop_down));
-        categories.add(getResources().getString(R.string.business_name_consultation_drop_down));
-        categories.add(getResources().getString(R.string.gem_stone_consultation_drop_down));
-        categories.add(getResources().getString(R.string.commodity_trading_consultation_drop_down));
-        categories.add(getResources().getString(R.string.match_making_drop_down));
-        categories.add(getResources().getString(R.string.birth_time_rectification_drop_down));
-        categories.add(getResources().getString(R.string.name_correction_consultation_drop_down));
-        categories.add(getResources().getString(R.string.travel_abroad_consultation_drop_down));
-        categories.add(getResources().getString(R.string.remedy_consultation_drop_down));
-        categories.add(getResources().getString(R.string.health_consultation_drop_down));
-        categories.add(getResources().getString(R.string.others_drop_down));
+        categories.add(getResources().getString(R.string.at_select_topic_of_concern_drop_down));
+        categories.add(getResources().getString(R.string.at_career_and_business_drop_down));
+        categories.add(getResources().getString(R.string.at_marriage_drop_down));
+        categories.add(getResources().getString(R.string.at_love_and_relationship_drop_down));
+        categories.add(getResources().getString(R.string.at_wealth_and_property_drop_down));
+        categories.add(getResources().getString(R.string.at_education_drop_down));
+        categories.add(getResources().getString(R.string.at_legal_matters_drop_down));
+        categories.add(getResources().getString(R.string.at_child_name_consultation_drop_down));
+        categories.add(getResources().getString(R.string.at_business_name_consultation_drop_down));
+        categories.add(getResources().getString(R.string.at_gem_stone_consultation_drop_down));
+        categories.add(getResources().getString(R.string.at_commodity_trading_consultation_drop_down));
+        categories.add(getResources().getString(R.string.at_match_making_drop_down));
+        categories.add(getResources().getString(R.string.at_birth_time_rectification_drop_down));
+        categories.add(getResources().getString(R.string.at_name_correction_consultation_drop_down));
+        categories.add(getResources().getString(R.string.at_travel_abroad_consultation_drop_down));
+        categories.add(getResources().getString(R.string.at_remedy_consultation_drop_down));
+        categories.add(getResources().getString(R.string.at_health_consultation_drop_down));
+        categories.add(getResources().getString(R.string.at_others_drop_down));
         spinner = (Spinner) findViewById(R.id.proble_spinner);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -433,7 +420,7 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
         registrationBtn = (TextView) findViewById(R.id.registrationBtn);
         registrationBtn.setOnClickListener(this);
 
-        registrationBtn.setText(getResources().getString(R.string.start_chat_with) + " " + universalAstrologerListModel.getFirstname());
+        registrationBtn.setText(getResources().getString(R.string.at_start_chat_with) + " " + universalAstrologerListModel.getFirstname());
 
         radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
         partner_details_ll = (LinearLayout) findViewById(R.id.partner_details_ll);
@@ -443,12 +430,12 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
         radioFemale.setOnClickListener(this);
 
 
-        maritalStatusCategories.add(getResources().getString(R.string.select_martial_status_drop_down));
-        maritalStatusCategories.add(getResources().getString(R.string.single_drop_down));
-        maritalStatusCategories.add(getResources().getString(R.string.married_drop_down));
-        maritalStatusCategories.add(getResources().getString(R.string.divorced_drop_down));
-        maritalStatusCategories.add(getResources().getString(R.string.separated_drop_down));
-        maritalStatusCategories.add(getResources().getString(R.string.widowed_drop_down));
+        maritalStatusCategories.add(getResources().getString(R.string.at_select_martial_status_drop_down));
+        maritalStatusCategories.add(getResources().getString(R.string.at_single_drop_down));
+        maritalStatusCategories.add(getResources().getString(R.string.at_married_drop_down));
+        maritalStatusCategories.add(getResources().getString(R.string.at_divorced_drop_down));
+        maritalStatusCategories.add(getResources().getString(R.string.at_separated_drop_down));
+        maritalStatusCategories.add(getResources().getString(R.string.at_widowed_drop_down));
         marital_spinner = (Spinner) findViewById(R.id.marital_spinner);
         occupationET = (EditText) findViewById(R.id.occupationET);
         ArrayAdapter<String> maritalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, maritalStatusCategories);
@@ -498,7 +485,7 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
     public void chatOrderInput() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Title");
-        View viewInflated = LayoutInflater.from(this).inflate(R.layout.text_inpu_password, null, false);
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.text_input_order_id, null, false);
         final EditText input = (EditText) viewInflated.findViewById(R.id.input);
         builder.setView(viewInflated);
 
@@ -681,7 +668,7 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
 
         String url = null;
         try {
-            url = Constants.JOIN_WAITLIST_V2 +
+            url = Constants.JOIN_WAIT_LIST_V2 +
                     "?chatIntakeFormId=" + URLEncoder.encode(intakeformId + "", "UTF-8") +
                     "&userId=" + "476914" +
                     "&consultantId=" + URLEncoder.encode(universalAstrologerListModel.getId() + "", "UTF-8") +

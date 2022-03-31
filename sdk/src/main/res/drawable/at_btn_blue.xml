@@ -5,8 +5,7 @@
     android:shape="rectangle">
     <stroke
         android:width="2dp"
-        android:color="@color/color_1aa260"></stroke>
+        android:color="@color/at_link"></stroke>
     <corners android:radius="10dp" />
-    <!--<solid android:color="@color/green_pressed_state" />-->
-    <solid android:color="@color/yellow_green_slector" />
+    <solid android:color="#00000000" />
 </shape>
