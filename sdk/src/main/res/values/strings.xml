@@ -91,4 +91,15 @@
     <string name="at_you">You</string>
     <string name="at_new_chat">New Chat</string>
     <string name="at_wait_time_in_txt">wait ~ /@TIME</string>
+    <string name="recommended_astrologer">Recommended Astrologer</string>
+    <string name="astrologer_is_offline_text_popup_new">If you join the waitlist, we will notify @ASTROLOGER to take the session, if possible.</string>
+    <string name="expected_online_time">Expected online time </string>
+    <string name="current_wait_time">Current wait time - </string>
+    <string name="your_call_might_start_around_time">""@TYPE Start Time - @TIME</string>
+    <string name="cancel">Cancel</string>
+    <string name="join_waitlist">Join Waitlist</string>
+    <string name="maxWaitlistSize"> You already have&#160;@MAXWAITLIST &#160;tokens in waiting. Kindly cancel one to join another wait-list</string>
+    <string name="profile_waitlist_limit"> Waitlist Limit Reached!</string>
+    <string name="live_event_offer_txt">This offer at  %1$s  is for 5 mins only. Astrologer will try to answer at least one question</string>
+    <string name="min">/min</string>
 </resources>

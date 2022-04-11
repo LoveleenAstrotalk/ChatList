@@ -1,19 +1,25 @@
 package com.astrotalk.sdk.api.activities;
 
 
+import static android.view.View.VISIBLE;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.astrotalk.sdk.R;
 import com.astrotalk.sdk.api.adapter.ChatAstrologerListAdapter;
 import com.astrotalk.sdk.api.model.UniversalAstrologerListModel;
 import com.astrotalk.sdk.api.network.ApiEndPointInterface;
+import com.astrotalk.sdk.api.utils.Constants;
+import com.astrotalk.sdk.api.utils.Utilities;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,6 +35,7 @@ import retrofit2.Callback;
 
 public class ChatAstrologerListActivity extends AppCompatActivity {
 
+    private final Context context = this;
     private RecyclerView recyclerView;
     private ApiEndPointInterface apiEndPointInterface;
 
@@ -39,6 +46,7 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
     private boolean loading = true;
     private final boolean isOffer = false;
     private ChatAstrologerListAdapter chatAstrologerListAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     @Override
@@ -51,10 +59,17 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
         apiEndPointInterface = ApiEndPointInterface.retrofit.create(ApiEndPointInterface.class);
 
         getAstrologerList();
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            pageNumber = 0;
+            loading = true;
+            totalPageNumber = 1;
+            getAstrologerList();
+        });
 
     }
 
     public void initViews() {
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
@@ -64,40 +79,35 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
 
     public void getAstrologerList() {
 
+        Utilities.showLoader(context);
         responseBodyCall = apiEndPointInterface.getAstrologerListSorting(
-                1, 1, 1, "Asia/Calcutta", -1, 0,
-                1000, "1.1.197", 4, false, false, false,
-                1, false, "0614aa461b06c7ac", "+91", false, false,
-                true, 0
-        );
+                Constants.APP_ID, Constants.BUSINESS_ID, Constants.CONSULTANT_TYPE_ID, Constants.TIME_ZONE, 476914L,
+                0, 1000, Constants.SDK_VERSION, Constants.CHAT_SERVICE_ID, Constants.LANGUAGE_ID,
+                false, false, false, false);
 
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
+                Utilities.closeLoader();
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         try {
                             String status;
-                            int fo;
+                            int fo = 0;
                             JSONObject jsonObject = new JSONObject(response.body().string());
                             totalPageNumber = jsonObject.getInt("totalPages");
-
                             if (totalPageNumber > pageNumber) {
                                 loading = true;
                                 pageNumber++;
                             } else {
                                 loading = false;
                             }
-
                             JSONArray dataArray = jsonObject.getJSONArray("content");
                             ArrayList<UniversalAstrologerListModel> childChatArray = new ArrayList<>();
                             for (int i = 0; i < dataArray.length(); i++) {
-
                                 UniversalAstrologerListModel userChatListModel = new UniversalAstrologerListModel();
                                 JSONObject jsonObject1 = dataArray.getJSONObject(i);
-
                                 userChatListModel.setId(jsonObject1.getLong("id"));
-
                                 if (jsonObject1.has("name") && !jsonObject1.isNull("name")) {
                                     userChatListModel.setFirstname(jsonObject1.getString("name"));
                                 } else {
@@ -155,7 +165,6 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
                                 } else {
                                     userChatListModel.setFavourite(false);
                                 }
-
                                 if (jsonObject1.has("offerDisplayName") && !jsonObject1.isNull("offerDisplayName")) {
                                     userChatListModel.setOfferDisplayName(jsonObject1.getString("offerDisplayName"));
                                 } else {
@@ -197,7 +206,6 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
                                 } else {
                                     userChatListModel.setNotify(false);
                                 }
-
                                 if (jsonObject1.has("rating") && !jsonObject1.isNull("rating")) {
                                     userChatListModel.setAvgRating(jsonObject1.getDouble("rating"));
                                 } else {
@@ -214,7 +222,6 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
                                 }
 
                                 /* MAIN STATUS */
-
                                 if (jsonObject1.has("status") && !jsonObject1.isNull("status")) {
                                     status = jsonObject1.getString("status");
                                 } else {
@@ -222,6 +229,7 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
                                 }
                                 if (status.equalsIgnoreCase("1")) {
                                     userChatListModel.setStatus("BUSY");
+
                                 } else if (status.equalsIgnoreCase("2")) {
                                     userChatListModel.setStatus("CHAT");
                                 } else if (status.equalsIgnoreCase("3")) {
@@ -229,6 +237,7 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
                                 } else if (status.equalsIgnoreCase("4")) {
                                     userChatListModel.setWaitListJoined(true);
                                     userChatListModel.setStatus("BUSY");
+
                                 } else if (status.equalsIgnoreCase("5")) {
                                     userChatListModel.setStatus("ASK");
                                 } else if (status.equalsIgnoreCase("6")) {
@@ -317,6 +326,7 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
                                 userChatListModel.setStatusChatNew(statusChat);
                                 if (statusChat.equalsIgnoreCase("1")) {
                                     userChatListModel.setStatusChat("BUSY");
+
                                 } else if (statusChat.equalsIgnoreCase("2")) {
                                     userChatListModel.setStatusChat("CHAT");
                                 } else if (statusChat.equalsIgnoreCase("3")) {
@@ -324,6 +334,7 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
                                 } else if (statusChat.equalsIgnoreCase("4")) {
                                     userChatListModel.setWaitListJoinedChat(true);
                                     userChatListModel.setStatusChat("BUSY");
+
                                 } else if (statusChat.equalsIgnoreCase("5")) {
                                     userChatListModel.setStatusChat("ASK");
                                 } else if (statusChat.equalsIgnoreCase("6")) {
@@ -355,7 +366,6 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
                                 if (jsonObject1.has("wt") && !jsonObject1.isNull("wt")) {
                                     userChatListModel.setWaitListWaitTime(jsonObject1.getInt("wt"));
                                 } else {
-
                                     userChatListModel.setWaitListWaitTime(0);
                                 }
 
@@ -391,22 +401,34 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
                                 childChatArray.add(userChatListModel);
                             }
 
+                            if (swipeRefreshLayout.isRefreshing()) {
+                                astrologerListModelArrayList.clear();
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                            // demoArrayList= name of arrayList from which u want to remove duplicates
                             LinkedHashSet hs = new LinkedHashSet(childChatArray);
                             // demoArrayList= name of arrayList from which u want to remove duplicates
                             astrologerListModelArrayList.addAll(hs);
 
+                            chatAstrologerListAdapter.setConsultantType(1);
                             chatAstrologerListAdapter.notifyDataSetChanged();
 
                         } catch (Exception e) {
                             e.printStackTrace();
+                            swipeRefreshLayout.setRefreshing(false);
                         }
+                    } else {
+                        swipeRefreshLayout.setRefreshing(false);
                     }
+                } else {
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e("Failure", t.getMessage());
+                Utilities.closeLoader();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

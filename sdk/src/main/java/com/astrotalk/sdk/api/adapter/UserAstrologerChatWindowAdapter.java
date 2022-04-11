@@ -375,7 +375,6 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
         if (chatModel.getParentMessageSentByUser() != null) {
 
             if (!(chatModel.getParentMessageSentByUser())) {
-                // todo loveleen
                 if(chatModel.getAstrologerName().equalsIgnoreCase("")) {
                     holder.txt_sender_name.setText(context.getResources().getString(R.string.at_astrologer));
                 }

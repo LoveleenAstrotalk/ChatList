@@ -7,9 +7,12 @@ public class UniversalAstrologerListModel implements Serializable, Comparable {
 
     private String firstname;
     private String profilePic;
+    private String language;
     private boolean isNotify;
     private boolean verified;
     private boolean isLiveEventOnline;
+    private boolean isOffer ;
+    private boolean isPo;
 
     public boolean isPo() {
         return isPo;
@@ -18,10 +21,6 @@ public class UniversalAstrologerListModel implements Serializable, Comparable {
     public void setPo(boolean po) {
         isPo = po;
     }
-
-    private String language;
-    private boolean isOffer ;
-    private boolean isPo;
 
     public boolean isOffer() {
         return isOffer;

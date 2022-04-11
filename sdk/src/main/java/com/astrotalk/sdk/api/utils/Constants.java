@@ -16,8 +16,15 @@ public class Constants {
     public static long  CHAT_ORDER_ID = 605051;
 
 
+    public static int APP_ID = 5;
     public static int BUSINESS_ID = 1;
-    public static int APP_ID = 1;
+    public static int CONSULTANT_TYPE_ID = 1;
+    public static String TIME_ZONE = "Asia/Kolkata";
+    public static int CHAT_SERVICE_ID = 4;
+    public static int LANGUAGE_ID = 1;
+    public static String SDK_VERSION = "0.0.0";
+    public static String IMAGE_DOMAIN = "https://astrotalk.s3.amazonaws.com/consultant_pic/";
+
     public static final int VOLLEY_TIME_OUT = 4 * 15 * 1000;
     public static final int VOLLEY_RETRY = 1;
 
@@ -26,11 +33,16 @@ public class Constants {
     public static final String USER_ID = "id";
     public static final String USER_DETAIL = "userdetail";
     public static final String USER_TIME_ZONE = "user_time_zone";
-    public static final String LANGUAGE_ID = "language_id";
 
     public static final String FIVE_MIN_TIPS = "five_min_tips";
     public static final String CONVERSION_FACTOR = "conversionFactor";
     public static final String ISO_CODE = "isoCode";
+
+    // Chat List
+    public static String GET_LAST_CHAT_ID_STATUS = DOMAIN_USER_CHAT + "chat/order/get/user/chat-status";
+    public static String GET_NEXT_ONLINE_TIME = DOMAIN + "consultant/get/total/wait/time";
+    public static String CHECK_CAN_CHAT_CAN_CALL_V2 = DOMAIN + "get/status/for/call-chat/v3";
+    public static String WAIT_LIST_CHECK_USER_V2_NEW = DOMAIN + "queue-token/user/waitlist/get/v3";
 
     // Intake Form
     public static final String CHAT_INTAKE_FORM = DOMAIN_USER_CHAT + "chat/order/fill-intake-form";

@@ -15,10 +15,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -92,22 +91,22 @@
 <!--                    app:ccp_arrowColor="@color/black"-->
 <!--                    app:ccp_contentColor="@color/black"-->
 <!--                    app:ccp_countryPreference="NZ"-->
-<!--                    app:ccp_defaultNameCode="IN" />-->
+            <!--                    app:ccp_defaultNameCode="IN" />-->
 
-                <EditText
-                    android:id="@+id/phoneET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:hint="@string/at_enter_phone_number_hint"
-                    android:inputType="number"
-                    android:paddingLeft="8dp"
-                    android:singleLine="true"
-                    android:textColor="@color/at_editTextColor"
-                    android:textColorHint="@color/at_button_gray"
-                    android:textSize="14sp"
-                    android:theme="@style/AtCustomEditText" />
-            </LinearLayout>
+            <EditText
+                android:id="@+id/phoneET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="@string/at_enter_phone_number_hint"
+                android:inputType="number"
+                android:paddingLeft="8dp"
+                android:singleLine="true"
+                android:textColor="@color/at_editTextColor"
+                android:textColorHint="@color/at_button_gray"
+                android:textSize="14sp"
+                android:theme="@style/AtCustomEditText" />
+        </LinearLayout>
 
 
             <LinearLayout

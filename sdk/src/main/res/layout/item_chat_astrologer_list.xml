@@ -21,6 +21,7 @@
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/astrologer_list_item_pt"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -54,30 +55,27 @@
                                 android:layout_gravity="center_horizontal"
                                 android:visibility="visible">
 
-                                <ImageView
+                                <de.hdodenhof.circleimageview.CircleImageView
                                     android:id="@+id/background_user_pic"
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
-                                    android:contentDescription="@string/at_image"
                                     android:layout_centerInParent="true"
                                     android:layout_margin="3dp"
-                                    android:src="@drawable/at_ic_bg_profile_image" />
+                                    android:src="@drawable/background_profile_image" />
 
-                                <ImageView
+                                <de.hdodenhof.circleimageview.CircleImageView
                                     android:id="@+id/user_pic"
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
-                                    android:contentDescription="@string/at_image"
                                     android:layout_centerInParent="true"
                                     android:layout_margin="5dp" />
 
-                                <ImageView
+                                <de.hdodenhof.circleimageview.CircleImageView
                                     android:id="@+id/background_user_pic_circle"
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
-                                    android:contentDescription="@string/at_image"
                                     android:layout_centerInParent="true"
-                                    android:background="@drawable/at_ic_intro"
+                                    android:background="@drawable/introvide_icon"
                                     android:visibility="visible" />
 
                                 <RelativeLayout
@@ -118,6 +116,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_below="@+id/avgRating"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="4dp"
                                 android:orientation="horizontal">
@@ -126,9 +125,8 @@
                                     android:id="@+id/user_rating_icon"
                                     android:layout_width="10dp"
                                     android:layout_height="12dp"
-                                    android:contentDescription="@string/at_image"
                                     android:layout_gravity="center_vertical"
-                                    android:src="@drawable/at_ic_rating_user"
+                                    android:src="@drawable/rating_user"
                                     android:visibility="gone" />
 
                                 <TextView
@@ -170,7 +168,8 @@
                                     android:includeFontPadding="false"
                                     android:text="Astrologer Name"
                                     android:textColor="@color/at_black"
-                                    android:textSize="18sp" />
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"/>
 
                                 <LinearLayout
                                     android:id="@+id/liveLayout"
@@ -181,38 +180,15 @@
                                     android:orientation="horizontal">
 
                                     <ImageView
-                                        android:id="@+id/like_unlike"
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:contentDescription="@string/at_image"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginEnd="3dp"
-                                        android:padding="4dp"
-                                        android:src="@drawable/at_ic_heart_unlike"
-                                        android:visibility="gone" />
-
-                                    <ImageView
-                                        android:id="@+id/info"
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:contentDescription="@string/at_image"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginEnd="3dp"
-                                        android:gravity="end"
-                                        android:padding="4dp"
-                                        android:src="@drawable/at_ic_notice"
-                                        android:visibility="visible" />
-
-                                    <ImageView
                                         android:id="@+id/verified"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp"
-                                        android:contentDescription="@string/at_image"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginLeft="3dp"
                                         android:layout_marginRight="3dp"
                                         android:padding="4dp"
-                                        android:src="@drawable/at_ic_verified" />
+                                        android:src="@drawable/at_ic_verified"
+                                        android:visibility="gone"/>
 
                                 </LinearLayout>
 
@@ -223,7 +199,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
-                                android:gravity="start"
+                                android:gravity="left"
                                 android:includeFontPadding="false"
                                 android:singleLine="true"
                                 android:text="skill"
@@ -236,7 +212,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:gravity="start"
+                                android:gravity="left"
                                 android:includeFontPadding="false"
                                 android:text="language"
                                 android:textColor="@color/at_editTextColor"
@@ -274,7 +250,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="8dp"
-                                        android:gravity="left"
+                                        android:gravity="start"
                                         android:includeFontPadding="false"
                                         android:text="price"
                                         android:textColor="@color/at_editTextColor"
@@ -375,11 +351,10 @@
                         android:layout_gravity="bottom|center"
                         android:layout_marginBottom="4dp"
                         android:gravity="center"
-
                         android:includeFontPadding="false"
                         android:singleLine="true"
                         android:text="Flash Offer! Consult at Rs 17/min only"
-                        android:textColor="@color/at_gray_dark1"
+                        android:textColor="@color/at_new_gray"
                         android:textSize="12sp"
                         android:visibility="visible" />
 

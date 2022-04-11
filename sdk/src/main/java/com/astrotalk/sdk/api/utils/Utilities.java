@@ -1,9 +1,18 @@
 package com.astrotalk.sdk.api.utils;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Html;
+import android.view.Display;
+import android.view.Window;
 import android.widget.Toast;
+
+import com.astrotalk.sdk.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,6 +20,41 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Utilities {
+
+    static Dialog dialogLoader;
+
+    public static void showLoader(Context context) {
+        dialogLoader = new Dialog(context);
+        dialogLoader.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogLoader.setCancelable(false);
+        dialogLoader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogLoader.setContentView(R.layout.dialog_loader);
+
+        if(!dialogLoader.isShowing()) {
+            dialogLoader.show();
+        }
+    }
+
+    public static void closeLoader() {
+        if (dialogLoader.isShowing()) {
+            dialogLoader.cancel();
+        }
+    }
+
+    public static void showToast(Context context, String msg) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public static int getScreenHeight(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        int newHeight = height / 2;
+        return newHeight;
+    }
+
 
     private static SimpleDateFormat simpleDateFormatNew = new SimpleDateFormat("dd MMM yyyy");
 
@@ -35,10 +79,6 @@ public class Utilities {
             symbol = "₹";
         }
         return String.valueOf(Html.fromHtml(symbol));
-    }
-
-    public static void showToast(Context context, String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     public static String longToDateWithoutHyphen(long timeInMillis) {

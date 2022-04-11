@@ -34,23 +34,18 @@ public interface ApiEndPointInterface {
     Call<ResponseBody> getAstrologerListSorting(
             @Query("appId") int appId,
             @Query("businessId") int businessId,
-            @Query("consultantTypeId") long consultantTypeId,
+            @Query("consultantTypeId") int consultantTypeId,
             @Query("timezone") String timezone,
             @Query("userId") long userId,
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize,
             @Query("version") String version,
-            @Query("serviceId") long serviceId,
-            @Query("isDesc") boolean isDesc,
+            @Query("serviceId") int serviceId,
+            @Query("languageId") int languageId,
             @Query("sortByExperience") boolean sortByExperience,
             @Query("sortByPrice") boolean sortByPrice,
-            @Query("languageId") long languageId,
             @Query("sortByRating") boolean sortByRating,
-            @Query("hardwareId") String hardwareId,
-            @Query("countryCode") String countryCode,
-            @Query("sortByOrder") Boolean sortByOrder,
-            @Query("isOfferV3") Boolean isOfferV3,
-            @Query("isPoAstrologer") Boolean isPoAstrologer,
-            @Query("categoryId") int categoryId
+            @Query("sortByOrder") boolean sortByOrder
     );
+
 }

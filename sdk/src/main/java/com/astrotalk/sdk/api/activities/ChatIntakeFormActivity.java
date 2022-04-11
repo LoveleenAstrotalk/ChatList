@@ -116,7 +116,6 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
     private static final String OUT_JSON = "/json";
     private long fixedSessionId = -1;
     public GoogleAddressModel googleAddressModel, googleAddressModelPartner, astrotalkPlaceModel, astrotalkPlacePartner;
-    long language_id = 1;
 
     private boolean atLocationApi = false;
     private String chatType = "NORMAL";
@@ -186,8 +185,6 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
 
         sharedPreferences = getSharedPreferences(Constants.USER_DETAIL, MODE_PRIVATE);
         status = getIntent().getStringExtra("status");
-
-        language_id = sharedPreferences.getLong(Constants.LANGUAGE_ID, 1);
 
         try {
             isToShowPlaces = getIntent().getExtras().getBoolean("isToShowPlaces");
