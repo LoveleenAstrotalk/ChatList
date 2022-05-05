@@ -25,12 +25,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.astrotalk.sdk.R;
@@ -41,18 +38,13 @@ import com.astrotalk.sdk.api.utils.Constants;
 import com.astrotalk.sdk.api.utils.Utilities;
 import com.bumptech.glide.Glide;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -80,7 +72,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
     @Override
     public ChatAstrologerListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_chat_astrologer_list, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.at_item_chat_astrologer_list, parent, false);
         ChatAstrologerListAdapter.ViewHolder myViewHolder = new ViewHolder(view);
         return myViewHolder;
     }
@@ -106,7 +98,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             }
 
             holder.price2.setVisibility(View.VISIBLE);
-            holder.price.setTextColor(context.getResources().getColor(R.color.at_dark_red));
+            holder.price.setTextColor(context.getResources().getColor(R.color.at_red_dark));
             holder.price2.setBackground(context.getResources().getDrawable(R.drawable.at_strike_line));
             if (Constants.TIME_ZONE.equalsIgnoreCase("Asia/Calcutta") || Constants.TIME_ZONE.equalsIgnoreCase("Asia/Kolkata")) {
                 holder.price2.setText(userChatListModel.getPrice() + context.getResources().getString(R.string.at_per_minute));
@@ -134,7 +126,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             offerPrice = userChatListModel.getPrice() - userChatListModel.getCashbackOfferValue();
 
         } else {
-            holder.price.setTextColor(context.getResources().getColor(R.color.at_editTextColor));
+            holder.price.setTextColor(context.getResources().getColor(R.color.at_grey));
             holder.cashback_tv.setVisibility(View.GONE);
             holder.price2.setVisibility(View.GONE);
             holder.price.setText(Utilities.getConvertedValueFromINR(userChatListModel.getPrice(), sharedPreferences) + context.getResources().getString(R.string.at_per_minute));
@@ -145,14 +137,14 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             holder.totalcount.setText(context.getResources().getString(R.string.at_new_));
             holder.totalcount.setTextSize(12);
             holder.average_ratingbar.setVisibility(View.VISIBLE);
-            holder.totalcount.setTextColor(context.getResources().getColor(R.color.at_dark_red));
+            holder.totalcount.setTextColor(context.getResources().getColor(R.color.at_red_dark));
         } else {
             if (userChatListModel.isNew()) {
                 holder.user_rating_icon.setVisibility(View.GONE);
                 holder.totalcount.setText(context.getResources().getString(R.string.at_new_));
                 holder.totalcount.setTextSize(12);
                 holder.average_ratingbar.setVisibility(View.VISIBLE);
-                holder.totalcount.setTextColor(context.getResources().getColor(R.color.at_dark_red));
+                holder.totalcount.setTextColor(context.getResources().getColor(R.color.at_red_dark));
             } else {
                 holder.user_rating_icon.setVisibility(View.VISIBLE);
                 holder.totalcount.setText(userChatListModel.getNoOfRating() + context.getResources().getString(R.string.at_ratings_list_adapter_total));
@@ -191,7 +183,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
         }
 
         holder.verified.setOnClickListener(v -> {
-            Utilities.showToast(context, context.getResources().getString(R.string.recommended_astrologer));
+            Utilities.showToast(context, context.getResources().getString(R.string.at_recommended_astrologer));
         });
 
         if (userChatListModel.getProfilePic().trim().isEmpty()) {
@@ -202,8 +194,8 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
         if (userChatListModel.getStatus().equalsIgnoreCase("BUSY")) {
             holder.call_rl.setClickable(true);
-            holder.call_rl.setBackgroundResource(R.drawable.backgronud_call_red);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_waitListColor));
+            holder.call_rl.setBackgroundResource(R.drawable.at_backgronud_call_red);
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_red));
             if (serviceId == Constants.CHAT_SERVICE_ID) {
                 holder.call_tv.setText(context.getResources().getString(R.string.at_chat));
             } else {
@@ -212,7 +204,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             }
             if (userChatListModel.getWaitListWaitTime() > 0) {
                 holder.online_time.setVisibility(View.VISIBLE);
-                holder.online_time.setTextColor(context.getResources().getColor(R.color.at_waitListColor));
+                holder.online_time.setTextColor(context.getResources().getColor(R.color.at_red));
                 String waitTimeText = "";
                 long timeSec = userChatListModel.getWaitListWaitTime();
                 long min = timeSec / 60;
@@ -240,7 +232,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
         } else if (userChatListModel.getStatus().equalsIgnoreCase("OFFLINE")) {
             holder.call_rl.setClickable(true);
             holder.call_rl.setBackgroundResource(R.drawable.at_bg_call_gray);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_button_gray));
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_grey3));
 
             if (serviceId == Constants.CHAT_SERVICE_ID) {
                 holder.call_tv.setText(context.getResources().getString(R.string.at_chat));
@@ -251,7 +243,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
             if (userChatListModel.getNextOnlineTimeChat().equalsIgnoreCase("")) {
                 holder.online_time.setVisibility(View.VISIBLE);
-                holder.online_time.setTextColor(context.getResources().getColor(R.color.at_waitListColor));
+                holder.online_time.setTextColor(context.getResources().getColor(R.color.at_red));
                 holder.online_time.setText(context.getResources().getString(R.string.at_profile_currently_offline));
             } else {
                 holder.online_time.setVisibility(View.VISIBLE);
@@ -283,7 +275,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
         } else if (userChatListModel.getStatus().equalsIgnoreCase("NOTAVILABLE")) {
             holder.call_rl.setClickable(false);
             holder.call_rl.setBackgroundResource(R.drawable.at_bg_call_gray);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_button_gray));
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_grey3));
             holder.call_tv.setText(context.getResources().getString(R.string.at_offline));
         } else {
             holder.call_rl.setClickable(true);
@@ -296,7 +288,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             }
 
             holder.online_time.setVisibility(View.GONE);
-            holder.call_tv.setTextColor(context.getResources().getColor(R.color.color_1aa260));
+            holder.call_tv.setTextColor(context.getResources().getColor(R.color.at_green_dark));
             holder.waitlist_size_tv.setVisibility(View.GONE);
         }
 
@@ -465,7 +457,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             Utilities.showLoader(context);
             String url;
             url = Constants.GET_NEXT_ONLINE_TIME +
-                    "?userId=" + Constants.USER_ID +
+                    "?userId=" + Constants.ID +
                     "&consultantId=" + userChatListModel.getId();
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     response -> {
@@ -602,7 +594,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
                     }
 
                     if (isWaitListJoined) {
-                        popup2(context.getResources().getString(R.string.maxWaitlistSize).replaceAll("@MAXWAITLIST", dataObject.getInt("maxWaitlistSize") + ""));
+                        popup2(context.getResources().getString(R.string.at_maxWaitlistSize).replaceAll("@MAXWAITLIST", dataObject.getInt("maxWaitlistSize") + ""));
                     } else {
                         navigate(astrologerListModel, isWaitListJoined, isToShowPlaces, atLocationApi);
                     }
@@ -629,7 +621,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
     private void showOfflineWithDetailsPopup(UniversalAstrologerListModel userChatListModel) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.offline_when_online_popup_new);
+        dialog.setContentView(R.layout.at_offline_when_online_popup_new);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -670,7 +662,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
         if (userChatListModel.getOfflineNextOnlineTime() != null && !userChatListModel.getOfflineNextOnlineTime().trim().isEmpty()) {
             nextOnlineTime.setText(" " + userChatListModel.getOfflineNextOnlineTime());
             message.setVisibility(View.VISIBLE);
-            messageText = context.getResources().getString(R.string.astrologer_is_offline_text_popup_new)
+            messageText = context.getResources().getString(R.string.at_astrologer_is_offline_text_popup_new)
                     .replaceAll("@ASTROLOGER", userChatListModel.getFirstname());
             message.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             message.setMinLines(3);
@@ -678,7 +670,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
         } else
             message.setVisibility(View.VISIBLE);
-        messageText = context.getResources().getString(R.string.astrologer_is_offline_text_popup_new)
+        messageText = context.getResources().getString(R.string.at_astrologer_is_offline_text_popup_new)
                 .replaceAll("@ASTROLOGER", userChatListModel.getFirstname());
         message.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         message.setMinLines(3);
@@ -713,7 +705,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.general_dialog);
+        dialog.setContentView(R.layout.at_general_dialog);
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
         wlp.gravity = Gravity.CENTER;
@@ -724,7 +716,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
         TextView message = (TextView) dialog.findViewById(R.id.text);
         TextView heading = (TextView) dialog.findViewById(R.id.heading);
         heading.setVisibility(View.VISIBLE);
-        heading.setText(context.getResources().getString(R.string.profile_waitlist_limit));
+        heading.setText(context.getResources().getString(R.string.at_profile_waitlist_limit));
         message.setText(text);
         submit_btn.setOnClickListener(v -> {
             try {
@@ -742,7 +734,7 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
             Dialog offer_dialog = new Dialog(context);
             offer_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             offer_dialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, Utilities.getScreenHeight(context));
-            offer_dialog.setContentView(R.layout.popup_live_event_offer);
+            offer_dialog.setContentView(R.layout.at_popup_live_event_offer);
             offer_dialog.setCanceledOnTouchOutside(true);
             offer_dialog.setCancelable(true);
 
@@ -755,11 +747,11 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
 
             String minBalance;
             if (Constants.TIME_ZONE.equalsIgnoreCase("Asia/Calcutta") || Constants.TIME_ZONE.equalsIgnoreCase("Asia/Kolkata")) {
-                minBalance = Utilities.getConvertedValueFromINR(astrologerListModel.getPrice() - astrologerListModel.getCashbackOfferValue(), sharedPreferences) + context.getResources().getString(R.string.min);
+                minBalance = Utilities.getConvertedValueFromINR(astrologerListModel.getPrice() - astrologerListModel.getCashbackOfferValue(), sharedPreferences) + context.getResources().getString(R.string.at_min);
             } else {
-                minBalance = Utilities.getConvertedValueFromINR(astrologerListModel.getPrice() - astrologerListModel.getCashbackOfferValue(), sharedPreferences) + context.getResources().getString(R.string.min);
+                minBalance = Utilities.getConvertedValueFromINR(astrologerListModel.getPrice() - astrologerListModel.getCashbackOfferValue(), sharedPreferences) + context.getResources().getString(R.string.at_min);
             }
-            tv_live_event_offer.setText(context.getResources().getString(R.string.live_event_offer_txt, minBalance));
+            tv_live_event_offer.setText(context.getResources().getString(R.string.at_live_event_offer_txt, minBalance));
 
             imv_close.setOnClickListener(v -> offer_dialog.dismiss());
 
@@ -784,7 +776,6 @@ public class ChatAstrologerListAdapter extends RecyclerView.Adapter<ChatAstrolog
                 intent.putExtra("isWaitListJoined", isWaitListJoined);
                 intent.putExtra("isToShowPlaces", isToShowPlaces);
                 intent.putExtra("atLocationApi", atLocationApi);
-
                 if (astrologerListModel.getPoSo()) {
                     intent.putExtra("isOfferV3", true);
                 } else {

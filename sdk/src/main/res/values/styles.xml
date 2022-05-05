@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="AtRatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">#cecece</item>
         <item name="colorControlActivated">#727272</item>
     </style>
 
     <style name="AtCustomEditText" parent="Theme.AppCompat">
-        <item name="colorPrimary">@color/at_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/at_colorPrimary</item>
-        <item name="colorControlNormal">@color/at_colorPrimary</item>
-        <item name="colorControlActivated">@color/at_colorPrimary</item>
+        <item name="colorPrimary">@color/at_color_primary</item>
+        <item name="colorPrimaryDark">@color/at_color_primary</item>
+        <item name="colorControlNormal">@color/at_color_primary</item>
+        <item name="colorControlActivated">@color/at_color_primary</item>
     </style>
 
     <style name="AtToolbarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
@@ -18,8 +17,8 @@
     </style>
 
     <style name="AtDialogTheme" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/at_colorPrimary</item>
-        <item name="colorControlNormal">@color/at_colorPrimary</item>
+        <item name="colorAccent">@color/at_color_primary</item>
+        <item name="colorControlNormal">@color/at_color_primary</item>
     </style>
 
 </resources>

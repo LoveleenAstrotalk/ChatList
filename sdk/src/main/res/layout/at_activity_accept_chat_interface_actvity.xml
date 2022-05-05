@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017. Shivam Jaiswal
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:elevation="12dp"
+        android:layout_marginTop="50dp"
+        android:id="@+id/iv_holder"
+        app:cardCornerRadius="80dp"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:layout_height="180dp"
+            android:layout_width="180dp"
+            android:id="@+id/consultantIV"
+            android:src="@drawable/app_logo"
+            android:contentDescription="TODO"
+            android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+
+    <com.astrotalk.customViews.RailwayRegularTextView
+        android:id="@+id/tvReceiverName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Consultant"
+        android:gravity="center"
+        android:lines="2"
+        android:layout_below="@+id/iv_holder"
+        android:textColor="@color/black"
+        android:textSize="30sp"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/tvReceiverName"
+        android:visibility="visible"
+        android:background="@android:color/transparent">
+
+
+        <ImageView
+            android:layout_height="70dp"
+            android:layout_width="70dp"
+            android:id="@+id/chat_image"
+            android:layout_marginTop="16dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/call_request_tv"
+            android:background="@drawable/chat_icon_request"
+            android:contentDescription="TODO" android:scaleType="centerCrop"/>
+
+
+        <com.astrotalk.customViews.RailwaysBoldTextView
+            android:id="@+id/call_request_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/options_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            android:gravity="center"
+            android:inputType="textCapWords"
+            android:text="@string/please_accept_chat_request"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/options_layout"
+            android:layout_marginBottom="60dp"
+            android:layout_above="@+id/call_from_layout"
+            android:orientation="horizontal">
+
+            <com.astrotalk.customViews.RalewayLightButton
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:id="@+id/hang_up_button"
+                android:textColor="#ff5959"
+                android:background="@drawable/hang_up_button_new"
+                android:text="@string/reject"
+                />
+
+            <com.astrotalk.customViews.RalewayLightButton
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/pick_up_button"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp" android:background="@drawable/pick_up_button"
+                android:text="@string/accept"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="50dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/call_from_layout"
+            android:orientation="horizontal">
+            <com.astrotalk.customViews.CircularImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="TODO" android:padding="2dp"
+                android:src="@drawable/app_logo"/>
+
+            <com.astrotalk.customViews.RailwayRegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" android:gravity="center"
+                android:layout_gravity="center"
+                android:inputType="textCapWords"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:text="Astrotalk"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_call"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_4sdp"
+    android:background="@color/call_popup_color"
+    app:cardCornerRadius="@dimen/_15sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ic_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:gravity="right|bottom"
+            android:orientation="horizontal"
+            android:padding="@dimen/_10sdp"
+            android:visibility="visible"
+            android:weightSum="100">
+
+            <ImageView
+                android:id="@+id/imv_close"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:layout_weight="10"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="right|bottom"
+                android:src="@drawable/close_icon"
+                app:tint="@color/black" />
+
+        </LinearLayout>
+
+        <com.astrotalk.customViews.RailwaysBoldTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/ended"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/live_session_has_ended"
+            android:gravity="center"
+            android:textColor="@color/dark_red"
+            android:textSize="@dimen/_12sdp" />
+
+        <RelativeLayout
+            android:layout_below="@+id/ended"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/rel"
+            android:layout_width="@dimen/_82sdp"
+            android:layout_height="@dimen/_82sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="20dp"
+            android:visibility="visible">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/background_user_pic"
+                android:layout_width="@dimen/_82sdp"
+                android:layout_height="@dimen/_82sdp"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/_4sdp"
+                android:src="@drawable/astrologer_bg_new" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userPicIV"
+                android:layout_width="@dimen/_82sdp"
+                android:layout_height="@dimen/_82sdp"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/_4sdp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/background_user_pic_circle"
+                android:layout_width="@dimen/_85sdp"
+                android:layout_height="@dimen/_85sdp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/circuler_astrologer"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <com.astrotalk.customViews.RailwaysMediumTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/tv_live_event_offer"
+            android:paddingTop="4dp"
+            android:text="@string/live_event_offer"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp" />
+
+        <com.astrotalk.customViews.RailwayRegularButton
+            android:id="@+id/submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_live_event_offer"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="15dp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@drawable/at_rounded_button_yellow"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:text="@string/call_now_btn"
+            android:textColor="@color/textColorBlackNew"
+            android:textSize="@dimen/_10sdp" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

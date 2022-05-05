@@ -5,6 +5,7 @@ public class Constants {
     public static final boolean LIVE_MODE = false;
 
     public static final String DOMAIN = "http://api.dev1.astrotalk.com:8080/AstroTalk/";
+    public static final String DOMAIN_KUNDLI = "http://api.kundali.astrotalk.com/v1/";
     public static final String DOMAIN_USER_CHAT = "http://api.dev1paidchat.astrotalk.com:8080/AstrotalkChat/";
 
     //  LIVE mode
@@ -38,25 +39,38 @@ public class Constants {
     public static final String CONVERSION_FACTOR = "conversionFactor";
     public static final String ISO_CODE = "isoCode";
 
+    /*
+    * API Calls
+    * */
+
     // Chat List
-    public static String GET_LAST_CHAT_ID_STATUS = DOMAIN_USER_CHAT + "chat/order/get/user/chat-status";
-    public static String GET_NEXT_ONLINE_TIME = DOMAIN + "consultant/get/total/wait/time";
-    public static String CHECK_CAN_CHAT_CAN_CALL_V2 = DOMAIN + "get/status/for/call-chat/v3";
-    public static String WAIT_LIST_CHECK_USER_V2_NEW = DOMAIN + "queue-token/user/waitlist/get/v3";
+    public static final String GET_LAST_CHAT_ID_STATUS = DOMAIN_USER_CHAT + "chat/order/get/user/chat-status";
+    public static final String GET_NEXT_ONLINE_TIME = DOMAIN + "consultant/get/total/wait/time";
+    public static final String CHECK_CAN_CHAT_CAN_CALL_V2 = DOMAIN + "get/status/for/call-chat/v3";
+    public static final String WAIT_LIST_CHECK_USER_V2_NEW = DOMAIN + "queue-token/user/waitlist/get/v3";
 
     // Intake Form
     public static final String CHAT_INTAKE_FORM = DOMAIN_USER_CHAT + "chat/order/fill-intake-form";
     public static final String JOIN_WAIT_LIST_V2 = DOMAIN + "call-chat/queue/create-token/v2";
+    public static final String GET_LAST_INTAKE_RECORD = DOMAIN + "get/lastRecord";
+
+    // Search
+    public static final String ASTROTALK_PLACE_SEARCH_API = DOMAIN_KUNDLI + "cities/allcountries/autocomplete";
+    public static final String ALL_LOCATION_AUTOCOMPLETE = "https://api.locationiq.com/v1/autocomplete.php";
+
+    // Call Kit
     public static final String ACCEPT_CHAT = DOMAIN_USER_CHAT + "chat/order/accept/byUser/v2";
+    public static final String REJECT_CHAT = DOMAIN_USER_CHAT + "chat/order/canceled/byUser/v2";
+
 
     // Chat Screen
-    public static final String GET_ASTROLOGER_ACTUAL_PRICE = DOMAIN + "consultant/get/price";
     public static final String CHAT_HISTORY = DOMAIN_USER_CHAT + "chat/message/get-chat-history/v3";
     public static final String LATEST_CHAT_MESSAGE = DOMAIN_USER_CHAT + "/chat/message/v2/get-latest-message/v2";
     public static final String SEND_CHAT_MESSAGE = DOMAIN_USER_CHAT + "chat/message/send-message/v3";
     public static final String COMPLETE_CHAT_ORDER = DOMAIN_USER_CHAT + "chat/order/completed/v2";
+    public static final String UPLOAD_IMAGE = DOMAIN + "api/v1/horoscope/user/upload-files";
+    public static final String DELETE_SINGLE_USER_ASROLOGER_MESSAGE = DOMAIN_USER_CHAT + "chat/message/deleteChatMsg/v2";
+    public static final String GET_FLAG_VALUE = DOMAIN_USER_CHAT + "chat/message/get-flag-value";
+    public static final String GET_FLAG_VALUE_SECOUND = DOMAIN_USER_CHAT + "chat/message/v2/get-flag-value";
 
-    // todo : Looking like extra api
-    public static final String CHECK_ASTROLOGER_IS_VALID_FOR_CHAT_CONTINUE = DOMAIN + "show/chat/continue";
-    public static final String IS_CHAT_CONTINUE_ENABLE = "is_chat_continue_enable";
 }

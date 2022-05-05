@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +15,11 @@ import android.widget.Toast;
 
 import com.astrotalk.sdk.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -28,7 +34,7 @@ public class Utilities {
         dialogLoader.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogLoader.setCancelable(false);
         dialogLoader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialogLoader.setContentView(R.layout.dialog_loader);
+        dialogLoader.setContentView(R.layout.at_dialog_loader);
 
         if(!dialogLoader.isShowing()) {
             dialogLoader.show();
@@ -54,7 +60,6 @@ public class Utilities {
         int newHeight = height / 2;
         return newHeight;
     }
-
 
     private static SimpleDateFormat simpleDateFormatNew = new SimpleDateFormat("dd MMM yyyy");
 
@@ -84,5 +89,36 @@ public class Utilities {
     public static String longToDateWithoutHyphen(long timeInMillis) {
         Date date = new Date(timeInMillis);
         return simpleDateFormatNew.format(date);
+    }
+
+    public static File bitmapToFile(Context context, String filename, Bitmap bitmap, boolean compress) {
+        File f = new File(context.getCacheDir(), filename);
+        try {
+            f.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        if (compress) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 45, bos);
+        } else {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        }
+        byte[] bitmapdata = bos.toByteArray();
+
+        //write the bytes in file
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return f;
     }
 }

@@ -1,37 +1,44 @@
 package com.astrotalk.sdk.api.activities;
 
-import android.app.AlertDialog;
+import android.app.ActivityManager;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
-import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -40,29 +47,44 @@ import com.astrotalk.sdk.api.googleApi.GoogleAddressModel;
 import com.astrotalk.sdk.api.model.UniversalAstrologerListModel;
 import com.astrotalk.sdk.api.utils.Constants;
 import com.astrotalk.sdk.api.utils.Utilities;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.textfield.TextInputLayout;
-import com.android.volley.Request;
-import com.android.volley.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
-public class ChatIntakeFormActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
+public class ChatIntakeFormActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher, AdapterView.OnItemSelectedListener {
+
+    private static final String PLACES_DETAILS_API_BASE = "https://maps.googleapis.com/maps/api/place/details";
+    private static final String OUT_JSON = "/json";
+    private final Context context = this;
+    private final List<String> maritalStatusCategories = new ArrayList<String>();
+    private final List<String> categories = new ArrayList<String>();
+    public GoogleAddressModel googleAddressModel, googleAddressModelPartner, astrotalkPlaceModel, astrotalkPlacePartner;
+    boolean isGcmAvailble = true;
+    long language_id = 1;
+    PlacesClient placesClient;
+    int from = 1;
+    private RequestQueue requestQueue;
     private String dob = "";
     private String pdob = "";
     private TextView registrationBtn;
     private SharedPreferences sharedPreferences;
-    private String tz;
-    private long userId = -1;
     private RadioButton radioMale, radioFemale;
     private String selectedTime = "";
     private String timeOfBirthPartner = "";
@@ -71,62 +93,17 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
     private CheckBox partner_details_checkbox;
     private String dobIdent = "";
     private TextView comment_count;
-    private ImageView message_iv;
     private EditText dobET, TimeBirthET;
     private Calendar cal;
-    private Toolbar toolbar;
-    private TextView toolbarTV;
     private int hour, minute;
     private RadioGroup radioSexGroup;
     private EditText nameET, lastnameET, phoneET, questionET, city_name, state_name, country_name;
     private RadioButton radioSexButton;
     private String gender;
-//    private Tracker mTracker;
     private EditText partneNnameET, pdobET, pTimeBirthET, pcity_name, pstate_name, pcountry_name;
-    private ImageView notification_iv;
     private Calendar DefaultStartCalender, DefaultStartCalenderFemale;
     private String startTimeIn24Hours;
-    private String countryCode = "";
-    private TextView enter_partner_details;
-    private UniversalAstrologerListModel universalAstrologerListModel;
-    private List<String> maritalStatusCategories = new ArrayList<String>();
-    private Spinner marital_spinner;
-    private String maritalStatus = "";
-    private EditText occupationET;
-    boolean isGcmAvailble = true;
-    boolean isWaitListJoined = false;
-    private String userVersion;
-    private List<String> categories = new ArrayList<String>();
-    private Spinner spinner;
-    private String selectedItem = "";
-    private int selectedPosition = 0;
-    private EditText otherET;
-    private String status = "ask";
-    private String place_api_key = "";
-    private TextView comment_heading;
-    private String consultantType = "";
-    private Boolean isToShowPlaces = false;
-    ArrayList<GoogleAddressModel> userAddressArrayList = new ArrayList<>();
-    private TextInputLayout pob_city, pob_state, pob_country, p_pob_city, p_pob_state, p_pob_country;
-    private AppCompatAutoCompleteTextView auto_complete_edit_text_astrotalkapi;
-    private AppCompatAutoCompleteTextView auto_complete_edit_text_astrotalkapi_partner;
-    private AppCompatAutoCompleteTextView auto_complete_edit_text;
-    private AppCompatAutoCompleteTextView auto_complete_edit_text_partner;
-    private static final String PLACES_DETAILS_API_BASE = "https://maps.googleapis.com/maps/api/place/details";
-    private static final String OUT_JSON = "/json";
-    private long fixedSessionId = -1;
-    public GoogleAddressModel googleAddressModel, googleAddressModelPartner, astrotalkPlaceModel, astrotalkPlacePartner;
-
-    private boolean atLocationApi = false;
-    private String chatType = "NORMAL";
-
-    private boolean isOfferV3 = false;
-    int from = 1;
-    private RequestQueue requestQueue;
-    private TextView accceptChat;
-    private Long chatOrderId;
-
-    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
+    private final TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
             hour = hourOfDay;
@@ -137,65 +114,97 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
 
         }
     };
+    private String countryCode = "";
+    private TextView enter_partner_details;
+    private UniversalAstrologerListModel universalAstrologerListModel;
+    private Spinner marital_spinner;
+    private String maritalStatus = "";
+    private EditText occupationET;
+    private Spinner spinner;
+    private String selectedItem = "";
+    private int selectedPosition = 0;
+    private EditText otherET;
+    private String status = "ask";
+    private String place_api_key = "";
+    private TextView comment_heading;
+    private String consultantType = "";
+    private Boolean isToShowPlaces = false;
+    private TextInputLayout pob_city, pob_state, pob_country, p_pob_city, p_pob_state, p_pob_country;
+    private AppCompatAutoCompleteTextView auto_complete_edit_text_astrotalkapi;
+    private AppCompatAutoCompleteTextView auto_complete_edit_text_astrotalkapi_partner;
+    private long fixedSessionId = -1;
+    private boolean atLocationApi = false;
+    private String chatType = "NORMAL";
+    private LinearLayout langaugeLL;
+    private String languageID = "1";
+    private boolean fromPO = false;
+    private CheckBox english_checkbox, hindi_checkbox;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_intake_form);
+        setContentView(R.layout.at_activity_chat_intake_form);
 
-        requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(context);
+        sharedPreferences = getSharedPreferences(Constants.USER_DETAIL, MODE_PRIVATE);
 
         if (getIntent().hasExtra("from")) {
             from = getIntent().getIntExtra("from", 1);
-        }
-
-        if (getIntent().hasExtra("isOfferV3")) {
-
-            isOfferV3 = getIntent().getBooleanExtra("isOfferV3", false);
-
-            Log.e("dkskjldj", isOfferV3 + "");
-
         }
 
         if (getIntent().hasExtra("fixedSessionId")) {
             fixedSessionId = getIntent().getLongExtra("fixedSessionId", -1);
         }
 
-
         if (getIntent().hasExtra("consultant")) {
             consultantType = getIntent().getStringExtra("consultant");
-
         }
 
         if (getIntent().hasExtra("chatType")) {
             chatType = getIntent().getStringExtra("chatType");
         }
 
-
-        HashMap<String, Object> eventProperties = new HashMap<String, Object>();//added by CleverTap Assistant
-        if (isOfferV3){
-            eventProperties.put("type", chatType);
-        }else {
-            eventProperties.put("type", "Offer");
-        }
-        if (from == 2) {
-            eventProperties.put("Source","ChatList");
-        }else {
-            eventProperties.put("Source","profile");
+        if (getIntent().hasExtra("status")) {
+            status = getIntent().getStringExtra("status");
         }
 
-        sharedPreferences = getSharedPreferences(Constants.USER_DETAIL, MODE_PRIVATE);
-        status = getIntent().getStringExtra("status");
+        language_id = Constants.LANGUAGE_ID;
 
         try {
-            isToShowPlaces = getIntent().getExtras().getBoolean("isToShowPlaces");
-            atLocationApi = getIntent().getExtras().getBoolean("atLocationApi");
-
-            Log.e("dlkjsd", isToShowPlaces + "");
+            if (getIntent().hasExtra("isToShowPlaces")) {
+                isToShowPlaces = getIntent().getExtras().getBoolean("isToShowPlaces");
+            }
+            if (getIntent().hasExtra("atLocationApi")) {
+                atLocationApi = getIntent().getExtras().getBoolean("atLocationApi");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             isToShowPlaces = false;
             atLocationApi = false;
         }
+
+        if (getIntent().hasExtra("fromPo")) {
+            fromPO = getIntent().getBooleanExtra("fromPo", false);
+            atLocationApi = true;
+        }
+
+        langaugeLL = findViewById(R.id.langaugeLL);
+
+        if (fromPO) {
+            langaugeLL.setVisibility(View.VISIBLE);
+        } else {
+            langaugeLL.setVisibility(View.GONE);
+        }
+
+        english_checkbox = findViewById(R.id.english_checkbox);
+        english_checkbox.setChecked(true);
+        hindi_checkbox = findViewById(R.id.hindi_checkbox);
+        hindi_checkbox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            hindi_checkbox.setSelected(!isChecked);
+        });
+
+        english_checkbox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            english_checkbox.setSelected(!isChecked);
+        });
 
         pob_city = findViewById(R.id.pob_city);
         pob_state = findViewById(R.id.pob_state);
@@ -203,53 +212,21 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
         p_pob_city = findViewById(R.id.p_pob_city);
         p_pob_state = findViewById(R.id.p_pob_state);
         p_pob_country = findViewById(R.id.p_pob_country);
-
-        dobET = (EditText) findViewById(R.id.dobET);
+        dobET = findViewById(R.id.dobET);
         dobET.setOnClickListener(this);
-
-        accceptChat = findViewById(R.id.accceptChat);
-        accceptChat.setOnClickListener(this);
 
         DefaultStartCalender = Calendar.getInstance();
         DefaultStartCalender.set(Calendar.YEAR, 1990);
         DefaultStartCalender.set(Calendar.DATE, 1);
         DefaultStartCalender.set(Calendar.MONTH, 0);
 
-
         DefaultStartCalenderFemale = Calendar.getInstance();
         DefaultStartCalenderFemale.set(Calendar.YEAR, 1990);
         DefaultStartCalenderFemale.set(Calendar.DATE, 1);
         DefaultStartCalenderFemale.set(Calendar.MONTH, 0);
 
-        enter_partner_details = (TextView) findViewById(R.id.enter_partner_details);
+        enter_partner_details = findViewById(R.id.enter_partner_details);
         enter_partner_details.setOnClickListener(this);
-
-
-//        AppController application = (AppController) getApplication();
-//        mTracker = application.getDefaultTracker();
-//        mTracker.enableAdvertisingIdCollection(true);
-//        mTracker.send(new HitBuilders.EventBuilder()
-//                .setCategory("Action")
-//                .setAction("Share")
-//                .build());
-
-        userId = sharedPreferences.getLong(Constants.USER_ID, -1);
-        tz = sharedPreferences.getString(Constants.USER_TIME_ZONE, "");
-
-
-        PackageInfo pInfo = null;
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            userVersion = pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        auto_complete_edit_text = findViewById(R.id.auto_complete_edit_text);
-        auto_complete_edit_text_partner = findViewById(R.id.auto_complete_edit_text_partner);
-
-        auto_complete_edit_text.setThreshold(2);
-        auto_complete_edit_text_partner.setThreshold(2);
 
         auto_complete_edit_text_astrotalkapi = findViewById(R.id.auto_complete_edit_text_astrotalkapi);
         auto_complete_edit_text_astrotalkapi_partner = findViewById(R.id.auto_complete_edit_text_astrotalkapi_partner);
@@ -257,76 +234,7 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
         auto_complete_edit_text_astrotalkapi.setOnClickListener(this);
         auto_complete_edit_text_astrotalkapi_partner.setOnClickListener(this);
 
-
-        auto_complete_edit_text.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                googleAddressModel = null;
-                city_name.setText("");
-                state_name.setText("");
-                country_name.setText("");
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        auto_complete_edit_text_partner.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                googleAddressModelPartner = null;
-                pcity_name.setText("");
-                pstate_name.setText("");
-                pcountry_name.setText("");
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
-//        auto_complete_edit_text.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                googleAddressModel = null;
-//                auto_complete_edit_text.setText("");
-//                final GooglePlacesSearchAdapter.PlaceAutocomplete item = googlePlacesSearchAdapter.getItem(position);
-//                auto_complete_edit_text.setText(item.toString());
-//                final String placeId = String.valueOf(item.placeId);
-//                getLocationDetails(placeId, false);
-//                if (!Constants.LIVE_MODE)
-//                    Log.i("TAG", "Autocomplete item selected: " + item.description);
-//            }
-//        });
-//
-//        auto_complete_edit_text_partner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                googleAddressModelPartner = null;
-//                auto_complete_edit_text_partner.setText("");
-//                final GooglePlacesSearchAdapter.PlaceAutocomplete item = googlePlacesSearchAdapterPartner.getItem(position);
-//                auto_complete_edit_text_partner.setText(item.toString());
-//                final String placeId = String.valueOf(item.placeId);
-//                getLocationDetails(placeId, true);
-//            }
-//        });
-
-
-        otherET = (EditText) findViewById(R.id.otherET);
+        otherET = findViewById(R.id.otherET);
         categories.add(getResources().getString(R.string.at_select_topic_of_concern_drop_down));
         categories.add(getResources().getString(R.string.at_career_and_business_drop_down));
         categories.add(getResources().getString(R.string.at_marriage_drop_down));
@@ -345,87 +253,66 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
         categories.add(getResources().getString(R.string.at_remedy_consultation_drop_down));
         categories.add(getResources().getString(R.string.at_health_consultation_drop_down));
         categories.add(getResources().getString(R.string.at_others_drop_down));
-        spinner = (Spinner) findViewById(R.id.proble_spinner);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        spinner = findViewById(R.id.proble_spinner);
+        spinner.setOnItemSelectedListener(this);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
         intViews();
 
+        getChatTntakeDetails();
     }
 
 
     private void intViews() {
-        universalAstrologerListModel = (UniversalAstrologerListModel) getIntent().getSerializableExtra("astrologer_details");
-//        isWaitListJoined = getIntent().getExtras().getBoolean("isWaitListJoined");
 
-
-        questionET = (EditText) findViewById(R.id.questionET);
-        comment_heading = (TextView) findViewById(R.id.comment_heading);
-        comment_count = (TextView) findViewById(R.id.comment_count);
-        if (isOfferV3) {
-            questionET.setVisibility(View.GONE);
-            comment_heading.setVisibility(View.GONE);
-            comment_count.setVisibility(View.GONE);
-        } else {
-            questionET.setVisibility(View.GONE);
-            comment_heading.setVisibility(View.GONE);
-            comment_count.setVisibility(View.GONE);
+        if (getIntent().hasExtra("astrologer_details")) {
+            universalAstrologerListModel = (UniversalAstrologerListModel) getIntent().getSerializableExtra("astrologer_details");
         }
-        TimeBirthET = (EditText) findViewById(R.id.TimeBirthET);
-        city_name = (EditText) findViewById(R.id.city_name);
-        state_name = (EditText) findViewById(R.id.state_name);
-        country_name = (EditText) findViewById(R.id.country_name);
-        nameET = (EditText) findViewById(R.id.nameET);
-        lastnameET = (EditText) findViewById(R.id.lastnameET);
-        phoneET = (EditText) findViewById(R.id.phoneET);
 
-
+        questionET = findViewById(R.id.questionET);
+        comment_heading = findViewById(R.id.comment_heading);
+        comment_count = findViewById(R.id.comment_count);
+        questionET.setVisibility(View.GONE);
+        comment_heading.setVisibility(View.GONE);
+        comment_count.setVisibility(View.GONE);
+        TimeBirthET = findViewById(R.id.TimeBirthET);
+        city_name = findViewById(R.id.city_name);
+        state_name = findViewById(R.id.state_name);
+        country_name = findViewById(R.id.country_name);
+        nameET = findViewById(R.id.nameET);
+        lastnameET = findViewById(R.id.lastnameET);
+        phoneET = findViewById(R.id.phoneET);
         TimeBirthET.setOnClickListener(this);
-        partneNnameET = (EditText) findViewById(R.id.partneNnameET);
-        pdobET = (EditText) findViewById(R.id.pdobET);
-        pTimeBirthET = (EditText) findViewById(R.id.pTimeBirthET);
-        pcity_name = (EditText) findViewById(R.id.pcity_name);
-        pstate_name = (EditText) findViewById(R.id.pstate_name);
-        pcountry_name = (EditText) findViewById(R.id.pcountry_name);
+        partneNnameET = findViewById(R.id.partneNnameET);
+        pdobET = findViewById(R.id.pdobET);
+        pTimeBirthET = findViewById(R.id.pTimeBirthET);
+        pcity_name = findViewById(R.id.pcity_name);
+        pstate_name = findViewById(R.id.pstate_name);
+        pcountry_name = findViewById(R.id.pcountry_name);
         pdobET.setOnClickListener(this);
         pTimeBirthET.setOnClickListener(this);
-        partner_details_option = (LinearLayout) findViewById(R.id.partner_details_option);
+        partner_details_option = findViewById(R.id.partner_details_option);
 
-        if (isOfferV3) {
-            partner_details_option.setVisibility(View.GONE);
-        } else {
-            partner_details_option.setVisibility(View.VISIBLE);
-        }
-        partner_details_checkbox = (CheckBox) findViewById(R.id.partner_details_checkbox);
+        partner_details_option.setVisibility(View.VISIBLE);
+        partner_details_checkbox = findViewById(R.id.partner_details_checkbox);
         partner_details_checkbox.setOnClickListener(this);
         questionET.addTextChangedListener(this);
-//        message_iv = (ImageView) findViewById(R.id.message_iv);
-//        message_iv.setVisibility(View.VISIBLE);
-//        message_iv.setOnClickListener(this);
-//        notification_iv = (ImageView) findViewById(R.id.notification_iv);
-//        notification_iv.setVisibility(View.GONE);
-//        notification_iv.setOnClickListener(this);
         comment_count.setText(0 + "/140");
 
         cal = Calendar.getInstance();
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        toolbarTV = (TextView) findViewById(R.id.toolbarTV);
-//        toolbarTV.setText(getResources().getString(R.string.chat_intake_form_heading));
-        registrationBtn = (TextView) findViewById(R.id.registrationBtn);
+        registrationBtn = findViewById(R.id.registrationBtn);
         registrationBtn.setOnClickListener(this);
-
         registrationBtn.setText(getResources().getString(R.string.at_start_chat_with) + " " + universalAstrologerListModel.getFirstname());
 
-        radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
-        partner_details_ll = (LinearLayout) findViewById(R.id.partner_details_ll);
-        radioMale = (RadioButton) findViewById(R.id.radioMale);
+        radioSexGroup = findViewById(R.id.radioSex);
+        partner_details_ll = findViewById(R.id.partner_details_ll);
+        radioMale = findViewById(R.id.radioMale);
         radioMale.setOnClickListener(this);
-        radioFemale = (RadioButton) findViewById(R.id.radioFemale);
+        radioFemale = findViewById(R.id.radioFemale);
         radioFemale.setOnClickListener(this);
 
+        countryCode = "+91";
 
         maritalStatusCategories.add(getResources().getString(R.string.at_select_martial_status_drop_down));
         maritalStatusCategories.add(getResources().getString(R.string.at_single_drop_down));
@@ -433,75 +320,203 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
         maritalStatusCategories.add(getResources().getString(R.string.at_divorced_drop_down));
         maritalStatusCategories.add(getResources().getString(R.string.at_separated_drop_down));
         maritalStatusCategories.add(getResources().getString(R.string.at_widowed_drop_down));
-        marital_spinner = (Spinner) findViewById(R.id.marital_spinner);
-        occupationET = (EditText) findViewById(R.id.occupationET);
-        ArrayAdapter<String> maritalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, maritalStatusCategories);
+        marital_spinner = findViewById(R.id.marital_spinner);
+        occupationET = findViewById(R.id.occupationET);
+        marital_spinner.setOnItemSelectedListener(this);
+        ArrayAdapter<String> maritalAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, maritalStatusCategories);
         maritalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         marital_spinner.setAdapter(maritalAdapter);
 
         if (isToShowPlaces) {
-            auto_complete_edit_text.setVisibility(View.VISIBLE);
             auto_complete_edit_text_astrotalkapi.setVisibility(View.GONE);
             pob_city.setVisibility(View.GONE);
             pob_state.setVisibility(View.GONE);
             pob_country.setVisibility(View.GONE);
         } else if (atLocationApi) {
-            auto_complete_edit_text.setVisibility(View.GONE);
             pob_city.setVisibility(View.GONE);
             pob_state.setVisibility(View.GONE);
             pob_country.setVisibility(View.GONE);
             auto_complete_edit_text_astrotalkapi.setVisibility(View.VISIBLE);
         } else {
             auto_complete_edit_text_astrotalkapi.setVisibility(View.GONE);
-            auto_complete_edit_text.setVisibility(View.GONE);
             pob_city.setVisibility(View.VISIBLE);
             pob_state.setVisibility(View.VISIBLE);
             pob_country.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        if (id == R.id.dobET) {
+            dobIdent = "own";
+            selectDate();
+        } else if (id == R.id.pdobET) {
+            dobIdent = "partner";
+            selectDateFemale();
+        } else if (id == R.id.TimeBirthET) {
+            if (dobET.getText().toString().equalsIgnoreCase("")) {
+                Utilities.showToast(ChatIntakeFormActivity.this, getResources().getString(R.string.at_please_select_dob_first));
+            } else {
+                dobIdent = "own";
+                startselectTime();
+            }
+        } else if (id == R.id.pTimeBirthET) {
+            if (pdobET.getText().toString().equalsIgnoreCase("")) {
+                Utilities.showToast(ChatIntakeFormActivity.this, getResources().getString(R.string.at_please_select_partners_dob_first));
+            } else {
+                dobIdent = "partner";
+                startselectTime();
+            }
+        } else if (id == R.id.auto_complete_edit_text_astrotalkapi) {
+            Intent intent = new Intent(ChatIntakeFormActivity.this, NewAstrotalkSearchActivity.class);
+            startActivityForResult(intent, 100);
+        } else if (id == R.id.auto_complete_edit_text_astrotalkapi_partner) {
+            Intent intent2 = new Intent(ChatIntakeFormActivity.this, NewAstrotalkSearchActivity.class);
+            startActivityForResult(intent2, 200);
+        } else if (id == R.id.registrationBtn) {
+            int selectedId = radioSexGroup.getCheckedRadioButtonId();
+            radioSexButton = findViewById(selectedId);
 
-        if (id == R.id.registrationBtn) {
-
-            chatIntakeform();
-
-        }
-
-        if (id == R.id.accceptChat) {
-
-            chatOrderInput();
-
+            if (isToShowPlaces) {
+                if (nameET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_name));
+                } else if (countryCode.equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_country_code));
+                } else if (phoneET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_phone_number));
+                } else if (radioSexButton == null) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_select_gender));
+                } else if (dobET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_date_of_birth));
+                } else if (TimeBirthET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_time_of_birth));
+                } else if (googleAddressModel == null) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_a_valid_place_of_birth));
+                } else {
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    continueFormSubmission();
+                }
+            } else if (atLocationApi) {
+                if (nameET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_name));
+                } else if (countryCode.equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_country_code));
+                } else if (phoneET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_phone_number));
+                } else if (radioSexButton == null) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_select_gender));
+                } else if (dobET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_date_of_birth));
+                } else if (TimeBirthET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_time_of_birth));
+                } else if (auto_complete_edit_text_astrotalkapi.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_your_place_of_birth));
+                } else if (astrotalkPlaceModel == null) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_a_valid_place_of_birth));
+                } else {
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    continueFormSubmission();
+                }
+            } else {
+                if (nameET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_name));
+                } else if (countryCode.equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_country_code));
+                } else if (phoneET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_phone_number));
+                } else if (radioSexButton == null) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_select_gender));
+                } else if (dobET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_date_of_birth));
+                } else if (TimeBirthET.getText().toString().trim().equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_time_of_birth));
+                } else if (city_name.getText().toString().trim().isEmpty()) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_city_validation));
+                } else if (country_name.getText().toString().trim().isEmpty()) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_country_validation));
+                } else if (maritalStatus.equalsIgnoreCase("")) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_select_martial_status_drop_down));
+                } else {
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    continueFormSubmission();
+                }
+            }
+        } else if (id == R.id.partner_details_checkbox) {
+            if (partner_details_checkbox.isChecked()) {
+                partner_details_ll.setVisibility(View.VISIBLE);
+                if (isToShowPlaces) {
+                    auto_complete_edit_text_astrotalkapi_partner.setVisibility(View.VISIBLE);
+                    p_pob_city.setVisibility(View.GONE);
+                    p_pob_state.setVisibility(View.GONE);
+                    p_pob_country.setVisibility(View.GONE);
+                } else if (atLocationApi) {
+                    auto_complete_edit_text_astrotalkapi_partner.setVisibility(View.VISIBLE);
+                    p_pob_city.setVisibility(View.GONE);
+                    p_pob_state.setVisibility(View.GONE);
+                    p_pob_country.setVisibility(View.GONE);
+                } else {
+                    auto_complete_edit_text_astrotalkapi_partner.setVisibility(View.GONE);
+                    p_pob_city.setVisibility(View.VISIBLE);
+                    p_pob_state.setVisibility(View.VISIBLE);
+                    p_pob_country.setVisibility(View.VISIBLE);
+                }
+            } else {
+                partner_details_ll.setVisibility(View.GONE);
+            }
+        } else if (id == R.id.enter_partner_details) {
+            partner_details_checkbox.performClick();
         }
     }
 
-    public void chatOrderInput() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
-        View viewInflated = LayoutInflater.from(this).inflate(R.layout.text_input_order_id, null, false);
-        final EditText input = (EditText) viewInflated.findViewById(R.id.input);
-        builder.setView(viewInflated);
+    private void selectDateFemale() {
+        Locale locale = new Locale("en");
+        Locale.setDefault(locale);
 
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Constants.CHAT_ORDER_ID = Long.parseLong(input.getText().toString().trim());
-                chatAccept();
+        DatePickerDialog pickerDialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Light, new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                cal.set(year, monthOfYear, dayOfMonth);
+                DefaultStartCalenderFemale.set(Calendar.YEAR, cal.get(Calendar.YEAR));
+                DefaultStartCalenderFemale.set(Calendar.DATE, cal.get(Calendar.DATE));
+                DefaultStartCalenderFemale.set(Calendar.MONTH, cal.get(Calendar.MONTH));
+                pdob = new SimpleDateFormat("dd MMMM yyyy").format(cal.getTime());
+                pdobET.setText(pdob);
             }
-        });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
 
-        builder.show();
+        }, DefaultStartCalenderFemale.get(Calendar.YEAR), DefaultStartCalenderFemale.get(Calendar.MONTH), DefaultStartCalenderFemale.get(Calendar.DAY_OF_MONTH));
+
+        pickerDialog.getDatePicker().setSpinnersShown(true);
+        pickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        pickerDialog.getDatePicker().setCalendarViewShown(false);
+        Window window = pickerDialog.getWindow();
+        window.setLayout(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+        pickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        pickerDialog.show();
+    }
+
+    private void continueFormSubmission() {
+        if (isGcmAvailble == false) {
+            popup();
+        } else {
+            if (fromPO) {
+                if (!english_checkbox.isChecked() && !hindi_checkbox.isChecked()) {
+                    Utilities.showToast(this, getResources().getString(R.string.at_please_enter_a_preferred));
+                } else if (english_checkbox.isChecked() && hindi_checkbox.isChecked()) {
+                    languageID = "1,2";
+                    chatIntakeform();
+                } else if (english_checkbox.isChecked()) {
+                    languageID = "1";
+                    chatIntakeform();
+                } else {
+                    languageID = "2";
+                    chatIntakeform();
+                }
+            } else {
+                chatIntakeform();
+            }
+
+        }
     }
 
     @Override
@@ -510,6 +525,33 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void selectDate() {
+
+        Locale locale = new Locale("en");
+        Locale.setDefault(locale);
+
+        DatePickerDialog pickerDialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Light, new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                cal.set(year, monthOfYear, dayOfMonth);
+                DefaultStartCalender.set(Calendar.YEAR, cal.get(Calendar.YEAR));
+                DefaultStartCalender.set(Calendar.DATE, cal.get(Calendar.DATE));
+                DefaultStartCalender.set(Calendar.MONTH, cal.get(Calendar.MONTH));
+                dob = new SimpleDateFormat("dd-MMMM-yyyy").format(cal.getTime());
+                dobET.setText(dob);
+            }
+        }, DefaultStartCalender.get(Calendar.YEAR), DefaultStartCalender.get(Calendar.MONTH), DefaultStartCalender.get(Calendar.DAY_OF_MONTH));
+
+        pickerDialog.getDatePicker().setSpinnersShown(true);
+        pickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        pickerDialog.getDatePicker().setCalendarViewShown(false);
+        Window window = pickerDialog.getWindow();
+        window.setLayout(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+        pickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        pickerDialog.show();
     }
 
     private void updateStartTime(int hours, int mins) {
@@ -534,14 +576,19 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
 
         if (dobIdent.equalsIgnoreCase("own")) {
             TimeBirthET.setText(selectedTime);
-            Log.d("dateOfBirth", "getParams: "+selectedTime);
+            Log.d("dateOfBirth", "getParams: " + selectedTime);
 
         } else if (dobIdent.equalsIgnoreCase("partner")) {
             timeOfBirthPartner = selectedTime;
-            Log.d("dateOfBirth", "getParams: "+timeOfBirthPartner);
+            Log.d("dateOfBirth", "getParams: " + timeOfBirthPartner);
             pTimeBirthET.setText(timeOfBirthPartner);
-
         }
+    }
+
+    public void startselectTime() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(ChatIntakeFormActivity.this,
+                timePickerListener, hour, minute, false);
+        timePickerDialog.show();
     }
 
     @Override
@@ -553,7 +600,6 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
     protected void onPause() {
         super.onPause();
     }
-
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -572,12 +618,143 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
     public void afterTextChanged(Editable editable) {
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+
+        if (parent.getId() == R.id.marital_spinner) {
+            if (position == 0) {
+                maritalStatus = "";
+            } else {
+                if (language_id == 1 || language_id == 2) {
+                    maritalStatus = parent.getItemAtPosition(position).toString();
+                } else {
+                    if (position == 1) {
+                        maritalStatus = "Single";
+                    } else if (position == 2) {
+                        maritalStatus = "Married";
+                    } else if (position == 3) {
+                        maritalStatus = "Divorced";
+                    } else if (position == 4) {
+                        maritalStatus = "Separated";
+                    } else if (position == 5) {
+                        maritalStatus = "Widowed";
+                    }
+                }
+            }
+        }
+
+        if (parent.getId() == R.id.proble_spinner) {
+            if (language_id == 1 || language_id == 2) {
+                selectedItem = parent.getItemAtPosition(position).toString();
+            } else {
+                if (position == 1) {
+                    selectedItem = "Career and Business";
+                } else if (position == 2) {
+                    selectedItem = "Marriage";
+                } else if (position == 3) {
+                    selectedItem = "Love and Relationship";
+                } else if (position == 4) {
+                    selectedItem = "Wealth and Property";
+                } else if (position == 5) {
+                    selectedItem = "Education";
+                } else if (position == 6) {
+                    selectedItem = "Legal Matters";
+                } else if (position == 7) {
+                    selectedItem = "Child Name Consultation";
+                } else if (position == 8) {
+                    selectedItem = "Business Name Consultation";
+                } else if (position == 9) {
+                    selectedItem = "Gem Stone Consultation";
+                } else if (position == 10) {
+                    selectedItem = "Commodity trading consultation";
+                } else if (position == 11) {
+                    selectedItem = "Match making";
+                } else if (position == 12) {
+                    selectedItem = "Birth Time Rectification";
+                } else if (position == 13) {
+                    selectedItem = "Name Correction Consultation";
+                } else if (position == 14) {
+                    selectedItem = "Travel Abroad Consultation";
+                } else if (position == 15) {
+                    selectedItem = "Remedy Consultation";
+                } else if (position == 16) {
+                    selectedItem = "Health Consultation";
+                }
+            }
+
+            selectedPosition = position;
+            if (!Constants.LIVE_MODE)
+                Log.e("position", selectedPosition + "");
+            if (selectedPosition == 17) {
+                otherET.setVisibility(View.VISIBLE);
+
+            } else {
+                otherET.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+    }
+
+    @Override
+    public void onBackPressed() {
+        chatIntakeformOnBackPressed();
+        super.onBackPressed();
+    }
+
+    public void popup() {
+
+        final Dialog dialog = new Dialog(ChatIntakeFormActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.at_custom_popop);
+        Window window = dialog.getWindow();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
+        window.setAttributes(wlp);
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        TextView cancel_button = dialog.findViewById(R.id.cancel_btn);
+        TextView text = dialog.findViewById(R.id.text);
+        cancel_button.setText("Proceed Anyway");
+        text.setText(getResources().getString(R.string.at_not_received_chat_permission2));
+        text.setTextColor(getResources().getColor(R.color.at_black));
+        TextView submit_btn = dialog.findViewById(R.id.submit_btn);
+        submit_btn.setText(getResources().getString(R.string.at_clear_data));
+
+        cancel_button.setOnClickListener(v -> {
+            dialog.dismiss();
+            chatIntakeform();
+        });
+
+        submit_btn.setOnClickListener(v -> {
+            dialog.dismiss();
+            ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
+
+        });
+
+        if (!isFinishing()) {
+            try {
+                dialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void chatIntakeform() {
+        Utilities.showLoader(context);
         final String Url = Constants.CHAT_INTAKE_FORM;
         Log.e("dskd", Url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Utilities.closeLoader();
+
                 try {
                     Log.e("dskd", response);
 
@@ -586,6 +763,8 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
 
                         JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
                         createChatOrderId(jsonObject1.getLong("id"));
+
+
                     } else {
 
                         Utilities.showToast(ChatIntakeFormActivity.this, jsonObject.getString("reason"));
@@ -595,44 +774,134 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
                 }
 
             }
-        }, new Response.ErrorListener() {
+        }, error -> Utilities.closeLoader()) {
             @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("userId","476914");
-                params.put("name", "Loveleen");
-                params.put("lastName", "Kaur");
-                params.put("mobile", "9501423386");
-                params.put("countrycode", "+91");
-                params.put("email", "loveleen.kaur@astrotalk.com");
-                params.put("dob", "15-February-1995,05:45 PM");
-                params.put("gender", "Female");
-                params.put("placeOfBirth", "Jalandhar");
-                params.put("lat", "75.5033789");
-                params.put("lon", "31.3223787");
-                params.put("address", "New Santokhpura, Jalandhar");
-                params.put("timezoneid", "Asia/Calcutta");
-                params.put("comment","");
+
+                int selectedId = radioSexGroup.getCheckedRadioButtonId();
+                if (selectedId <= 0) {
+                    gender = "";
+                } else {
+                    radioSexButton = findViewById(selectedId);
+                    gender = radioSexButton.getText().toString();
+
+                    if (language_id == 1 || language_id == 2) {
+                        Log.e("Response", "Language Selected");
+                    } else {
+                        if (gender.equalsIgnoreCase(getResources().getString(R.string.at_male_intake))) {
+                            gender = "Male";
+                        } else {
+                            gender = "Female";
+                        }
+                    }
+                }
+
+                params.put("userId", Constants.ID + "");
+                params.put("name", nameET.getText().toString());
+                params.put("lastName", lastnameET.getText().toString());
+                params.put("mobile", phoneET.getText().toString());
+                params.put("countrycode", countryCode);
+                params.put("email", "");
+                params.put("dob", dobET.getText().toString().trim() + "," + TimeBirthET.getText().toString().trim());
+                Log.d("dateOfBirth", "getParams: " + dobET.getText().toString().trim() + "," + TimeBirthET.getText().toString().trim());
+                params.put("gender", gender);
+                String makeplaceofbitrh = city_name.getText().toString();
+
+                if (!state_name.getText().toString().equalsIgnoreCase("")) {
+                    makeplaceofbitrh = makeplaceofbitrh + ", " + state_name.getText().toString();
+                }
+                makeplaceofbitrh = makeplaceofbitrh + ", " + country_name.getText().toString();
+                params.put("placeOfBirth", makeplaceofbitrh);
+                if (isToShowPlaces) {
+                    if (googleAddressModel != null && googleAddressModel.getLat() != null)
+                        params.put("lat", googleAddressModel.getLat() + "");
+                    else
+                        params.put("lat", "");
+                    if (googleAddressModel != null && googleAddressModel.getLon() != null)
+                        params.put("lon", googleAddressModel.getLon() + "");
+                    else
+                        params.put("lon", "");
+                } else if (atLocationApi) {
+                    if (astrotalkPlaceModel != null && astrotalkPlaceModel.getLat() != null)
+                        params.put("lat", astrotalkPlaceModel.getLat() + "");
+                    else
+                        params.put("lat", "");
+                    if (astrotalkPlaceModel != null && astrotalkPlaceModel.getLon() != null)
+                        params.put("lon", astrotalkPlaceModel.getLon() + "");
+                    else
+                        params.put("lon", "");
+
+                }
+                if (atLocationApi) {
+                    params.put("address", auto_complete_edit_text_astrotalkapi.getText().toString().trim());
+                    params.put("placeOfBirth", auto_complete_edit_text_astrotalkapi.getText().toString().trim());
+
+                } else {
+                    params.put("address", makeplaceofbitrh);
+                }
+                params.put("timezoneid", Constants.TIME_ZONE);
+                params.put("comment", "");
                 params.put("userType", "ASTROTALK");
                 params.put("deviceType", "ANDROID");
-                params.put("partnername", "");
-                params.put("partnerdob", "");
-                params.put("partnertimeofbirth", "");
-                params.put("partnerplaceofbirth", "");
-                params.put("partnerAddress", "");
-                params.put("partnerLat", "");
-                params.put("partnerLon", "");
-                params.put("problemarea", "Career and Business");
-                params.put("maritialStatus", "Un Married");
-                params.put("occupation", "Business");
+
+
+                if (partner_details_checkbox.isChecked()) {
+                    params.put("partnername", partneNnameET.getText().toString());
+                    params.put("partnerdob", pdobET.getText().toString().trim());
+                    params.put("partnertimeofbirth", pTimeBirthET.getText().toString().trim());
+                    String pplaceofbitrh = "";
+                    if (!pcity_name.getText().toString().equalsIgnoreCase("")) {
+                        pplaceofbitrh = pcity_name.getText().toString();
+                    }
+                    if (!pstate_name.getText().toString().equalsIgnoreCase("")) {
+                        pplaceofbitrh = pplaceofbitrh + ", " + pstate_name.getText().toString();
+                    }
+                    if (!pcountry_name.getText().toString().equalsIgnoreCase("")) {
+                        pplaceofbitrh = pplaceofbitrh + ", " + pcountry_name.getText().toString();
+                    }
+                    params.put("partnerplaceofbirth", pplaceofbitrh);
+                    if (atLocationApi) {
+
+
+                        params.put("partnerplaceofbirth", auto_complete_edit_text_astrotalkapi_partner.getText().toString().trim());
+                        params.put("partnerAddress", auto_complete_edit_text_astrotalkapi_partner.getText().toString().trim());
+                        if (astrotalkPlacePartner != null && astrotalkPlacePartner.getLon() != null)
+                            params.put("partnerLon", astrotalkPlacePartner.getLon() + "");
+
+                        else
+                            params.put("partnerLon", "");
+                        if (astrotalkPlacePartner != null && astrotalkPlacePartner.getLat() != null)
+                            params.put("partnerLat", astrotalkPlacePartner.getLat() + "");
+                        else
+                            params.put("partnerLat", "");
+
+                    } else {
+                        params.put("partnerAddress", pplaceofbitrh);
+                    }
+                } else {
+                    params.put("partnername", "");
+                    params.put("partnerdob", "");
+                    params.put("partnertimeofbirth", "");
+                    params.put("partnerplaceofbirth", "");
+                    params.put("partnerAddress", "");
+                    params.put("partnerLat", "");
+                    params.put("partnerLon", "");
+                }
+                if (selectedPosition == 0) {
+                    selectedItem = "";
+                } else if (selectedPosition == 17) {
+                    selectedItem = otherET.getText().toString();
+                }
+                params.put("problemarea", selectedItem);
+                params.put("maritialStatus", maritalStatus);
+                params.put("occupation", occupationET.getText().toString().trim());
                 params.put("chatVersion", "v2");
-                params.put("appVersionUser", "1.1.197");
+                params.put("appVersionUser", Constants.SDK_VERSION);
                 params.put("appId", Constants.APP_ID + "");
                 params.put("businessId", Constants.BUSINESS_ID + "");
+                if (!Constants.LIVE_MODE)
+                    Log.e("param", params.toString());
                 return params;
             }
 
@@ -664,19 +933,17 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
         }
 
         String url = null;
+        Utilities.showLoader(context);
         try {
             url = Constants.JOIN_WAIT_LIST_V2 +
                     "?chatIntakeFormId=" + URLEncoder.encode(intakeformId + "", "UTF-8") +
-                    "&userId=" + "476914" +
+                    "&userId=" + URLEncoder.encode(Constants.ID + "", "UTF-8") +
                     "&consultantId=" + URLEncoder.encode(universalAstrologerListModel.getId() + "", "UTF-8") +
                     "&tokenType=" + URLEncoder.encode("CHAT", "UTF-8") +
-                    "&cancelLast=" + isWaitListJoined +
-                    "&appVersionUser=" + "1.1.197" +
-                    "&isOfferV3=" + isOfferV3 +
-                    "&isPo=" + false +
+                    "&appVersionUser=" + Constants.SDK_VERSION +
                     "&appId=" + URLEncoder.encode(Constants.APP_ID + "", "UTF-8") +
                     "&businessId=" + URLEncoder.encode(Constants.BUSINESS_ID + "", "UTF-8") +
-                    "&timezone=" + "Asia/Calcutta" +
+                    "&timezone=" + URLEncoder.encode(Constants.TIME_ZONE, "UTF-8") +
                     "&chatType=" + URLEncoder.encode(chatType, "UTF-8") +
                     derIdValue;
 
@@ -691,42 +958,28 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
             @Override
             public void onResponse(String response) {
                 Log.e("dskdsdsdd", response);
+                Utilities.closeLoader();
                 try {
                     JSONObject object = new JSONObject(response);
                     if (object.getString("status").equalsIgnoreCase("success")) {
-                        //Utilities.firebaseEventsstartServices(mFirebaseAnalytics, ChatIntakeFormActivity.this, "Chat", "Chat_Start");
-
+                        JSONObject dataobject = new JSONObject(object.getString("data"));
                         sharedPreferences.edit().putBoolean(Constants.FIVE_MIN_TIPS, false).apply();
 
-                        JSONObject jsonObject1 = new JSONObject(object.getString("data"));
+                        if (from == 2) {
+                            Intent orderHistory = new Intent(ChatIntakeFormActivity.this, ChatAstrologerListActivity.class);
+                            orderHistory.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            orderHistory.putExtra("from", from);
+                            orderHistory.putExtra("id", dataobject.getLong("id"));
+                            startActivity(orderHistory);
+                            finish();
+                        } else {
+                            Intent orderHistory = new Intent(ChatIntakeFormActivity.this, ChatAstrologerListActivity.class);
+                            orderHistory.putExtra("id", dataobject.getLong("id"));
+                            orderHistory.putExtra("from", 2);
+                            startActivity(orderHistory);
+                            finishAffinity();
+                        }
 
-//                        chatOrderId = jsonObject1.getLong("id");
-
-//                        Intent intentCHat = new Intent(ChatIntakeFormActivity.this, UserAstrologerChatWindowActivity.class);
-//                        intentCHat.putExtra("chatorder_id", chatOrderId);
-//                        intentCHat.putExtra("astrologer_id", universalAstrologerListModel.getId());
-//                        intentCHat.putExtra("astrologer_name", universalAstrologerListModel.getFirstname());
-//                        startActivity(intentCHat);
-
-
-//                        if (from == 2) {
-//                            Intent orderHistory = new Intent(ChatIntakeFormActivity.this, ChatAstrologerlistActivity.class);
-//                            orderHistory.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            orderHistory.putExtra("from", from);
-//                            startActivity(orderHistory);
-//                            finish();
-//                        } else {
-//                            finish();
-//                        }
-//
-//
-//                        HashMap<String, Object> eventProperties = new HashMap<String, Object>();//added by CleverTap Assistant
-//                        eventProperties.put("Type", "Chat");//added by CleverTap Assistant
-//                        if (from == 2) {
-//                            eventProperties.put("Source", "Astrologer_Profile_chat");//added by CleverTap Assistant
-//                        } else {
-//                            eventProperties.put("Source", "Chat_list");//added by CleverTap Assistant
-//                        }
 
                     } else {
                         Utilities.showToast(ChatIntakeFormActivity.this, object.getString("reason"));
@@ -735,16 +988,473 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Utilities.closeLoader();
                 }
 
+
+            }
+        }, error -> Utilities.closeLoader()) {
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization", Constants.AUTHORIZATION);
+                headers.put("id", Constants.ID);
+                return headers;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(Constants.VOLLEY_TIME_OUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(stringRequest);
+    }
+
+    private void getChatTntakeDetails() {
+        Utilities.showLoader(context);
+        String url;
+        url = Constants.GET_LAST_INTAKE_RECORD +
+                "?userId=" + Constants.ID +
+                "&type=" + "CHAT";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url.trim(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Utilities.closeLoader();
+                try {
+                    Log.e("report details", response);
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getString("status").equalsIgnoreCase("success")) {
+
+                        JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
+
+                        if (jsonObject1.has("name") && !jsonObject1.isNull("name")) {
+                            if (jsonObject1.getString("name").equalsIgnoreCase("")) {
+                                Log.e("Response", "No name is present");
+                            } else {
+                                nameET.setText(jsonObject1.getString("name"));
+                            }
+                        }
+
+                        if (jsonObject1.has("lastName") && !jsonObject1.isNull("lastName")) {
+                            if (jsonObject1.getString("lastName").equalsIgnoreCase("")) {
+                                Log.e("Response", "No last name is present");
+                            } else {
+                                lastnameET.setText(jsonObject1.getString("lastName"));
+                            }
+                        } else {
+                            lastnameET.setText("");
+                        }
+
+                        if (jsonObject1.has("mobile") && !jsonObject1.isNull("mobile")) {
+                            if (jsonObject1.getString("mobile").equalsIgnoreCase("")) {
+                                Log.e("Response", "No number is present");
+                            } else {
+                                phoneET.setText(jsonObject1.getString("mobile"));
+                            }
+                        }
+
+                        if (jsonObject1.has("gender") && !jsonObject1.isNull("gender")) {
+                            gender = jsonObject1.getString("gender");
+                        } else {
+                            gender = "";
+                        }
+
+                        if (gender.equalsIgnoreCase("male")) {
+                            radioMale.performClick();
+
+                        } else if (gender.equalsIgnoreCase("female")) {
+                            radioFemale.performClick();
+
+                        } else {
+
+                        }
+
+                        List<String> dobarray = Arrays.asList(jsonObject1.getString("dob").split(","));
+                        if (dobarray.size() > 0) {
+                            dobET.setText(dobarray.get(0));
+
+                            DateFormat df = new SimpleDateFormat("dd-MMMM-yyyy");
+                            Date date = null;// converting String to date
+                            try {
+                                date = df.parse(dobET.getText().toString());
+                                DefaultStartCalender = Calendar.getInstance();
+                                DefaultStartCalender.setTime(date);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (dobarray.size() == 2) {
+                            TimeBirthET.setText(dobarray.get(1));
+                            Log.d("date_time", "getParams: " + dobarray.get(1));
+                        }
+
+
+                        List<String> placebirtharray = Arrays.asList(jsonObject1.getString("placeOfBirth").split(","));
+                        if (placebirtharray.size() > 2) {
+                            city_name.setText(placebirtharray.get(0).trim());
+                            state_name.setText(placebirtharray.get(1).trim());
+                            country_name.setText(placebirtharray.get(2).trim());
+                        } else if (placebirtharray.size() == 2) {
+                            city_name.setText(placebirtharray.get(0).trim());
+                            country_name.setText(placebirtharray.get(1).trim());
+                        } else if (placebirtharray.size() == 1) {
+                            city_name.setText(placebirtharray.get(0).trim());
+
+                        }
+                        if (jsonObject1.has("partnername") && !jsonObject1.isNull("partnername")) {
+                            if (jsonObject1.getString("partnername").equalsIgnoreCase("")) {
+                                partneNnameET.setText("");
+                            } else {
+                                partneNnameET.setText(jsonObject1.getString("partnername"));
+                            }
+                        } else {
+                            partneNnameET.setText("");
+                        }
+
+                        if (jsonObject1.has("partnerdob") && !jsonObject1.isNull("partnerdob")) {
+                            if (jsonObject1.getString("partnerdob").equalsIgnoreCase("")) {
+
+                            } else {
+                                pdobET.setText(jsonObject1.getString("partnerdob"));
+                                DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+                                Date date = null;// converting String to date
+                                try {
+                                    date = df.parse(jsonObject1.getString("partnerdob"));
+                                    DefaultStartCalenderFemale = Calendar.getInstance();
+                                    DefaultStartCalenderFemale.setTime(date);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        } else {
+                            pdobET.setText("");
+                        }
+
+                        if (jsonObject1.has("partnertimeofbirth") && !jsonObject1.isNull("partnertimeofbirth")) {
+                            if (jsonObject1.getString("partnertimeofbirth").equalsIgnoreCase("")) {
+
+                            } else {
+                                Log.d("date_time", "getParams: " + jsonObject1.getString("partnertimeofbirth"));
+                                pTimeBirthET.setText(jsonObject1.getString("partnertimeofbirth"));
+                            }
+                        }
+
+                        List<String> pplacebirtharray = Arrays.asList(jsonObject1.getString("partnerplaceofbirth").split(","));
+                        if (pplacebirtharray.size() > 2) {
+                            pcity_name.setText(pplacebirtharray.get(0));
+                            pstate_name.setText(pplacebirtharray.get(1));
+                            pcountry_name.setText(pplacebirtharray.get(2));
+                        } else if (pplacebirtharray.size() == 2) {
+                            pcity_name.setText(pplacebirtharray.get(0));
+                            pcountry_name.setText(pplacebirtharray.get(1));
+                        } else if (pplacebirtharray.size() == 1) {
+                            pcity_name.setText(pplacebirtharray.get(0));
+
+                        }
+
+                        if (jsonObject1.has("comment") && !jsonObject1.isNull("comment")) {
+                            questionET.setText(jsonObject1.getString("comment"));
+                        }
+                        if (jsonObject1.has("occupation") && !jsonObject1.isNull("occupation")) {
+                            occupationET.setText(jsonObject1.getString("occupation"));
+                        }
+
+                        if (jsonObject1.has("maritialStatus") && !jsonObject1.isNull("maritialStatus")) {
+                            maritalStatus = jsonObject1.getString("maritialStatus");
+                        }
+
+                        if (maritalStatus.equalsIgnoreCase("")) {
+                            marital_spinner.setSelection(0);
+                        } else if (maritalStatus.equalsIgnoreCase(getResources().getString(R.string.at_single_drop_down))) {
+                            marital_spinner.setSelection(1);
+                        } else if (maritalStatus.equalsIgnoreCase(getResources().getString(R.string.at_married_drop_down))) {
+                            marital_spinner.setSelection(2);
+                        } else if (maritalStatus.equalsIgnoreCase(getResources().getString(R.string.at_divorced_drop_down))) {
+                            marital_spinner.setSelection(3);
+                        } else if (maritalStatus.equalsIgnoreCase(getResources().getString(R.string.at_separated_drop_down))) {
+                            marital_spinner.setSelection(4);
+                        } else if (maritalStatus.equalsIgnoreCase(getResources().getString(R.string.at_widowed_drop_down))) {
+                            marital_spinner.setSelection(5);
+                        }
+
+                        if (jsonObject1.has("problemarea") && !jsonObject1.isNull("problemarea")) {
+                            selectedItem = jsonObject1.getString("problemarea");
+                        }
+
+
+                        if (selectedItem.equalsIgnoreCase("")) {
+                            spinner.setSelection(0);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_career_and_business_drop_down))) {
+                            spinner.setSelection(1);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_marriage_drop_down))) {
+                            spinner.setSelection(2);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_love_and_relationship_drop_down))) {
+                            spinner.setSelection(3);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_wealth_and_property_drop_down))) {
+                            spinner.setSelection(4);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_education_drop_down))) {
+                            spinner.setSelection(5);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_legal_matters_drop_down))) {
+                            spinner.setSelection(6);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_child_name_consultation_drop_down))) {
+                            spinner.setSelection(7);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_business_name_consultation_drop_down))) {
+                            spinner.setSelection(8);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_gem_stone_consultation_drop_down))) {
+                            spinner.setSelection(9);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_commodity_trading_consultation_drop_down))) {
+                            spinner.setSelection(10);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_match_making_drop_down))) {
+                            spinner.setSelection(11);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_birth_time_rectification_drop_down))) {
+                            spinner.setSelection(12);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_name_correction_consultation_drop_down))) {
+                            spinner.setSelection(13);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_travel_abroad_consultation_drop_down))) {
+                            spinner.setSelection(14);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_remedy_consultation_drop_down))) {
+                            spinner.setSelection(15);
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_health_consultation_drop_down))) {
+                            spinner.setSelection(16);
+
+                        } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.at_others_drop_down))) {
+                            spinner.setSelection(17);
+
+                        } else {
+                            otherET.setText(selectedItem);
+                            spinner.setSelection(17);
+                        }
+
+                        if (isToShowPlaces) {
+
+                            if (jsonObject1.has("lat") && !jsonObject1.isNull("lat") && jsonObject1.has("lon") && !jsonObject1.isNull("lon")) {
+                                if (jsonObject1.getDouble("lat") != 0 && jsonObject1.getDouble("lon") != 0) {
+                                    googleAddressModel = new GoogleAddressModel();
+                                    googleAddressModel.setLat(jsonObject1.getDouble("lat"));
+                                    googleAddressModel.setLon(jsonObject1.getDouble("lon"));
+                                }
+                            }
+
+                            googleAddressModelPartner = new GoogleAddressModel();
+                            if (jsonObject1.has("partnerLat") && !jsonObject1.isNull("partnerLat")) {
+                                googleAddressModelPartner.setLat(jsonObject1.getDouble("partnerLat"));
+                            }
+                            if (jsonObject1.has("partnerLon") && !jsonObject1.isNull("partnerLon")) {
+                                googleAddressModelPartner.setLon(jsonObject1.getDouble("partnerLon"));
+                            }
+                        } else if (atLocationApi) {
+                            double lat = 0;
+                            double log = 0;
+                            double latpartner = 0;
+                            double logpartner = 0;
+                            if (jsonObject1.has("lat") && !jsonObject1.isNull("lat") && jsonObject1.has("lon") && !jsonObject1.isNull("lon")) {
+                                if (jsonObject1.getDouble("lat") != 0 && jsonObject1.getDouble("lon") != 0) {
+                                    lat = jsonObject1.getDouble("lat");
+                                    log = jsonObject1.getDouble("lon");
+                                }
+                            }
+                            if (lat != 0 && log != 0) {
+                                if (jsonObject1.has("address") && !jsonObject1.isNull("address")) {
+                                    auto_complete_edit_text_astrotalkapi.setText(jsonObject1.getString("address"));
+                                    astrotalkPlaceModel = new GoogleAddressModel();
+                                    astrotalkPlaceModel.setLat(jsonObject1.getDouble("lat"));
+                                    astrotalkPlaceModel.setLon(jsonObject1.getDouble("lon"));
+                                }
+                            }
+
+
+                            if (jsonObject1.has("partnerLat") && !jsonObject1.isNull("partnerLat")) {
+                                latpartner = jsonObject1.getDouble("partnerLat");
+                            }
+                            if (jsonObject1.has("partnerLon") && !jsonObject1.isNull("partnerLon")) {
+                                logpartner = jsonObject1.getDouble("partnerLon");
+                            }
+
+                            if (latpartner != 0 && logpartner != 0) {
+                                if (jsonObject1.has("partnerAddress") && !jsonObject1.isNull("partnerAddress")) {
+                                    auto_complete_edit_text_astrotalkapi_partner.setText(jsonObject1.getString("partnerAddress"));
+                                    astrotalkPlacePartner = new GoogleAddressModel();
+                                    astrotalkPlacePartner.setLat(jsonObject1.getDouble("partnerLat"));
+                                    astrotalkPlacePartner.setLon(jsonObject1.getDouble("partnerLon"));
+                                }
+                            }
+
+                        }
+
+                    } else {
+                        Utilities.closeLoader();
+                        Utilities.showToast(ChatIntakeFormActivity.this, "Something went wrong");
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Utilities.closeLoader();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    Utilities.closeLoader();
+                }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Utilities.closeLoader();
+
 
             }
         }) {
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization", Constants.AUTHORIZATION);
+                headers.put("id", Constants.ID);
+                return headers;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(6000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(stringRequest);
+    }
+
+    private void chatIntakeformOnBackPressed() {
+        final String Url = Constants.CHAT_INTAKE_FORM;
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+        }, error -> {
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+
+                int selectedId = radioSexGroup.getCheckedRadioButtonId();
+                if (selectedId <= 0) {
+                    gender = "";
+                } else {
+                    radioSexButton = findViewById(selectedId);
+
+                    radioSexButton = findViewById(selectedId);
+                    gender = radioSexButton.getText().toString();
+
+                    if (language_id == 1 || language_id == 2) {
+                        Log.e("Response", "Language Selected");
+                    } else {
+                        if (gender.equalsIgnoreCase(getResources().getString(R.string.at_male_intake))) {
+                            gender = "Male";
+                        } else {
+                            gender = "Female";
+                        }
+                    }
+                }
+
+                params.put("userId", Constants.ID + "");
+                params.put("name", nameET.getText().toString());
+                params.put("lastName", lastnameET.getText().toString());
+                params.put("mobile", phoneET.getText().toString());
+                params.put("countrycode", countryCode);
+                params.put("email", "");
+                Log.d("date_time", "getParams: " + dobET.getText().toString().trim() + "," + TimeBirthET.getText().toString().trim());
+                params.put("dob", dobET.getText().toString().trim() + "," + TimeBirthET.getText().toString().trim());
+                params.put("gender", gender);
+                String makeplaceofbitrh = city_name.getText().toString();
+
+                if (!state_name.getText().toString().equalsIgnoreCase("")) {
+                    makeplaceofbitrh = makeplaceofbitrh + "," + state_name.getText().toString();
+                }
+                makeplaceofbitrh = makeplaceofbitrh + "," + country_name.getText().toString();
+                params.put("placeOfBirth", makeplaceofbitrh);
+                if (isToShowPlaces) {
+                    if (googleAddressModel != null && googleAddressModel.getLat() != null)
+                        params.put("lat", googleAddressModel.getLat() + "");
+                    else
+                        params.put("lat", "");
+                    if (googleAddressModel != null && googleAddressModel.getLon() != null)
+                        params.put("lon", googleAddressModel.getLon() + "");
+                    else
+                        params.put("lon", "");
+                } else if (atLocationApi) {
+
+                    if (astrotalkPlaceModel != null && astrotalkPlaceModel.getLat() != null)
+                        params.put("lat", astrotalkPlaceModel.getLat() + "");
+                    else
+                        params.put("lat", "");
+                    if (astrotalkPlaceModel != null && astrotalkPlaceModel.getLon() != null)
+                        params.put("lon", astrotalkPlaceModel.getLon() + "");
+                    else
+                        params.put("lon", "");
+
+                }
+
+
+                if (atLocationApi) {
+                    params.put("placeOfBirth", auto_complete_edit_text_astrotalkapi.getText().toString().trim());
+                    params.put("address", auto_complete_edit_text_astrotalkapi.getText().toString().trim());
+
+                } else {
+                    params.put("address", makeplaceofbitrh);
+                }
+                params.put("timezoneid", Constants.TIME_ZONE);
+                params.put("comment", "");
+                params.put("userType", "ASTROTALK");
+                params.put("deviceType", "ANDROID");
+
+
+                if (partner_details_checkbox.isChecked()) {
+                    params.put("partnername", partneNnameET.getText().toString());
+                    params.put("partnerdob", pdobET.getText().toString().trim());
+                    params.put("partnertimeofbirth", pTimeBirthET.getText().toString().trim());
+                    String pplaceofbitrh = "";
+                    if (!pcity_name.getText().toString().equalsIgnoreCase("")) {
+                        pplaceofbitrh = pcity_name.getText().toString();
+                    }
+                    if (!pstate_name.getText().toString().equalsIgnoreCase("")) {
+                        pplaceofbitrh = pplaceofbitrh + "," + pstate_name.getText().toString();
+                    }
+                    if (!pcountry_name.getText().toString().equalsIgnoreCase("")) {
+                        pplaceofbitrh = pplaceofbitrh + "," + pcountry_name.getText().toString();
+                    }
+                    params.put("partnerplaceofbirth", pplaceofbitrh);
+                    if (atLocationApi) {
+
+                        params.put("partnerplaceofbirth", auto_complete_edit_text_astrotalkapi_partner.getText().toString().trim());
+                        params.put("partnerAddress", auto_complete_edit_text_astrotalkapi_partner.getText().toString().trim());
+                        if (astrotalkPlacePartner != null && astrotalkPlacePartner.getLon() != null)
+                            params.put("partnerLon", astrotalkPlacePartner.getLon() + "");
+                        else
+                            params.put("partnerLon", "");
+                        if (astrotalkPlacePartner != null && astrotalkPlacePartner.getLat() != null)
+                            params.put("partnerLat", astrotalkPlacePartner.getLat() + "");
+                        else
+                            params.put("partnerLat", "");
+
+                    } else {
+                        params.put("partnerAddress", pplaceofbitrh);
+                    }
+                } else {
+                    params.put("partnername", "");
+                    params.put("partnerdob", "");
+                    params.put("partnertimeofbirth", "");
+                    params.put("partnerplaceofbirth", "");
+                    params.put("partnerAddress", "");
+                    params.put("partnerLat", "");
+                    params.put("partnerLon", "");
+                }
+                if (selectedPosition == 0) {
+                    selectedItem = "";
+                } else if (selectedPosition == 17) {
+                    selectedItem = otherET.getText().toString();
+                }
+                params.put("problemarea", selectedItem);
+                params.put("maritialStatus", maritalStatus);
+                params.put("occupation", occupationET.getText().toString().trim());
+                params.put("chatVersion", "v2");
+                params.put("appVersionUser", Constants.SDK_VERSION);
+                params.put("appId", Constants.APP_ID + "");
+                params.put("businessId", Constants.BUSINESS_ID + "");
+                return params;
+            }
+
             @Override
             public Map getHeaders() throws AuthFailureError {
                 HashMap headers = new HashMap();
@@ -758,57 +1468,27 @@ public class ChatIntakeFormActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void chatAccept() {
-
-        chatOrderId = Constants.CHAT_ORDER_ID;
-
-        String url = null;
-        try {
-            url = Constants.ACCEPT_CHAT +
-                    "?chatOrderId=" + URLEncoder.encode(chatOrderId + "", "UTF-8")+
-                    "&userId=" +Constants.ID;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject object = new JSONObject(response);
-                    if (object.getString("status").equalsIgnoreCase("success")) {
-
-                        Intent intentCHat = new Intent(ChatIntakeFormActivity.this, UserAstrologerChatWindowActivity.class);
-                        intentCHat.putExtra("chatorder_id", chatOrderId);
-                        intentCHat.putExtra("astrologer_id", universalAstrologerListModel.getId());
-                        intentCHat.putExtra("astrologer_name", universalAstrologerListModel.getFirstname());
-                        startActivity(intentCHat);
-
-                    } else {
-
-                        Utilities.showToast(ChatIntakeFormActivity.this, object.getString("reason"));
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            if (data != null) {
+                astrotalkPlaceModel = (GoogleAddressModel) data.getSerializableExtra("location_detail");
+                if (astrotalkPlaceModel.getState().isEmpty()) {
+                    auto_complete_edit_text_astrotalkapi.setText(astrotalkPlaceModel.getCity() + ", " + astrotalkPlaceModel.getCountry());
+                } else {
+                    auto_complete_edit_text_astrotalkapi.setText(astrotalkPlaceModel.getCity() + ", " + astrotalkPlaceModel.getState() + ", " + astrotalkPlaceModel.getCountry());
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        } else if (requestCode == 200) {
+            if (data != null) {
+                astrotalkPlacePartner = (GoogleAddressModel) data.getSerializableExtra("location_detail");
+                if (astrotalkPlacePartner.getState().isEmpty()) {
+                    auto_complete_edit_text_astrotalkapi_partner.setText(astrotalkPlacePartner.getCity() + ", " + astrotalkPlacePartner.getCountry());
+                } else {
+                    auto_complete_edit_text_astrotalkapi_partner.setText(astrotalkPlacePartner.getCity() + ", " + astrotalkPlacePartner.getState() + ", " + astrotalkPlacePartner.getCountry());
+                }
             }
-        }) {
-            @Override
-            public Map getHeaders() throws AuthFailureError {
-                HashMap headers = new HashMap();
-                headers.put("Authorization", Constants.AUTHORIZATION);
-                headers.put("id", Constants.ID);
-                return headers;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(6000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(stringRequest);
+        }
     }
-
 }

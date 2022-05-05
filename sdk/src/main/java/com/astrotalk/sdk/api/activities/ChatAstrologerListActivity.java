@@ -1,12 +1,8 @@
 package com.astrotalk.sdk.api.activities;
 
-
-import static android.view.View.VISIBLE;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,7 +48,7 @@ public class ChatAstrologerListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_astrologer_list);
+        setContentView(R.layout.at_activity_chat_astrologer_list);
 
         initViews();
 

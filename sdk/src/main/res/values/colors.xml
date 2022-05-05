@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="at_colorPrimary">#F0DF20</color>
-    <color name="at_white">#FFFFFF</color>
+    <color name="at_color_primary">#F0DF20</color>
+
     <color name="at_black">#000000</color>
     <color name="at_black_transparent">#B2000000</color>
-
-    <color name="color_f2f2f2">#f2f2f2</color>
-    <color name="at_color_FFFFE4">#FFFFE4</color>
-    <color name="at_grey_e0">#e0e0e0</color>
-    <color name="at_color_f7f7f7">#f7f7f7</color>
-    <color name="gray_lightest">#F3F3F3</color>
-    <color name="at_gary">#c4c4c4</color>
-    <color name="at_gray_dark">#a9a9a9</color>
-    <color name="at_button_gray">#8c8c8c</color>
-    <color name="at_new_gray">#808080</color>
-    <color name="at_C0C0C0_color">#707070</color>
-    <color name="at_color_616161">#616161</color>
-    <color name="at_editTextColor">#4c4c4c</color>
-
-    <color name="at_green_light">#d6e8a0</color>
-    <color name="at_green_dark">#1aa260</color>
-    <color name="at_link">#0000ff</color>
-    <color name="at_dark_red">#c10101</color>
-    <color name="at_waitListColor">#eb0029</color>
-    <color name="at_C66748_color">#C66748</color>
-    <color name="at_color_yellow_on">#8C8341</color>
-    <color name="at_color_6FCF97">#6FCF97</color>
-    <color name="color_1aa260">#1aa260</color>
-    <color name="at_double_click">#34b7f1</color>
     <color name="at_black_light">#1a1a1a</color>
-    <color name="green">#28BA51</color>
-    <color name="color_red_ed1c24">#ed1c24</color>
-    <color name="light_main_color">#ebe6b5</color>
+
+    <color name="at_white">#FFFFFF</color>
+    <color name="at_grey7">#f2f2f2</color>
+    <color name="at_grey6">#e0e0e0</color>
+    <color name="at_grey5">#c4c4c4</color>
+    <color name="at_grey4">#a9a9a9</color>
+    <color name="at_grey3">#8c8c8c</color>
+    <color name="at_grey2">#707070</color>
+    <color name="at_grey">#4c4c4c</color>
+
+    <color name="at_main_color_light2">#FFFFE4</color>
+    <color name="at_main_color_light">#ebe6b5</color>
+    <color name="at_green_light2">#d6e8a0</color>
+    <color name="at_green_light">#6FCF97</color>
+    <color name="at_green">#28BA51</color>
+    <color name="at_green_dark">#1aa260</color>
+    <color name="at_orange">#C66748</color>
+    <color name="at_red">#eb0029</color>
+    <color name="at_red_dark">#c10101</color>
+    <color name="at_sky_blue">#34b7f1</color>
+    <color name="at_link">#0000ff</color>
+    <color name="at_yellow_on">#8C8341</color>
 </resources>

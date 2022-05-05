@@ -4,17 +4,16 @@
 
     <application>
         <activity
-            android:name=".api.activities.UserAstrologerChatWindowActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:name=".api.activities.CompleteChatDetails"
+            android:exported="false" />
         <activity
-            android:name=".api.activities.ChatIntakeFormActivity"
+            android:name=".api.activities.AcceptChatInterfaceActivity"
             android:exported="false" />
         <activity
             android:name=".api.activities.ChatAstrologerListActivity"
             android:exported="false" />
         <activity
-            android:name=".api.activities.AstrologerListActivity"
+            android:name=".api.activities.ChatIntakeFormActivity"
             android:exported="false" />
     </application>
 

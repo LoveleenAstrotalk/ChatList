@@ -6,7 +6,7 @@ plugins {
 
 android {
     compileSdk 31
-
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         minSdk 23
         targetSdk 31
@@ -55,6 +55,13 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.google.android.libraries.places:places:2.6.0'
+
+    // Multipart
+    implementation('org.apache.httpcomponents:httpmime:4.3.6') {
+        exclude module: 'httpclient'
+    }
+    implementation 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

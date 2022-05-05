@@ -1,14 +1,16 @@
 package com.astrotalk.sdk.api.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -25,30 +27,36 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.astrotalk.sdk.R;
+import com.astrotalk.sdk.api.activities.ChatImageViwerActvity;
 import com.astrotalk.sdk.api.model.UserAstrogerChatWindowModel;
 import com.astrotalk.sdk.api.utils.CalenderUtils;
 import com.astrotalk.sdk.api.utils.Constants;
+import com.astrotalk.sdk.api.utils.DoubleClickListener;
 import com.astrotalk.sdk.api.utils.Utilities;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
-
-/**
- * Created by rajeev on 4/8/18.
- */
 
 public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAstrologerChatWindowAdapter.ViewHolder> {
 
     Context context;
     ArrayList<UserAstrogerChatWindowModel> messages = new ArrayList<>();
     SharedPreferences sharedPreferences;
+    ItemClickListener itemClickListener;
     public boolean isAnyOneSleted = false;
+    private UserAstrologerChatWindowAdapter.ParentReplyClick parentReplyClick;
     public long latestOrderId = 0;
 
-    public UserAstrologerChatWindowAdapter(Context context, ArrayList<UserAstrogerChatWindowModel> messages) {
+    public UserAstrologerChatWindowAdapter(Context context, ArrayList<UserAstrogerChatWindowModel> messages, ItemClickListener itemClickListener, ParentReplyClick parentReplyClick) {
         this.messages = messages;
         this.context = context;
         sharedPreferences = context.getSharedPreferences(Constants.USER_DETAIL, 0);
+        this.itemClickListener = itemClickListener;
+        this.parentReplyClick = parentReplyClick;
     }
 
     public void changeData(ArrayList<UserAstrogerChatWindowModel> messages) {
@@ -58,13 +66,13 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
 
     @Override
     public UserAstrologerChatWindowAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_user_astrologer_chat_window, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.at_item_chat_astrologer_list, parent, false);
         UserAstrologerChatWindowAdapter.ViewHolder myViewHolder = new UserAstrologerChatWindowAdapter.ViewHolder(view);
         return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final UserAstrologerChatWindowAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(final UserAstrologerChatWindowAdapter.ViewHolder holder, final int position) {
         UserAstrogerChatWindowModel chatModel = messages.get(position);
         boolean isShowDate = chatModel.isShowDate();
         if (latestOrderId==0){
@@ -77,7 +85,7 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
         if (chatModel.isHighlight()) {
-            holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.at_color_yellow_on));
+            holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.at_yellow_on));
         } else {
             holder.mainLayout.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -91,9 +99,9 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
             holder.frameLayout.setVisibility(View.GONE);
             holder.body.setVisibility(View.VISIBLE);
             if (chatModel.isLowBalanceText() == true) {
-                holder.body.setTextColor(ContextCompat.getColor(context,R.color.at_dark_red));
+                holder.body.setTextColor(ContextCompat.getColor(context,R.color.at_red_dark));
             } else {
-                holder.body.setTextColor(Color.parseColor("#FFFFFF"));
+                holder.body.setTextColor(ContextCompat.getColor(context,R.color.at_black));
             }
             if (chatModel.isConsultant()) {
                 holder.timeTV.setGravity(Gravity.RIGHT);
@@ -168,18 +176,18 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
                         holder.progressBar.setVisibility(View.GONE);
                         holder.tick_icon.setVisibility(View.VISIBLE);
                         holder.tick_icon.setImageResource(R.drawable.at_ic_double_tick);
-                        holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_double_click), android.graphics.PorterDuff.Mode.SRC_IN);
+                        holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_sky_blue), android.graphics.PorterDuff.Mode.SRC_IN);
                     } else {
                         holder.progressBar.setVisibility(View.GONE);
                         holder.tick_icon.setVisibility(View.VISIBLE);
                         holder.tick_icon.setImageResource(R.drawable.at_ic_double_tick);
-                        holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_C0C0C0_color), android.graphics.PorterDuff.Mode.SRC_IN);
+                        holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_grey2), android.graphics.PorterDuff.Mode.SRC_IN);
                     }
                 } else {
                     holder.progressBar.setVisibility(View.GONE);
                     holder.tick_icon.setVisibility(View.VISIBLE);
                     holder.tick_icon.setImageResource(R.drawable.at_ic_action_error);
-                    holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_dark_red), android.graphics.PorterDuff.Mode.SRC_IN);
+                    holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_red_dark), android.graphics.PorterDuff.Mode.SRC_IN);
 
 
                 }
@@ -189,7 +197,6 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
         } else {
 
             holder.imageprogressBar.setVisibility(View.VISIBLE);
-
 
             if (chatModel.isMessageDelete()) {
                 holder.body.setVisibility(View.VISIBLE);
@@ -203,7 +210,20 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
                 Glide.with(context).load(chatModel.getMessage()).into(holder.chat_image);
                 Glide.with(context)
                         .load(chatModel.getMessage())
-                        .placeholder(ContextCompat.getDrawable(context, R.drawable.at_ic_gallery))
+                        .placeholder(ContextCompat.getDrawable(context, R.drawable.at_gallery_gray))
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                holder.imageprogressBar.setVisibility(View.GONE);
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                holder.imageprogressBar.setVisibility(View.GONE);
+                                return false;
+                            }
+                        })
                         .into(holder.chat_image);
             }
 
@@ -277,56 +297,90 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
                         holder.progressBar.setVisibility(View.GONE);
                         holder.tick_icon.setVisibility(View.VISIBLE);
                         holder.tick_icon.setImageResource(R.drawable.at_ic_double_tick);
-                        holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_double_click), android.graphics.PorterDuff.Mode.SRC_IN);
+                        holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_sky_blue), android.graphics.PorterDuff.Mode.SRC_IN);
                     } else {
                         holder.progressBar.setVisibility(View.GONE);
                         holder.tick_icon.setVisibility(View.VISIBLE);
                         holder.tick_icon.setImageResource(R.drawable.at_ic_double_tick);
-                        holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_C0C0C0_color), android.graphics.PorterDuff.Mode.SRC_IN);
+                        holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_grey2), android.graphics.PorterDuff.Mode.SRC_IN);
                     }
 
 
                 } else {
                     holder.progressBar.setVisibility(View.GONE);
                     holder.tick_icon.setVisibility(View.VISIBLE);
-                    holder.tick_icon.setImageResource(R.drawable.at_ic_action_error);
-                    holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_dark_red), android.graphics.PorterDuff.Mode.SRC_IN);
-
-
+                    holder.tick_icon.setImageResource(R.drawable.at_ic_double_tick);
+                    holder.tick_icon.setColorFilter(ContextCompat.getColor(context, R.color.at_red_dark), android.graphics.PorterDuff.Mode.SRC_IN);
                 }
             }
-
-
         }
+        holder.mainLayout.setOnLongClickListener(v -> {
+            Log.e("statussssss", chatModel.isMessageDelete() + "");
 
-
-        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (messages.get(position).isSelectedForDelete()) {
-                    isAnyOneSleted = false;
-                    holder.mainLayout.setBackgroundColor(Color.TRANSPARENT);
-
-                    Log.e("status", "unselect");
-                } else {
-                    if (!chatModel.getType().equalsIgnoreCase("TEXT") && !chatModel.isMessageDelete()) {
-
-//                        Intent intent = new Intent(context, ChatImageViwerActvity.class);
-//                        intent.putExtra("url", messages.get(position).getMessage());
-//                        context.startActivity(intent);
+            if (isAnyOneSleted || chatModel.isMessageDelete()) {
+            } else {
+                isAnyOneSleted = true;
+                holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.at_color_primary));
+                Log.e("status", "select");
+                if (messages.get(position).getType().equalsIgnoreCase("TEXT")) {
+                    if (messages.get(position).isConsultant()) {
+                        itemClickListener.onClick(position, true, 0, messages.get(position).getMessage(), messages.get(position).getId(), false);
+                    } else {
+                        itemClickListener.onClick(position, true, 0, messages.get(position).getMessage(), messages.get(position).getId(), true);
                     }
+                } else {
+                    if (messages.get(position).isConsultant()) {
+                        itemClickListener.onClick(position, true, 1, messages.get(position).getMessage(), messages.get(position).getId(), false);
+                    } else {
+                        itemClickListener.onClick(position, true, 1, messages.get(position).getMessage(), messages.get(position).getId(), true);
+                    }
+                }
+            }
+            return true;
+        });
+
+        holder.rl_show_message.setOnClickListener(new DoubleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                parentReplyClick.onParentReplyClick(messages, position);
+            }
+
+            @Override
+            public void onDoubleClick(View v) {
+            }
+        });
+
+        holder.mainLayout.setOnClickListener(v -> {
+            if (messages.get(position).isSelectedForDelete()) {
+                isAnyOneSleted = false;
+                holder.mainLayout.setBackgroundColor(Color.TRANSPARENT);
+                if (messages.get(position).getType().equalsIgnoreCase("TEXT")) {
+                    if (messages.get(position).isConsultant()) {
+                        itemClickListener.onClick(position, false, 0, messages.get(position).getMessage(), messages.get(position).getId(), false);
+                    } else {
+                        itemClickListener.onClick(position, false, 0, messages.get(position).getMessage(), messages.get(position).getId(), true);
+                    }
+                } else {
+                    if (messages.get(position).isConsultant()) {
+                        itemClickListener.onClick(position, false, 1, messages.get(position).getMessage(), messages.get(position).getId(), false);
+                    } else {
+                        itemClickListener.onClick(position, false, 1, messages.get(position).getMessage(), messages.get(position).getId(), true);
+                    }
+                }
+                Log.e("status", "unselect");
+            } else {
+                if (!chatModel.getType().equalsIgnoreCase("TEXT") && !chatModel.isMessageDelete()) {
+                    Intent intent = new Intent(context, ChatImageViwerActvity.class);
+                    intent.putExtra("url", messages.get(position).getMessage());
+                    context.startActivity(intent);
                 }
             }
         });
 
         if (chatModel.getParentMessageType() != null) {
-
             if (chatModel.getParentMessageType().equalsIgnoreCase("IMAGE")) {
-
                 if (chatModel.getParentMessage() != null) {
-                    if (chatModel.getParentMessage().equalsIgnoreCase("") ||
-                            chatModel.isMessageDelete()) {
-
+                    if (chatModel.getParentMessage().equalsIgnoreCase("") || chatModel.isMessageDelete()) {
                         holder.rl_show_message.setVisibility(View.GONE);
                         holder.tv_sender_message.setText("");
                         holder.sender_imv.setImageResource(0);
@@ -340,14 +394,10 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
                     holder.tv_sender_message.setText("");
                     holder.sender_imv.setImageResource(0);
                 }
-
-
             } else if (chatModel.getParentMessageType().equalsIgnoreCase("TEXT")) {
-
                 if (chatModel.getParentMessage() != null) {
                     if (chatModel.getParentMessage().equalsIgnoreCase("") ||
                             chatModel.isMessageDelete()) {
-
                         holder.rl_show_message.setVisibility(View.GONE);
                         holder.tv_sender_message.setText("");
                         holder.sender_imv.setImageResource(0);
@@ -373,7 +423,6 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
         }
 
         if (chatModel.getParentMessageSentByUser() != null) {
-
             if (!(chatModel.getParentMessageSentByUser())) {
                 if(chatModel.getAstrologerName().equalsIgnoreCase("")) {
                     holder.txt_sender_name.setText(context.getResources().getString(R.string.at_astrologer));
@@ -386,12 +435,11 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
             }
         }
 
-
         if (chatModel.isParentReply()) {
             new CountDownTimer(2000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     Log.e("dshd", millisUntilFinished + "");
-                    holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.at_colorPrimary));
+                    holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.at_color_primary));
                 }
 
                 public void onFinish() {
@@ -404,8 +452,36 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
             holder.mainLayout.setBackgroundColor(0);
         }
 
+        holder.rl_show_message.setOnLongClickListener(v -> {
+            Log.e("statussssss", chatModel.isMessageDelete() + "");
+
+            if (isAnyOneSleted || chatModel.isMessageDelete()) {
+                Log.e("Response", "isAnyOneSleted");
+            } else {
+                isAnyOneSleted = true;
+                holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.at_color_primary));
+                Log.e("status", "select");
+                if (messages.get(position).getType().equalsIgnoreCase("TEXT")) {
+                    if (messages.get(position).isConsultant()) {
+                        itemClickListener.onClick(position, true, 0, messages.get(position).getMessage(), messages.get(position).getId(), false);
+                    } else {
+                        itemClickListener.onClick(position, true, 0, messages.get(position).getMessage(), messages.get(position).getId(), true);
+
+                    }
+
+                } else {
+                    if (messages.get(position).isConsultant()) {
+                        itemClickListener.onClick(position, true, 1, messages.get(position).getMessage(), messages.get(position).getId(), false);
+                    } else {
+                        itemClickListener.onClick(position, true, 1, messages.get(position).getMessage(), messages.get(position).getId(), true);
+                    }
+                }
+            }
+            return true;
+        });
+
         if (chatModel.isSelectedForDelete()) {
-            holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.at_colorPrimary));
+            holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.at_color_primary));
         } else {
             holder.mainLayout.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -424,6 +500,10 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
     @Override
     public int getItemViewType(int position) {
         return position;
+    }
+
+    public interface ItemClickListener {
+        void onClick(int position, boolean status, int messageType, String message, long id, boolean isUserMessage);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -451,11 +531,15 @@ public class UserAstrologerChatWindowAdapter extends RecyclerView.Adapter<UserAs
             tick_icon = (ImageView) convertView.findViewById(R.id.tick_icon);
             chat_image = (ImageView) convertView.findViewById(R.id.chat_image);
             progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
-            imageprogressBar = (ProgressBar) convertView.findViewById(R.id.imageProgressBar);
+            imageprogressBar = (ProgressBar) convertView.findViewById(R.id.imageprogressBar);
             frameLayout = (FrameLayout) convertView.findViewById(R.id.frameLayout);
             info_layout = (LinearLayout) convertView.findViewById(R.id.info_layout);
             sender_imv = (ImageView) convertView.findViewById(R.id.sender_imv);
             tvChatTiming = (TextView) convertView.findViewById(R.id.tvChatTiming);
         }
+    }
+
+    public interface ParentReplyClick {
+        void onParentReplyClick(ArrayList<UserAstrogerChatWindowModel> messages, int position);
     }
 }
