@@ -67,6 +67,15 @@ public class UniversalAstrologerListModel implements Serializable, Comparable {
     private Boolean isWaitListJoinedChat = false;
     private Boolean isWaitListJoinedCall = false;
     private Boolean isWaitListJoinedVideoCall = false;
+    private int sessionPrice;
+
+    public int getSessionPrice() {
+        return sessionPrice;
+    }
+
+    public void setSessionPrice(int sessionPrice) {
+        this.sessionPrice = sessionPrice;
+    }
 
     public Boolean getWaitListJoinedChat() {
         return isWaitListJoinedChat;

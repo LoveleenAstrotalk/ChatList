@@ -8,35 +8,15 @@
         android:id="@+id/btnClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click"
+        android:text="Dev Mode"
         android:layout_centerInParent="true"/>
 
     <Button
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:backgroundTint="#FFFFE4"
-        android:text="Click"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:backgroundTint="@color/at_main_color_light"
-        android:text="Click"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:backgroundTint="#d6e8a0"
-        android:text="Click"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:backgroundTint="#28BA51"
-        android:text="Click"
+        android:id="@+id/btnClickLive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Live Mode"
         android:layout_centerInParent="true"/>
 
 </LinearLayout>

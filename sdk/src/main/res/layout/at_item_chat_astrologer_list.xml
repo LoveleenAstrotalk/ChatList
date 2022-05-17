@@ -9,9 +9,9 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="3dp"
         android:background="@color/at_white"
         android:padding="16dp"
@@ -169,7 +169,7 @@
                                     android:text="Astrologer Name"
                                     android:textColor="@color/at_black"
                                     android:textSize="18sp"
-                                    android:textStyle="bold"/>
+                                    android:textStyle="bold" />
 
                                 <LinearLayout
                                     android:id="@+id/liveLayout"
@@ -188,7 +188,7 @@
                                         android:layout_marginRight="3dp"
                                         android:padding="4dp"
                                         android:src="@drawable/at_ic_verified"
-                                        android:visibility="gone"/>
+                                        android:visibility="invisible"/>
 
                                 </LinearLayout>
 
@@ -200,7 +200,6 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:gravity="left"
-                                android:includeFontPadding="false"
                                 android:singleLine="true"
                                 android:text="skill"
                                 android:textColor="@color/at_grey"
@@ -213,7 +212,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:gravity="left"
-                                android:includeFontPadding="false"
                                 android:text="language"
                                 android:textColor="@color/at_grey"
                                 android:textSize="12dp"
@@ -251,10 +249,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="8dp"
                                         android:gravity="start"
-                                        android:includeFontPadding="false"
                                         android:text="price"
                                         android:textColor="@color/at_grey"
-                                        android:textSize="11dp" />
+                                        android:textSize="14dp" />
 
                                     <TextView
                                         android:id="@+id/price2"
@@ -264,6 +261,7 @@
                                         android:includeFontPadding="false"
                                         android:text="price"
                                         android:textColor="@color/at_grey"
+                                        android:visibility="gone"
                                         android:textSize="11dp" />
 
                                 </LinearLayout>
@@ -297,7 +295,7 @@
                                             android:includeFontPadding="false"
                                             android:text="@string/at_call"
                                             android:textColor="@color/at_green_color_selectore"
-                                            android:textSize="11dp" />
+                                            android:textSize="13dp" />
 
                                     </RelativeLayout>
 

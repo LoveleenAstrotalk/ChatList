@@ -32,8 +32,9 @@
                     android:id="@+id/astrologer_pic"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:contentDescription="@string/at_image"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@string/at_image"
                     android:gravity="center"
                     android:src="@drawable/at_ic_user" />
 

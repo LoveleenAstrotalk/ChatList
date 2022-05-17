@@ -21,10 +21,18 @@
     <color name="at_green_light">#6FCF97</color>
     <color name="at_green">#28BA51</color>
     <color name="at_green_dark">#1aa260</color>
+    <color name="at_pick_up_button_pressed">#007710</color>
+    <color name="at_pick_up_button_default">#54ff6b</color>
     <color name="at_orange">#C66748</color>
+    <color name="at_hang_up_button_default">#ff5959</color>
     <color name="at_red">#eb0029</color>
     <color name="at_red_dark">#c10101</color>
     <color name="at_sky_blue">#34b7f1</color>
     <color name="at_link">#0000ff</color>
     <color name="at_yellow_on">#8C8341</color>
+
+    <color name="light_yellow">#fffcd9</color>
+    <color name="quantum_pink">#e91e63</color>
+    <color name="orange">#F77500</color>
+
 </resources>

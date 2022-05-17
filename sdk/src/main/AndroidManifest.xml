@@ -2,18 +2,34 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.astrotalk.sdk">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <application>
         <activity
-            android:name=".api.activities.CompleteChatDetails"
+            android:name=".api.activities.AstroOrderHistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".api.activities.AcceptChatInterfaceActivity"
+            android:name=".api.activities.AstroChatAstrologerListActivity"
             android:exported="false" />
         <activity
-            android:name=".api.activities.ChatAstrologerListActivity"
+            android:name=".api.activities.AstroChatIntakeFormActivity"
             android:exported="false" />
         <activity
-            android:name=".api.activities.ChatIntakeFormActivity"
+            android:name=".api.activities.AstroSearchLocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".api.activities.AstroUserAstrologerChatWindowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".api.activities.AstroChatImageViewerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".api.activities.AstroAcceptChatInterfaceActivity"
             android:exported="false" />
     </application>
 

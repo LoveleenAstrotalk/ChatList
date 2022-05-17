@@ -157,7 +157,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp"
                 android:text="@string/at_enter_your_nearest_district_town"
-                android:textColor="@color/green"
+                android:textColor="@color/at_green"
                 android:textSize="12dp"
                 android:visibility="visible" />
 

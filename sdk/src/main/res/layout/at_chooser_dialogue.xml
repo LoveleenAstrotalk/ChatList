@@ -45,7 +45,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/at_image"
                 android:src="@drawable/at_icon_camera" />
 
             <TextView
@@ -73,7 +73,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/at_image"
                 android:src="@drawable/at_gallery_gray" />
 
             <TextView

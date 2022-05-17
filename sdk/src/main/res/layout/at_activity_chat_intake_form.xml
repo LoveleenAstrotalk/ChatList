@@ -7,9 +7,16 @@
     android:background="@color/at_white"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/tool"
+        layout="@layout/at_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/tool"
         android:layout_above="@+id/registrationBtn"
         android:layout_marginTop="10dp"
         android:scrollbars="none">
@@ -104,6 +111,7 @@
                     android:inputType="number"
                     android:paddingStart="8dp"
                     android:singleLine="true"
+                    android:maxLength="15"
                     android:textColor="@color/at_grey"
                     android:textColorHint="@color/at_grey3"
                     android:textSize="14sp"
@@ -382,6 +390,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:hint="@string/at_enter_occupation_hint"
                 android:paddingStart="8dp"
                 android:singleLine="true"
@@ -423,6 +432,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/at_enter_topic_of_concern_hint"
+                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:maxLength="250"
                 android:paddingStart="8dp"
                 android:singleLine="true"
@@ -447,6 +457,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:buttonTint="@color/at_color_primary"
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="" />
