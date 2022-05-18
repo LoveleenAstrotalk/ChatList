@@ -886,7 +886,13 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
 //                            finishAffinity();
 //                        }
                     } else {
-                        AstroUtilities.showToast(context, object.getString("reason"));
+                        if(object.getString("reason").equals("Insufficient Balance")) {
+                            // todo loveleen
+                            AstroUtilities.showToast(context, object.getString("reason"));
+                        }
+                        else {
+                            AstroUtilities.showToast(context, object.getString("reason"));
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

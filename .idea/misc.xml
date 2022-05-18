@@ -81,7 +81,7 @@
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/activity_search_location_matchmaking.xml" value="0.264" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/activity_user_astrologer_chat_window.xml" value="0.176" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/activity_user_astrologer_chat_window_old.xml" value="0.22592592592592592" />
-        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_activity_accept_chat_interface_actvity.xml" value="0.176" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_activity_accept_chat_interface_actvity.xml" value="0.2" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_activity_chat_astrologer_list.xml" value="0.2" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_activity_chat_image_viewer.xml" value="0.12314814814814815" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_activity_chat_intake_form.xml" value="0.2" />
@@ -96,7 +96,7 @@
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_item_chat_astrologer_list.xml" value="0.264" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_item_order_history.xml" value="0.4" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_item_user_astrologer_chat_window.xml" value="0.264" />
-        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_item_waitlist_adapter.xml" value="0.2" />
+        <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_item_waitlist_adapter.xml" value="0.264" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_new_location_search_pop_up.xml" value="0.1" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_offline_when_online_popup_new.xml" value="0.1" />
         <entry key="..\:/Users/Loveleen/Documents/android/Astrotalk_SDK/sdk/src/main/res/layout/at_popup_live_event_offer.xml" value="0.264" />

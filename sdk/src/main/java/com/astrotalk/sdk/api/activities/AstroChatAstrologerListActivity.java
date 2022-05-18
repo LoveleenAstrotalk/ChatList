@@ -670,6 +670,7 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
             String url;
             url = AstroConstants.GET_NEXT_ONLINE_TIME +
                     "?userId=" + user_id +
+                    "&appId=" + AstroConstants.APP_ID +
                     "&consultantId=" + userChatListModel.getId();
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     response -> {
@@ -734,7 +735,8 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
     private void getLastChatStatus(final UniversalAstrologerListModel userChatListModel) {
         String url;
         url = AstroConstants.GET_LAST_CHAT_ID_STATUS +
-                "?userId=" + user_id;
+                "?userId=" + user_id +
+                "&appId=" + AstroConstants.APP_ID;
         AstroUtilities.showLoader(context);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
@@ -1404,7 +1406,6 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
 //            }
         } else {
             cancelToken2(waitlistModel.getId());
-
 //            if (selected) {
 //                waitlistId = -1;
 //                /*Intent intent = new Intent(ChatAstrologerlistActivity.this, AddMoneyActivity.class);
@@ -1415,7 +1416,6 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
 //            } else {
 //                cancelToken2(waitlistModel.getId());
 //            }
-
         }
     }
 
