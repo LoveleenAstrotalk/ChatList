@@ -40,7 +40,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.astrotalk.sdk.R;
@@ -245,9 +244,11 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
                     user_id = dataObject.getLong("id");
                     jwt_token = "Bearer " + dataObject.getString("authToken");
                     String timeZone = dataObject.getString("timeZone");
+                    String winzoDuration = dataObject.getString("winzoDuration");
 
                     sharedPreferences.edit().putLong(AstroConstants.USER_ID, user_id).apply();
                     sharedPreferences.edit().putString(AstroConstants.JWT_TOKEN, jwt_token).apply();
+                    sharedPreferences.edit().putString(AstroConstants.WINZO_DURATION, winzoDuration).apply();
 
                     getAstrologerList();
 
@@ -258,11 +259,11 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
                     waitlistRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                     waitlistRecycler.setAdapter(waitlistAdapter);
 
-                    getQuestionsHistory(true);
+                    getChatOrder(true);
                     handler.postDelayed(runnable = () -> {
                         checkUserWaitList();
                         handler.postDelayed(runnable, 1000);
-                    }, 1000);
+                    }, 500);
 
                 } else {
                     AstroUtilities.showToast(context, object.getString("reason"));
@@ -653,11 +654,9 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
             if (universalAstrologerListModel.getStatus().equalsIgnoreCase("chat") && !universalAstrologerListModel.getWaitListJoined() ||
                     universalAstrologerListModel.getStatus().equalsIgnoreCase("busy") && !universalAstrologerListModel.getWaitListJoined() ||
                     universalAstrologerListModel.getStatus().equalsIgnoreCase("OFFLINE") && !universalAstrologerListModel.getWaitListJoined()) {
-                if (universalAstrologerListModel.getStatus().equalsIgnoreCase("OFFLINE") && !universalAstrologerListModel.getWaitListJoined()) {
-                    chatshowOfflinePopup(universalAstrologerListModel);
-                } else {
-                    userCanChat(universalAstrologerListModel);
-                }
+
+                userCanChat(universalAstrologerListModel, true);
+
             }
         }
     }
@@ -759,16 +758,16 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
                                         intent.putExtra("isWaitList", true);
                                         startActivity(intent);
                                     } else {
-                                        userCanChat(userChatListModel);
+                                        userCanChat(userChatListModel, true);
                                     }
                                 } else {
-                                    userCanChat(userChatListModel);
+                                    userCanChat(userChatListModel, true);
                                 }
                             } else {
-                                userCanChat(userChatListModel);
+                                userCanChat(userChatListModel, true);
                             }
                         } else {
-                            userCanChat(userChatListModel);
+                            userCanChat(userChatListModel, true);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -786,7 +785,7 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
         requestQueue.add(stringRequest);
     }
 
-    private void userCanChat(final UniversalAstrologerListModel userChatListModel) {
+    private void userCanChat(final UniversalAstrologerListModel userChatListModel, boolean b) {
 
         String url = AstroConstants.CHECK_CAN_CHAT_CAN_CALL_V2 +
                 "?userId=" + user_id +
@@ -803,6 +802,12 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.getString("status").equalsIgnoreCase("success")) {
+
+                            if (userChatListModel.getStatus().equalsIgnoreCase("OFFLINE") && !userChatListModel.getWaitListJoined() && b) {
+                                chatshowOfflinePopup(userChatListModel);
+                                return;
+                            }
+
                             JSONObject dataObject = jsonObject.getJSONObject("data");
                             Boolean isToShowPlaces = false;
                             Boolean atLocationApi = false;
@@ -902,7 +907,7 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            userCanChat(userChatListModelNew);
+            userCanChat(userChatListModelNew, false);
         });
 
         cancelBtn.setOnClickListener(v -> {
@@ -1347,7 +1352,7 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
         requestQueue.add(stringRequest);
     }
 
-    private void getQuestionsHistory(boolean isStart) {
+    private void getChatOrder(boolean isStart) {
         String url = null;
         try {
             url = AstroConstants.COMPLETE_CHAT_ORDER_LIST + "?userId=" + user_id + "" +

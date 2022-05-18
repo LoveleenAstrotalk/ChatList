@@ -66,7 +66,7 @@ public class AstroOrderHistoryActivity extends AppCompatActivity {
 
         initViews();
 
-        getQuestionsHistory(true);
+        getChatOrder(true);
 
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -74,7 +74,7 @@ public class AstroOrderHistoryActivity extends AppCompatActivity {
                 pageNumber = 0;
                 loading = true;
                 totalpageNumber = 0;
-                getQuestionsHistory(true);
+                getChatOrder(true);
             }
         });
 
@@ -120,7 +120,7 @@ public class AstroOrderHistoryActivity extends AppCompatActivity {
                     if (loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
-                            getQuestionsHistory(false);
+                            getChatOrder(false);
                         }
                     }
                 }
@@ -128,7 +128,7 @@ public class AstroOrderHistoryActivity extends AppCompatActivity {
         });
     }
 
-    private void getQuestionsHistory(boolean isStart) {
+    private void getChatOrder(boolean isStart) {
         AstroUtilities.showLoader(context);
         String url = null;
         try {

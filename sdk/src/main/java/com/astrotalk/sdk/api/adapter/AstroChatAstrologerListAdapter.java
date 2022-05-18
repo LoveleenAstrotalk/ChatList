@@ -116,7 +116,8 @@ public class AstroChatAstrologerListAdapter extends RecyclerView.Adapter<AstroCh
         holder.price.setTextColor(context.getResources().getColor(R.color.at_grey));
         holder.cashback_tv.setVisibility(View.GONE);
 //            holder.price2.setVisibility(View.GONE);
-        holder.price.setText(AstroUtilities.getConvertedValueFromINR(userChatListModel.getSessionPrice(), sharedPreferences) + "");
+        String winzoDuration = sharedPreferences.getString(AstroConstants.WINZO_DURATION, "");
+        holder.price.setText(AstroUtilities.getConvertedValueFromINR(userChatListModel.getSessionPrice(), sharedPreferences) + " (for " + winzoDuration + " mins)");
 
 
         if (userChatListModel.getNoOfRating() == 0) {

@@ -129,10 +129,26 @@ public class AstroAcceptChatInterfaceActivity extends AppCompatActivity {
     private void init() {
         tvReceiverName = findViewById(R.id.tvReceiverName);
         consultantIV = findViewById(R.id.consultantIV);
-        chatOrderId = getIntent().getLongExtra("chatorder_id", -1);
-        astrologerId = getIntent().getLongExtra("astrologer_id", -1);
-        astrologerName = getIntent().getStringExtra("astrologer_name");
-        pic = getIntent().getStringExtra("pic");
+
+        try {
+            if (getIntent().hasExtra("data")) {
+                String data = getIntent().getStringExtra("data");
+                JSONObject jsonObject = new JSONObject(data);
+
+                chatOrderId = jsonObject.getLong("chatorder_id");
+                astrologerId = jsonObject.getLong("astrologer_id");
+                astrologerName = jsonObject.getString("astrologer_name");
+                pic = getIntent().getStringExtra("pic");
+            }
+        }
+        catch(Exception e) {
+            Log.e("Exception", e.getMessage());
+        }
+
+//        chatOrderId = getIntent().getLongExtra("chatorder_id", -1);
+//        astrologerId = getIntent().getLongExtra("astrologer_id", -1);
+//        astrologerName = getIntent().getStringExtra("astrologer_name");
+//        pic = getIntent().getStringExtra("pic");
 
         if (pic != null && !pic.isEmpty()) {
             Glide.with(context)

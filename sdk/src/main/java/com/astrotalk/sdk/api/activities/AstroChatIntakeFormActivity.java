@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -85,8 +86,6 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
     private RadioButton radioMale, radioFemale;
     private String selectedTime = "";
     private String timeOfBirthPartner = "";
-    private LinearLayout partner_details_ll;
-    private LinearLayout partner_details_option;
     private CheckBox partner_details_checkbox;
     private String dobIdent = "";
     private TextView comment_count;
@@ -220,9 +219,6 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
         DefaultStartCalenderFemale.set(Calendar.DATE, 1);
         DefaultStartCalenderFemale.set(Calendar.MONTH, 0);
 
-        enter_partner_details = findViewById(R.id.enter_partner_details);
-        enter_partner_details.setOnClickListener(this);
-
         auto_complete_edit_text_astrotalkapi = findViewById(R.id.auto_complete_edit_text_astrotalkapi);
         auto_complete_edit_text_astrotalkapi_partner = findViewById(R.id.auto_complete_edit_text_astrotalkapi_partner);
 
@@ -293,9 +289,6 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
         pcountry_name = findViewById(R.id.pcountry_name);
         pdobET.setOnClickListener(this);
         pTimeBirthET.setOnClickListener(this);
-        partner_details_option = findViewById(R.id.partner_details_option);
-
-        partner_details_option.setVisibility(View.VISIBLE);
         partner_details_checkbox = findViewById(R.id.partner_details_checkbox);
         partner_details_checkbox.setOnClickListener(this);
         questionET.addTextChangedListener(this);
@@ -307,7 +300,6 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
         registrationBtn.setText(getResources().getString(R.string.at_start_chat_with) + " " + universalAstrologerListModel.getFirstname());
 
         radioSexGroup = findViewById(R.id.radioSex);
-        partner_details_ll = findViewById(R.id.partner_details_ll);
         radioMale = findViewById(R.id.radioMale);
         radioMale.setOnClickListener(this);
         radioFemale = findViewById(R.id.radioFemale);
@@ -372,8 +364,6 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
                 AstroUtilities.showToast(this, getResources().getString(R.string.at_please_enter_name));
             } else if (countryCode.equalsIgnoreCase("")) {
                 AstroUtilities.showToast(this, getResources().getString(R.string.at_please_enter_country_code));
-            } else if (phoneET.getText().toString().trim().equalsIgnoreCase("")) {
-                AstroUtilities.showToast(this, getResources().getString(R.string.at_please_enter_phone_number));
             } else if (radioSexButton == null) {
                 AstroUtilities.showToast(this, getResources().getString(R.string.at_please_select_gender));
             } else if (dobET.getText().toString().trim().equalsIgnoreCase("")) {
@@ -389,18 +379,6 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
                 continueFormSubmission();
             }
 
-        } else if (id == R.id.partner_details_checkbox) {
-            if (partner_details_checkbox.isChecked()) {
-                partner_details_ll.setVisibility(View.VISIBLE);
-
-                auto_complete_edit_text_astrotalkapi_partner.setVisibility(View.VISIBLE);
-                p_pob_city.setVisibility(View.GONE);
-                p_pob_state.setVisibility(View.GONE);
-                p_pob_country.setVisibility(View.GONE);
-
-            } else {
-                partner_details_ll.setVisibility(View.GONE);
-            }
         } else if (id == R.id.enter_partner_details) {
             partner_details_checkbox.performClick();
         }
@@ -433,11 +411,9 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
     }
 
     private void continueFormSubmission() {
-        if (isGcmAvailble) {
-            chatIntakeForm();
-        } else {
-            popup();
-        }
+
+        chatIntakeForm();
+
     }
 
     @Override
@@ -621,7 +597,7 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
         super.onBackPressed();
     }
 
-    public void popup() {
+    public void popup(String reason, String deepLink) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.at_custom_popop);
@@ -635,21 +611,18 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
         dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         TextView cancel_button = dialog.findViewById(R.id.cancel_btn);
         TextView text = dialog.findViewById(R.id.text);
-        cancel_button.setText("Proceed Anyway");
-        text.setText(getResources().getString(R.string.at_not_received_chat_permission2));
+        text.setText(reason);
         text.setTextColor(getResources().getColor(R.color.at_black));
         TextView submit_btn = dialog.findViewById(R.id.submit_btn);
-        submit_btn.setText(getResources().getString(R.string.at_clear_data));
 
         cancel_button.setOnClickListener(v -> {
             dialog.dismiss();
-            chatIntakeForm();
         });
 
         submit_btn.setOnClickListener(v -> {
             dialog.dismiss();
-            ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
-
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(deepLink));
+            startActivity(browserIntent);
         });
 
         if (!isFinishing()) {
@@ -710,7 +683,7 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
                 params.put("userId", user_id + "");
                 params.put("name", nameET.getText().toString());
                 params.put("lastName", lastnameET.getText().toString());
-                params.put("mobile", phoneET.getText().toString());
+                params.put("mobile", "");
                 params.put("countrycode", countryCode);
                 params.put("email", "");
                 params.put("dob", dobET.getText().toString().trim() + "," + TimeBirthET.getText().toString().trim());
@@ -756,9 +729,9 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
                 params.put("deviceType", "ANDROID");
 
                 if (partner_details_checkbox.isChecked()) {
-                    params.put("partnername", partneNnameET.getText().toString());
-                    params.put("partnerdob", pdobET.getText().toString().trim());
-                    params.put("partnertimeofbirth", pTimeBirthET.getText().toString().trim());
+                    params.put("partnername", "");
+                    params.put("partnerdob", "");
+                    params.put("partnertimeofbirth", "");
                     String pplaceofbitrh = "";
                     if (!pcity_name.getText().toString().equalsIgnoreCase("")) {
                         pplaceofbitrh = pcity_name.getText().toString();
@@ -769,24 +742,24 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
                     if (!pcountry_name.getText().toString().equalsIgnoreCase("")) {
                         pplaceofbitrh = pplaceofbitrh + ", " + pcountry_name.getText().toString();
                     }
-                    params.put("partnerplaceofbirth", pplaceofbitrh);
+                    params.put("partnerplaceofbirth", "");
                     if (atLocationApi) {
 
 
-                        params.put("partnerplaceofbirth", auto_complete_edit_text_astrotalkapi_partner.getText().toString().trim());
-                        params.put("partnerAddress", auto_complete_edit_text_astrotalkapi_partner.getText().toString().trim());
+                        params.put("partnerplaceofbirth", "");
+                        params.put("partnerAddress", "");
                         if (astrotalkPlacePartner != null && astrotalkPlacePartner.getLon() != null)
-                            params.put("partnerLon", astrotalkPlacePartner.getLon() + "");
+                            params.put("partnerLon", "");
 
                         else
                             params.put("partnerLon", "");
                         if (astrotalkPlacePartner != null && astrotalkPlacePartner.getLat() != null)
-                            params.put("partnerLat", astrotalkPlacePartner.getLat() + "");
+                            params.put("partnerLat", "");
                         else
                             params.put("partnerLat", "");
 
                     } else {
-                        params.put("partnerAddress", pplaceofbitrh);
+                        params.put("partnerAddress", "");
                     }
                 } else {
                     params.put("partnername", "");
@@ -888,7 +861,8 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
                     } else {
                         if(object.getString("reason").equals("Insufficient Balance")) {
                             // todo loveleen
-                            AstroUtilities.showToast(context, object.getString("reason"));
+//                            AstroUtilities.showToast(context, object.getString("reason"));
+                            popup(object.getString("message"), object.getString("deepLink"));
                         }
                         else {
                             AstroUtilities.showToast(context, object.getString("reason"));
@@ -1252,9 +1226,9 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
                 params.put("deviceType", "ANDROID");
 
                 if (partner_details_checkbox.isChecked()) {
-                    params.put("partnername", partneNnameET.getText().toString());
-                    params.put("partnerdob", pdobET.getText().toString().trim());
-                    params.put("partnertimeofbirth", pTimeBirthET.getText().toString().trim());
+                    params.put("partnername", "");
+                    params.put("partnerdob", "");
+                    params.put("partnertimeofbirth", "");
                     String pplaceofbitrh = "";
                     if (!pcity_name.getText().toString().equalsIgnoreCase("")) {
                         pplaceofbitrh = pcity_name.getText().toString();
@@ -1265,22 +1239,22 @@ public class AstroChatIntakeFormActivity extends AppCompatActivity implements Vi
                     if (!pcountry_name.getText().toString().equalsIgnoreCase("")) {
                         pplaceofbitrh = pplaceofbitrh + "," + pcountry_name.getText().toString();
                     }
-                    params.put("partnerplaceofbirth", pplaceofbitrh);
+                    params.put("partnerplaceofbirth", "");
                     if (atLocationApi) {
 
-                        params.put("partnerplaceofbirth", auto_complete_edit_text_astrotalkapi_partner.getText().toString().trim());
-                        params.put("partnerAddress", auto_complete_edit_text_astrotalkapi_partner.getText().toString().trim());
+                        params.put("partnerplaceofbirth", "");
+                        params.put("partnerAddress", "");
                         if (astrotalkPlacePartner != null && astrotalkPlacePartner.getLon() != null)
-                            params.put("partnerLon", astrotalkPlacePartner.getLon() + "");
+                            params.put("partnerLon", "");
                         else
                             params.put("partnerLon", "");
                         if (astrotalkPlacePartner != null && astrotalkPlacePartner.getLat() != null)
-                            params.put("partnerLat", astrotalkPlacePartner.getLat() + "");
+                            params.put("partnerLat", "");
                         else
                             params.put("partnerLat", "");
 
                     } else {
-                        params.put("partnerAddress", pplaceofbitrh);
+                        params.put("partnerAddress", "");
                     }
                 } else {
                     params.put("partnername", "");

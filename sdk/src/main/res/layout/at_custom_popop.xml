@@ -16,49 +16,52 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
         android:lineSpacingExtra="5dp"
-        android:gravity="start"
+        android:gravity="center"
         android:textColor="@color/at_grey"
         android:textSize="16sp" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="16dp"
+        android:weightSum="2"
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/cancel_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/at_cancel_btn"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/at_rounded_button_grey"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:singleLine="true"
             android:text="@string/at_cancel"
-            android:textColor="#ffffff"
-            android:textSize="18dp" />
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/at_black"
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/submit_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/at_alert_ok_btn"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/at_rounded_button_yellow"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:singleLine="true"
             android:text="@string/at_recharge"
-            android:textColor="#ffffff"
-            android:textSize="18dp" />
+            android:textColor="@color/at_black"
+            android:textSize="14dp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

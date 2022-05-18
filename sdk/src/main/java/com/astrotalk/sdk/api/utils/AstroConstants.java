@@ -50,8 +50,9 @@ public class AstroConstants {
     public static final String USER_DETAIL = "astrotalk_userdetail";
     public static final String USER_ID = "user_id";
     public static final String JWT_TOKEN = "jwt_token";
-    public static final String TIME_ZONE = "Asia/Kolkata";
+    public static final String WINZO_DURATION = "winzo_duration";
 
+    public static final String TIME_ZONE = "Asia/Kolkata";
     public static final String CONVERSION_FACTOR = "conversionFactor";
     public static final String ISO_CODE = "isoCode";
     public static final String WAITLIST_SHOW_HIDE = "waitlistshowHIde";

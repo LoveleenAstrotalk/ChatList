@@ -106,7 +106,6 @@
     <string name="at_select_language_intake">Select Preferred language(s)*</string>
     <string name="at_please_enter_name">Please enter name</string>
     <string name="at_please_enter_country_code">Please enter country code</string>
-    <string name="at_please_enter_phone_number">Please enter phone number</string>
     <string name="at_please_enter_10_digits_phone_number">Please enter 10 digits phone number</string>
     <string name="at_please_select_gender">Please select gender</string>
     <string name="at_please_enter_date_of_birth">Please enter Date of Birth</string>

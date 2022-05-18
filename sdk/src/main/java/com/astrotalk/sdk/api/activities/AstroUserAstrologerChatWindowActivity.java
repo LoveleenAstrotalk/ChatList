@@ -853,14 +853,14 @@ public class AstroUserAstrologerChatWindowActivity extends AppCompatActivity imp
                             }
 
 
-                            if (isOfferV3 || isFixSession || isEmeregencySession) {
-                                po_suggestion.setVisibility(View.GONE);
-                            } else {
-                                if(!isChatHistory) {
-                                    po_suggestion.setVisibility(View.VISIBLE);
-                                    new Handler().postDelayed(() -> po_suggestion.setVisibility(View.GONE), 5000);
-                                }
-                            }
+//                            if (isOfferV3 || isFixSession || isEmeregencySession) {
+//                                po_suggestion.setVisibility(View.GONE);
+//                            } else {
+//                                if(!isChatHistory) {
+//                                    po_suggestion.setVisibility(View.VISIBLE);
+//                                    new Handler().postDelayed(() -> po_suggestion.setVisibility(View.GONE), 5000);
+//                                }
+//                            }
 
                             if (jsonObject.has("consultantPic") && !jsonObject.isNull("consultantPic")) {
                                 if (jsonObject.getString("consultantPic").trim().isEmpty()) {
