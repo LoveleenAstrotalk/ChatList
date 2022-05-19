@@ -5,11 +5,11 @@ public class AstroConstants {
 
     public static boolean LIVE_MODE = false;
 
-    public static String DOMAIN = domainMainChat();
+    public static String DOMAIN = domainMain();
     public static String DOMAIN_KUNDLI = domainKundli();
     public static String DOMAIN_USER_CHAT = domainPaidChat();
 
-    public static String domainMainChat() {
+    public static String domainMain() {
         if(LIVE_MODE) {
             return "https://api.prod.astrotalk.in/AstroTalk/";
         }
@@ -23,7 +23,7 @@ public class AstroConstants {
             return "http://api.kundali.astrotalk.com/v1/";
         }
         else {
-            return "http://api.dev1.astrotalk.com/v1/";
+            return "http://api.dev3.astrotalk.com/v1/";
         }
     }
 

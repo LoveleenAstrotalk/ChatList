@@ -174,7 +174,6 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
     @Override
     protected void onResume() {
         super.onResume();
-        checkUserWaitList();
     }
 
     public void initViews() {
@@ -263,8 +262,8 @@ public class AstroChatAstrologerListActivity extends AppCompatActivity implement
                     getChatOrder(true);
                     handler.postDelayed(runnable = () -> {
                         checkUserWaitList();
-                        handler.postDelayed(runnable, 10000);
-                    }, 2000);
+                        handler.postDelayed(runnable, 1000);
+                    }, 500);
 
                 } else {
                     AstroUtilities.showToast(context, object.getString("reason"));
