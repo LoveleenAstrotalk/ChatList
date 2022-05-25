@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.astrotalk.sdk.api.activities.AstroChatAstrologerListActivity
+import com.astrotalk.sdk.api.activities.AstroSearchLocationActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -65,6 +66,11 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("client_id", "winzo_sdk")
             intent.putExtra("client_secret", "YrBFXe9UxBudXLb2")
             intent.putExtra("production", true)
+            startActivity(intent)
+        }
+
+        btnClickSearch.setOnClickListener {
+            val intent = Intent(context, AstroSearchLocationActivity::class.java)
             startActivity(intent)
         }
     }

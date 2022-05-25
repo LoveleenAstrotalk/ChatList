@@ -13,31 +13,38 @@
         <activity
             android:name=".api.activities.AstroOrderHistoryActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AtNoActionBar"
             android:exported="false" />
         <activity
             android:name=".api.activities.AstroChatAstrologerListActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AtNoActionBar"
             android:exported="false" />
         <activity
             android:name=".api.activities.AstroChatIntakeFormActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AtNoActionBar"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".api.activities.AstroSearchLocationActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AtNoActionBar"
             android:exported="false" />
         <activity
             android:name=".api.activities.AstroUserAstrologerChatWindowActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AtNoActionBar"
             android:exported="false" />
         <activity
             android:name=".api.activities.AstroChatImageViewerActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AtNoActionBar"
             android:exported="false" />
         <activity
             android:name=".api.activities.AstroAcceptChatInterfaceActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AtNoActionBar"
             android:exported="false" />
     </application>
 
